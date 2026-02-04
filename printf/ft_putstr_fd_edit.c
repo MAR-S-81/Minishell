@@ -1,18 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_putstr_fd_edit.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/04 17:52:08 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/02/04 17:53:06 by mchesnea         ###   ########.fr       */
+/*   Created: 2025/11/03 17:31:07 by mchesnea          #+#    #+#             */
+/*   Updated: 2025/11/04 15:20:02 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-#define MINISHELL_H
+#include "ft_printf.h"
 
+int	ft_putstr_fd_edit(char *s, int fd)
+{
+	int	i;
 
-
-#endif
+	i = 0;
+	if (!s)
+	{
+		write(fd, "(null)", 6);
+		return (6);
+	}
+	while (s[i])
+	{
+		write(fd, &s[i], 1);
+		i++;
+	}
+	return (i);
+}

@@ -1,18 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_tolower.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/04 17:52:08 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/02/04 17:53:06 by mchesnea         ###   ########.fr       */
+/*   Created: 2025/10/14 14:04:41 by mchesnea          #+#    #+#             */
+/*   Updated: 2025/10/20 21:26:55 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-#define MINISHELL_H
+#include "libft.h"
 
-
-
-#endif
+int	ft_tolower(int character)
+{
+	if (character >= 65 && character <= 90)
+		return (character + 32);
+	else
+		return (character);
+}

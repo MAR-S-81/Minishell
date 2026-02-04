@@ -1,18 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_isascii.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/04 17:52:08 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/02/04 17:53:06 by mchesnea         ###   ########.fr       */
+/*   Created: 2025/10/13 15:48:30 by mchesnea          #+#    #+#             */
+/*   Updated: 2025/10/16 14:44:13 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-#define MINISHELL_H
+#include "libft.h"
 
-
-
-#endif
+int	ft_isascii(int charactere)
+{
+	if (charactere >= 0 && charactere <= 127)
+		return (1);
+	return (0);
+}

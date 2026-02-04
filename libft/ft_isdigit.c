@@ -1,18 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_isdigit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/04 17:52:08 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/02/04 17:53:06 by mchesnea         ###   ########.fr       */
+/*   Created: 2025/10/13 15:24:07 by mchesnea          #+#    #+#             */
+/*   Updated: 2025/10/16 15:42:23 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-#define MINISHELL_H
+#include "libft.h"
 
-
-
-#endif
+int	ft_isdigit(int charactere)
+{
+	if (charactere >= 48 && charactere <= 57)
+		return (2048);
+	return (0);
+}

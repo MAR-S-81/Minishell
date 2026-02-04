@@ -1,18 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/04 17:52:08 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/02/04 17:53:06 by mchesnea         ###   ########.fr       */
+/*   Created: 2025/10/15 12:40:15 by mchesnea          #+#    #+#             */
+/*   Updated: 2025/10/24 16:18:02 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-#define MINISHELL_H
+#include "libft.h"
 
+char	*ft_strchr(const char *str, int searchchar)
+{
+	int				i;
+	unsigned char	c;
 
-
-#endif
+	c = (unsigned char)searchchar;
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == c)
+			return ((char *)str + i);
+		i++;
+	}
+	if (c == '\0' && !str[i])
+		return ((char *)str + i);
+	return (0);
+}
