@@ -6,13 +6,13 @@
 /*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 13:00:00 by erocha--          #+#    #+#             */
-/*   Updated: 2026/02/10 13:04:16 by erocha--         ###   ########.fr       */
+/*   Updated: 2026/02/10 17:58:44 by erocha--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	***parsing(char **argv, char **envp)
+t_args	**parsing(char **argv, char **envp)
 {
 	
 }
