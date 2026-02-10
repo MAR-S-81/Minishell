@@ -1,22 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/04 17:52:08 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/02/10 13:14:52 by erocha--         ###   ########.fr       */
+/*   Created: 2026/02/10 12:59:55 by erocha--          #+#    #+#             */
+/*   Updated: 2026/02/10 13:15:38 by erocha--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-#define MINISHELL_H
+#include "minishell.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <libft/libft.h>
-
-char	***parsing(char **argv, char **envp);
-
-#endif
+int	main(int argc, char **argv, char **envp)
+{
+	if (argc < 2)
+		return (0);
+	parsing(argv, envp);
+	
+}
