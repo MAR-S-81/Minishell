@@ -6,7 +6,7 @@
 /*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 12:59:55 by erocha--          #+#    #+#             */
-/*   Updated: 2026/02/10 13:15:38 by erocha--         ###   ########.fr       */
+/*   Updated: 2026/02/10 17:57:07 by erocha--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 int	main(int argc, char **argv, char **envp)
 {
-	if (argc < 2)
-		return (0);
-	parsing(argv, envp);
-	
+	if (argc != 1)
+		return (1);
 }
