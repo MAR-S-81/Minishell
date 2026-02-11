@@ -6,7 +6,7 @@
 /*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 17:52:08 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/02/10 18:34:44 by erocha--         ###   ########.fr       */
+/*   Updated: 2026/02/11 18:00:30 by erocha--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ typedef struct s_args
 	char	**args;
 	int		fd_in;
 	int		fd_out;
-	t_token	*next;
+	t_args	*next;
 }			t_args;
 
-t_args	**parsing(char **argv, char **envp);
+t_args	**parsing(char *arg, char **envp);
 
 #endif
