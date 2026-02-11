@@ -6,37 +6,53 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 15:16:35 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/02/10 17:34:26 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/02/11 19:44:16 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int		g_signal_status;
+g_signal_status = 0;
+
+void	signal_handler(int sig)
+{
+	(void)sig;
+	g_signal_status = 130;
+	ft_putchar_fd("\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+}
+
+void	init_signal(void)
+{
+	struct sigaction	sa;
+
+	sa.sa_handler = &signal_handler;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = SA_RESTART;
+	sigaction(SIGINT, &sa, NULL);
+	sa.sa_handler = SIG_IGN;
+	sigaction(SIGQUIT, &sa, NULL);
+}
+
 int	read_line(void)
 {
 	char	*input;
-	char	*temp;
 
+	init_signal();
 	input = readline(GREEN " MiniShell" ORANGE " → " RESET);
 	while (input != NULL)
 	{
-		if (input[0] != '\0' && (ft_strncmp(input, temp,
-					ft_strlen(input)) != 0))
+		if (input[0] != '\0')
 			add_history(input);
-		temp = input;
+		free(input);
 		input = readline(GREEN " MiniShell" ORANGE " → " RESET);
 	}
-	free(input);
-	free(temp);
+	printf("exit\n");
 	return (0);
 }
-
-// int	signal_handler(void)
-// {
-// 	rl_on_new_line();
-// 	rl_replace_line('\0', 0);
-// 	rl_redisplay();
-// }
 
 int	main(void)
 {
