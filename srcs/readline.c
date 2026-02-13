@@ -6,20 +6,19 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 15:16:35 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/02/11 19:44:16 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/02/13 14:06:22 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 int		g_signal_status;
-g_signal_status = 0;
 
 void	signal_handler(int sig)
 {
 	(void)sig;
 	g_signal_status = 130;
-	ft_putchar_fd("\n", 1);
+	ft_putchar_fd('\n', 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
