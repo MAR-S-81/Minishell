@@ -2,7 +2,7 @@ NAME		= minishell
 CC			= cc
 CFLAGS		= -Wall -Wextra -Werror -g -I.
 LIBFT		= ./libft/libft.a
-OBJ_DIR		= objs
+OBJ_DIR		= ./objs
 
 SRC			= parsing.c
 
