@@ -6,14 +6,14 @@
 /*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 17:52:08 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/02/13 11:36:16 by erocha--         ###   ########.fr       */
+/*   Updated: 2026/02/13 12:39:47 by erocha--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include <libft/libft.h>
+# include "libft/libft.h"
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
@@ -38,17 +38,18 @@ typedef struct s_token
 {
 	char			*value;
 	t_token_type	type;
-	t_token			*next;
+	struct s_token	*next;
 }					t_token;
 
 typedef struct s_args
 {
-	char	**args;
-	int		fd_in;
-	int		fd_out;
-	t_args	*next;
+	char			**args;
+	int				fd_in;
+	int				fd_out;
+	struct s_args	*next;
 }			t_args;
 
-t_args	**parsing(char *arg, char **envp);
+int 	parsing(char *arg, char **envp);
+void	clean_exit(t_token *tokens);
 
 #endif
