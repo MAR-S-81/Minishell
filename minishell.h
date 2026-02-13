@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 17:52:08 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/02/13 11:36:16 by erocha--         ###   ########.fr       */
+/*   Updated: 2026/02/13 17:46:24 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ typedef enum e_token_type
 	TOKEN_REDIR_OUT,
 	TOKEN_HERE_DOC,
 	TOKEN_APPEND
-}	t_token_type;
+}					t_token_type;
 
 typedef struct s_token
 {
@@ -43,12 +43,19 @@ typedef struct s_token
 
 typedef struct s_args
 {
-	char	**args;
-	int		fd_in;
-	int		fd_out;
-	t_args	*next;
-}			t_args;
+	char			**args;
+	int				fd_in;
+	int				fd_out;
+	t_args			*next;
+}					t_args;
 
-t_args	**parsing(char *arg, char **envp);
+typedef struct s_env
+{
+	char			*key;
+	char			*value;
+	struct s_env	*next;
+}					t_env;
+
+t_args				**parsing(char *arg, char **envp);
 
 #endif
