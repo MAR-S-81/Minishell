@@ -4,7 +4,14 @@ CFLAGS		= -Wall -Wextra -Werror -g -I.
 LIBFT		= ./libft/libft.a
 OBJ_DIR		= ./objs
 
-SRC			= parsing.c
+SRC			=	parsing.c \
+				env.c \
+				readline.c \
+				simple_cmd.c \
+				main.c \
+				echo.c \
+				pwd.c \
+				envp.c \
 
 OBJ_DIR		= $(addprefix $(OBJ_DIR)/, $(notdir $(SRC:.c=.o)))
 
