@@ -6,7 +6,7 @@
 /*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 17:52:08 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/02/13 12:39:47 by erocha--         ###   ########.fr       */
+/*   Updated: 2026/02/17 18:11:38 by erocha--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,10 @@ typedef struct s_args
 	struct s_args	*next;
 }			t_args;
 
+void	quotes_handling(t_token **token, char *arg, int *i, int *j);
+void	token_typer(t_token **token);
+t_token	*create_node(t_token **token);
+void	arger(t_token **token, t_token **token_tmp, char *arg, int *i);
 int 	parsing(char *arg, char **envp);
 void	clean_exit(t_token *tokens);
 
