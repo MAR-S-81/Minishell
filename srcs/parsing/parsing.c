@@ -6,53 +6,56 @@
 /*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 13:00:00 by erocha--          #+#    #+#             */
-/*   Updated: 2026/02/13 11:30:26 by erocha--         ###   ########.fr       */
+/*   Updated: 2026/02/17 18:08:55 by erocha--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../minishell.h"
 
-static void quotes_handling(t_token *token, char *arg, int *i, int *j)
-{
-	while (arg[*i] != '"' && arg[*i])
-	{
-		
-		*i++;
-	}
-}
-
-static void lexer(t_token *token, char *arg)
+static void lexer(t_token **token, char *arg)
 {
 	int		i;
-	int		j;
-	t_token	*token_current;
+	t_token	*token_tmp;
 
-	token_current = token;
-	if (!token)
-		token = malloc(sizeof(t_token));
 	i = 0;
+	while (!ft_isprint(arg[i]) && arg[i])
+		i++;
+	if (!arg[i])
+		return ;
+	(*token) = create_node(token);
+	token_tmp = (*token);
 	while (arg[i])
 	{
-		j = 0;
-		while (arg[i] != ' ' && arg[i])
-		{
-			if (!arg[i])
-				clean_exit(token);
-			if (arg[i] == '"')
-				quotes_handling(token_current, arg, &i, &j);
-			token_current->value[j] = arg[i];
+		if (ft_isprint(arg[i]) && arg[i])
+			arger(token, &token_tmp, arg, &i);
+		while (!ft_isprint(arg[i]) && arg[i])
 			i++;
-			j++;
+		if (arg[i])
+		{
+			token_tmp->next = create_node(token);
+			token_tmp = token_tmp->next;
 		}
-		token_current->next = malloc(sizeof(t_token));
-		token_current = token_current->next;
-		i++;
 	}
 }
 
-t_args	**parsing(char *arg, char **envp)
+int	parsing(char *arg, char **envp)
 {
-	t_token tokens;
+	t_token	*tokens;
 	
+	(void)envp;
+	tokens = NULL;
 	lexer(&tokens, arg);
+	int i = 0;
+	while (tokens != NULL)
+	{
+		i++;
+		tokens = tokens->next;
+	}
+	return (i);
+}
+
+int main(int argc, char **argv)
+{
+	(void)argc;
+	printf("%d", parsing(argv[1], NULL));
 }
