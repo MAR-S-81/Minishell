@@ -1,104 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   simple_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/13 15:31:05 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/02/16 18:17:54 by mchesnea         ###   ########.fr       */
+/*   Created: 2026/02/17 13:07:08 by mchesnea          #+#    #+#             */
+/*   Updated: 2026/02/17 18:26:25 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-t_env	*lstnew(char *key, char *value)
-{
-	t_env	*dest;
-
-	dest = malloc(sizeof(t_env));
-	if (!dest)
-		return (NULL);
-	dest->key = key;
-	dest->value = value;
-	dest->next = NULL;
-	return (dest);
-}
-
-void	lstadd_back(t_env **lst, t_env *new)
-{
-	t_env	*ret;
-
-	if (!lst || !new)
-		return ;
-	if (!*lst)
-	{
-		*lst = new;
-		return ;
-	}
-	ret = *lst;
-	while (ret->next != NULL)
-		ret = ret->next;
-	ret->next = new;
-}
-
-static void	extract_entry(char *env_str, t_env **lst)
-{
-	char	*key;
-	char	*value;
-	int		j;
-
-	j = 0;
-	while (env_str[j] && env_str[j] != '=')
-		j++;
-	if (env_str[j] == '=')
-	{
-		key = ft_substr(env_str, 0, j);
-		value = ft_strdup(env_str + j + 1);
-	}
-	else
-	{
-		key = ft_strdup(env_str);
-		value = NULL;
-	}
-	if (!key)
-	{
-		free(value);
-		return ;
-	}
-	lstadd_back(lst, lstnew(key, value));
-}
-
-void	split_key_values(char **envp, t_env **lst)
-{
-	int	i;
-
-	if (!envp || !lst)
-		return ;
-	i = 0;
-	while (envp[i])
-	{
-		extract_entry(envp[i], lst);
-		i++;
-	}
-}
-
-char	*get_args_envp(char *str, t_env *lst)
-{
-	int	len;
-
-	if (!str || !lst)
-		return (0);
-	len = ft_strlen(str);
-	while (lst->next != NULL)
-	{
-		if (ft_strncmp(str, lst->key, ft_strlen(str)) == 0
-			&& lst->key[len] == '\0')
-			return (lst->value);
-		lst = lst->next;
-	}
-	return (0);
-}
 
 static char	*add_slash_and_check(char *cmd, char **dest)
 {
@@ -151,24 +63,25 @@ char	**env_list_to_tab(t_env *env)
 	char	**ret;
 	char	*tmp;
 	int		len;
+	t_env	*tmp_lst;
 
 	len = 0;
-	while (env)
+	tmp_lst = env;
+	while (tmp_lst)
 	{
 		len++;
-		env = env->next;
+		tmp_lst = tmp_lst->next;
 	}
-	ret = malloc(sizeof(char) * (len + 1));
+	ret = malloc(sizeof(char *) * (len + 1));
 	if (!ret)
 		return (NULL);
 	len = 0;
 	while (env)
 	{
 		tmp = ft_strjoin(env->key, "=");
-		ret[len] = ft_strjoin(tmp, env->value);
+		ret[len++] = ft_strjoin(tmp, env->value);
 		free(tmp);
 		env = env->next;
-		len++;
 	}
 	ret[len] = NULL;
 	return (ret);
@@ -200,14 +113,4 @@ int	execute_simple_cmd(t_env *lst, char *cmd)
 	}
 	waitpid(pid, NULL, 0);
 	return (pid);
-}
-
-int	main(int argc, char *argv[], char *envp[])
-{
-	(void) argc;
-	(void) argv;
-	t_env *my_env = NULL;
-
-	split_key_values(envp, &my_env);
-	execute_simple_cmd(my_env, "ls -l");
 }

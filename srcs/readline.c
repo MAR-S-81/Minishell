@@ -6,7 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 15:16:35 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/02/13 14:06:22 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/02/17 13:15:55 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,4 @@ int	read_line(void)
 	}
 	printf("exit\n");
 	return (0);
-}
-
-int	main(void)
-{
-	read_line();
 }
