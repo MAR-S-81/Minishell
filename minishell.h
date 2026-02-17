@@ -6,7 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 17:52:08 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/02/16 18:16:23 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/02/17 18:31:35 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,30 +27,30 @@
 # define GREEN "\001\033[1;32m\002"
 # define ORANGE "\001\033[1;33m\002"
 
-// typedef enum e_token_type
-// {
-// 	TOKEN_WORD,
-// 	TOKEN_PIPE,
-// 	TOKEN_REDIR_IN,
-// 	TOKEN_REDIR_OUT,
-// 	TOKEN_HERE_DOC,
-// 	TOKEN_APPEND
-// }					t_token_type;
+typedef enum e_token_type
+{
+	TOKEN_WORD,
+	TOKEN_PIPE,
+	TOKEN_REDIR_IN,
+	TOKEN_REDIR_OUT,
+	TOKEN_HERE_DOC,
+	TOKEN_APPEND
+}					t_token_type;
 
-// typedef struct s_token
-// {
-// 	char			*value;
-// 	t_token_type	type;
-// 	t_token			*next;
-// }					t_token;
+typedef struct s_token
+{
+	char			*value;
+	t_token_type	type;
+	t_token			*next;
+}					t_token;
 
-// typedef struct s_args
-// {
-// 	char			**args;
-// 	int				fd_in;
-// 	int				fd_out;
-// 	t_args			*next;
-// }					t_args;
+typedef struct s_args
+{
+	char			**args;
+	int				fd_in;
+	int				fd_out;
+	t_args			*next;
+}					t_args;
 
 typedef struct s_env
 {
@@ -59,6 +59,8 @@ typedef struct s_env
 	struct s_env	*next;
 }					t_env;
 
-// t_args				**parsing(char *arg, char **envp);
-
+t_args				**parsing(char *arg, char **envp);
+char				*get_args_envp(char *str, t_env *lst);
+void				split_key_values(char **envp, t_env **lst);
+char				**env_list_to_tab(t_env *env);
 #endif
