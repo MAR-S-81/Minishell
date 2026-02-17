@@ -1,20 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isprint.c                                       :+:      :+:    :+:   */
+/*   clean_exit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/13 15:56:24 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/02/17 13:58:58 by erocha--         ###   ########.fr       */
+/*   Created: 2026/02/13 11:41:13 by erocha--          #+#    #+#             */
+/*   Updated: 2026/02/13 14:47:18 by erocha--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../minishell.h"
 
-int	ft_isprint(int charactere)
+void	clean_exit(t_token *tokens)
 {
-	if (charactere >= 33 && charactere <= 126)
-		return (16384);
-	return (0);
+	t_token	*next;
+
+	while (tokens)
+	{
+		free(tokens->value);
+		next = tokens->next;
+		free(tokens);
+		tokens = next;
+	}
+	exit(0);
 }
