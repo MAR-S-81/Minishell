@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isprint.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 15:56:24 by mchesnea          #+#    #+#             */
-/*   Updated: 2025/10/16 14:44:14 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/02/17 13:58:58 by erocha--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_isprint(int charactere)
 {
-	if (charactere >= 32 && charactere <= 126)
+	if (charactere >= 33 && charactere <= 126)
 		return (16384);
 	return (0);
 }
