@@ -6,11 +6,28 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 13:07:08 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/02/17 18:26:25 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/02/18 16:56:59 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*get_args_envp(char *str, t_env *lst)
+{
+	int	len;
+
+	if (!str || !lst)
+		return (0);
+	len = ft_strlen(str);
+	while (lst->next != NULL)
+	{
+		if (ft_strncmp(str, lst->key, len) == 0
+			&& lst->key[len] == '\0')
+			return (lst->value);
+		lst = lst->next;
+	}
+	return (0);
+}
 
 static char	*add_slash_and_check(char *cmd, char **dest)
 {
@@ -38,12 +55,10 @@ static char	*add_slash_and_check(char *cmd, char **dest)
 
 char	*find_path(char *cmd, t_env *lst)
 {
-	int		i;
 	char	**dest;
 	char	*args;
 	char	*rep;
 
-	i = 0;
 	if (ft_strchr(cmd, '/'))
 	{
 		if (access(cmd, F_OK | X_OK) == 0)

@@ -6,7 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 17:52:08 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/02/17 18:38:18 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/02/18 18:53:02 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,10 @@ void				clean_exit(t_token *tokens);
 char				*get_args_envp(char *str, t_env *lst);
 void				split_key_values(char **envp, t_env **lst);
 char				**env_list_to_tab(t_env *env);
+t_env				*lstnew(char *key, char *value);
+void				lstadd_back(t_env **lst, t_env *new);
+void				env(t_env *lst, int fd_out);
+void				export(t_env **lst, char *keys, char *value);
+void				lstdelone(t_env **head, t_env *to_del);
+void				lstclear(t_env **lst);
 #endif
