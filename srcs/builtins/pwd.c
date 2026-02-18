@@ -6,7 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:42:14 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/02/17 18:32:18 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/02/18 15:09:41 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void pwd(t_env *env, int fd_out)
 	str = get_args_envp("PWD", env);
 	if (!str)
 	{
-		printf("ERROR");
+		printf("ERROR PWD");
 	}
 	while (str[i])
 	{
