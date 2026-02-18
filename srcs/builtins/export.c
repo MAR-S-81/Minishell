@@ -1,30 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/17 15:36:57 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/02/18 15:56:43 by mchesnea         ###   ########.fr       */
+/*   Created: 2026/02/18 14:49:45 by mchesnea          #+#    #+#             */
+/*   Updated: 2026/02/18 17:45:56 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void env(t_env *lst, int fd_out)
+void	export(t_env **lst, char *keys, char *value)
 {
-	char	**str;
-	int i;
+	t_env	*new;
+	char	*key_copy;
+	char	*value_copy;
 
-	i = 0;
-	str = env_list_to_tab(lst);
-	while (str[i])
+	key_copy = ft_strdup(keys);
+	value_copy = NULL;
+	if (value)
+		value_copy = ft_strdup(value);
+	if (!key_copy)
+		return ;
+	new = lstnew(key_copy, value_copy);
+	if (!new)
 	{
-		write(fd_out, str[i], ft_strlen(str[i]));
-		write(fd_out, &"\n", 1);
-		free(str[i]);
-		i++;
+		free(key_copy);
+		free(value_copy);
+		return ;
 	}
-	free(str);
+	lstadd_back(lst, new);
 }
