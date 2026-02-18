@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
+/*   By: enzorolinux <enzorolinux@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 13:00:00 by erocha--          #+#    #+#             */
-/*   Updated: 2026/02/17 18:08:55 by erocha--         ###   ########.fr       */
+/*   Updated: 2026/02/18 17:42:30 by enzorolinux      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "minishell.h"
 
 static void lexer(t_token **token, char *arg)
 {
