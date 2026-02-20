@@ -6,7 +6,7 @@
 /*   By: enzorolinux <enzorolinux@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 17:52:08 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/02/18 17:48:52 by enzorolinux      ###   ########.fr       */
+/*   Updated: 2026/02/19 14:54:16 by enzorolinux      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,7 @@ typedef struct s_env
 void				quotes_handling(t_token **token, char *arg, int *i, int *j);
 void				token_typer(t_token **token);
 t_token				*create_node(t_token **token);
-void				arger(t_token **token, t_token **token_tmp, char *arg,
-						int *i);
+void				arger(t_token **token, t_token **token_tmp, char *arg, int *i);
 int					parsing(char *arg, char **envp);
 void				clean_exit(t_token *tokens);
 char				*get_args_envp(char *str, t_env *lst);
