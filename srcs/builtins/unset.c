@@ -6,7 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 16:33:31 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/02/18 18:47:55 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/02/20 16:55:07 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,17 +31,3 @@ void	unset(t_env **lst, char *keys)
 		curr = curr->next;
 	}
 }
-
-// int	main(int argc, char *argv[], char *envp[])
-// {
-// 	(void)argc;
-// 	(void)argv;
-// 	t_env *lst = NULL;
-// 	split_key_values(envp, &lst);
-// 	export(&lst, "JAIME", "MAEL");
-// 	env(lst, 1);
-// 	printf("\n\n\n\n\n");
-// 	unset(&lst, "JAIME");
-// 	env(lst, 1);
-//     lstclear(&lst);
-// }
