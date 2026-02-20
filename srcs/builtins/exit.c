@@ -6,7 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 13:23:32 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/02/20 16:50:30 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/02/20 16:55:13 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,4 @@ void	my_exit(char **args)
 		return ;
 	}
 	exit(nb % 256);
-}
-
-int main(int argc, char *argv[])
-{
-	(void)argc;
-	char *ar[] = {"1", "mael", NULL};
-	my_exit(ar);
 }
