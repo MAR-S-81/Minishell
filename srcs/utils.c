@@ -6,7 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 14:38:19 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/02/20 16:27:24 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/02/25 19:20:36 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,15 @@
 
 static int	ft_is_spacing(char c)
 {
-	return (c == ' ' || (c >= 9 && c <= 13));
+	if (c == ' ' || (c >= 9 && c <= 13))
+		return (1);
+	return (0);
 }
 
 long long	ft_atoll_check(const char *str, long long *nb)
 {
-	int			i;
-	int			sign;
+	int					i;
+	int					sign;
 	unsigned long long	result;
 
 	i = 0;
@@ -31,14 +33,14 @@ long long	ft_atoll_check(const char *str, long long *nb)
 	if (str[i] == '-' || str[i] == '+')
 		if (str[i++] == '-')
 			sign = -1;
-	if (!str[i]) 
+	if (!str[i])
 		return (1);
 	while (str[i] >= '0' && str[i] <= '9')
 	{
 		result = result * 10 + (str[i++] - '0');
-		if (result > (unsigned long long)LONG_MAX + 1 && sign == -1) 
+		if (result > (unsigned long long)LONG_MAX + 1 && sign == -1)
 			return (1);
-		if (result > (unsigned long long)LONG_MAX && sign == 1) 
+		if (result > (unsigned long long)LONG_MAX && sign == 1)
 			return (1);
 	}
 	*nb = result * sign;
@@ -47,7 +49,7 @@ long long	ft_atoll_check(const char *str, long long *nb)
 
 int	ft_all_digit(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i])

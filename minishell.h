@@ -6,14 +6,16 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 17:52:08 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/02/24 17:34:12 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/02/25 19:25:28 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "libft/libft.h"
+# include <fcntl.h>
+# include <gnl/get_next_line.h>
+# include <libft/libft.h>
 # include <limits.h>
 # include <readline/history.h>
 # include <readline/readline.h>
@@ -78,4 +80,10 @@ void				lstdelone(t_env **head, t_env *to_del);
 void				lstclear(t_env **lst);
 long long			ft_atoll_check(const char *str, long long *nb);
 int					ft_all_digit(char *str);
+int					is_buildins(char *arg);
+void				cd(t_env *lst, char *args);
+void				echo(char *str, int n, int fd_out);
+void				my_exit(char **args);
+void				pwd(t_env *env, int fd_out);
+void				unset(t_env **lst, char *keys);
 #endif
