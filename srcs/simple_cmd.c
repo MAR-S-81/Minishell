@@ -6,7 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 13:07:08 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/02/18 16:56:59 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/02/25 19:56:57 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ int	execute_simple_cmd(t_env *lst, char *cmd)
 		perror("fork");
 	if (pid == 0)
 	{
-		cmd_args = ft_split(cmd, ' ');
+		cmd_args = ft_split(cmd[0], ' ');
 		if (!cmd_args)
 			exit(1);
 		path = find_path(cmd_args[0], lst);
