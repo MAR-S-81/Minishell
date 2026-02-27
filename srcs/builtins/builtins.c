@@ -6,7 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 19:20:40 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/02/25 19:45:17 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/02/27 16:24:24 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	execute_builtin(char **args, t_env *lst, int fd_out)
 	else if (ft_strncmp(args[0], "export", 7) == 0)
 	{
 		if (!args[1])
-			export_sorting();   //faire export sorting
+			export_no_args(lst, fd_out);
 		else
 			export(lst, args[1], args[2]);
 	}
