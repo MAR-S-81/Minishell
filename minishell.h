@@ -30,6 +30,8 @@
 # define GREEN "\001\033[1;32m\002"
 # define ORANGE "\001\033[1;33m\002"
 
+extern int g_signal_status
+
 // typedef enum e_token_type
 // {
 // 	TOKEN_WORD,
