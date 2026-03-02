@@ -1,41 +1,41 @@
-NAME		= minishell
-CC			= cc
-CFLAGS		= -Wall -Wextra -Werror -g -I.
-LIBFT		= ./libft/libft.a
-OBJ_DIR		= ./objs
+NAME = minishell
 
-SRC			=	parsing.c \
-				env.c \
-				readline.c \
-				simple_cmd.c \
-				main.c \
-				echo.c \
-				pwd.c \
-				envp.c \
+CC = cc
+CFLAGS = -Wall -Wextra -Werror -g
 
-OBJ_DIR		= $(addprefix $(OBJ_DIR)/, $(notdir $(SRC:.c=.o)))
+INCLUDES = -I.
+
+LIBFT = ./libft/libft.a
+
+OBJ_DIR = objs
+
+SRC = \
+	srcs/clean_exit.c \
+	srcs/parsing/parsing.c \
+	srcs/parsing/lexer_utils.c \
+	srcs/parsing/expander_utils.c \
+	srcs/envp.c \
+
+OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
 
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -lreadline -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME)
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	@mkdir -p $(OBJ_DIR)
-	@$(CC) $(CFLAGS) -c $< -o $@
+$(OBJ_DIR)/%.o: %.c minishell.h
+	@mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 $(LIBFT):
-	$(MAKE) -C ./libft
-
-%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(MAKE) -C libft
 
 clean:
-	$(MAKE) clean -C ./libft
-	rm -f $(OBJ)
+	$(MAKE) clean -C libft
+	rm -rf $(OBJ_DIR)
 
 fclean: clean
-	$(MAKE) fclean -C ./libft
+	$(MAKE) fclean -C libft
 	rm -f $(NAME)
 
 re: fclean all
