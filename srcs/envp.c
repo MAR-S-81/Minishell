@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envp.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 15:31:05 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/02 15:29:39 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/02 18:47:24 by erocha--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,4 +95,21 @@ void	split_key_values(char **envp, t_env **lst)
 		extract_entry(envp[i], lst);
 		i++;
 	}
+}
+
+char	*get_args_envp(char *str, t_env *lst)
+{
+	int	len;
+
+	if (!str || !lst)
+		return (0);
+	len = ft_strlen(str);
+	while (lst != NULL)
+	{
+		if (ft_strncmp(str, lst->key, len) == 0
+			&& lst->key[len] == '\0')
+			return (lst->value);
+		lst = lst->next;
+	}
+	return (NULL);
 }
