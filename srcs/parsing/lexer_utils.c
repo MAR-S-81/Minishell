@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enzorolinux <enzorolinux@student.42.fr>    +#+  +:+       +#+        */
+/*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 18:07:07 by erocha--          #+#    #+#             */
-/*   Updated: 2026/02/19 15:04:27 by enzorolinux      ###   ########.fr       */
+/*   Updated: 2026/03/02 15:31:15 by erocha--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@ void	quotes_handling(t_token **token, char *arg, int *i, int *j)
 	char	quote_type;
 
 	quote_type = arg[*i];
+	(*token)->value[*j] = arg[*i];
 	(*i)++;
+	(*j)++;
 	while (arg[*i] != quote_type)
 	{
 		if (!arg[*i])
@@ -30,7 +32,9 @@ void	quotes_handling(t_token **token, char *arg, int *i, int *j)
 		(*i)++;
 		(*j)++;
 	}
-	(*token)->value[*i] = '\0';
+	(*token)->value[*j] = arg[*i];
+	(*j)++;
+	(*token)->value[*j] = '\0';
 	(*i)++;
 }
 
