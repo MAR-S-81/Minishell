@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enzorolinux <enzorolinux@student.42.fr>    +#+  +:+       +#+        */
+/*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 17:52:08 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/02/19 14:54:16 by enzorolinux      ###   ########.fr       */
+/*   Updated: 2026/03/02 17:57:23 by erocha--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,9 @@ void				quotes_handling(t_token **token, char *arg, int *i, int *j);
 void				token_typer(t_token **token);
 t_token				*create_node(t_token **token);
 void				arger(t_token **token, t_token **token_tmp, char *arg, int *i);
-int					parsing(char *arg, char **envp);
+int					parsing(char *arg, t_env *envs);
+char				*found_dollar(char *srcstr);
+char				*add_dollar(t_token **token, char *new_value, char *old_dollar);
 void				clean_exit(t_token *tokens);
 char				*get_args_envp(char *str, t_env *lst);
 void				split_key_values(char **envp, t_env **lst);

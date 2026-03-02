@@ -12,7 +12,9 @@ OBJ_DIR = objs
 SRC = \
 	srcs/clean_exit.c \
 	srcs/parsing/parsing.c \
-	srcs/parsing/lexer_utils.c
+	srcs/parsing/lexer_utils.c \
+	srcs/parsing/expander_utils.c \
+	srcs/envp.c \
 
 OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
 
