@@ -6,7 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 17:52:08 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/02 16:05:36 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/02 17:52:23 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,4 +90,5 @@ void				unset(t_env **lst, char *keys);
 void				export(t_env **lst, char *keys, char *value);
 void				export_no_args(t_env **lst, int fd_out);
 int					execute_simple_cmd(t_env *lst, char *cmd);
+void				ft_swap(char **a, char **b);
 #endif
