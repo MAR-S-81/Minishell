@@ -6,7 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 13:23:32 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/02/20 16:55:13 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/02 15:41:38 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	my_exit(char **args)
 {
-	long long nb;
+	long long	nb;
 
 	write(1, "exit\n", 5);
 	if (!args || !args[0])

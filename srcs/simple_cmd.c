@@ -6,7 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 13:07:08 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/02/27 13:55:18 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/02 15:31:14 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@ char	*get_args_envp(char *str, t_env *lst)
 	len = ft_strlen(str);
 	while (lst->next != NULL)
 	{
-		if (ft_strncmp(str, lst->key, len) == 0
-			&& lst->key[len] == '\0')
+		if (ft_strncmp(str, lst->key, len) == 0 && lst->key[len] == '\0')
 			return (lst->value);
 		lst = lst->next;
 	}
@@ -124,7 +123,7 @@ int	execute_simple_cmd(t_env *lst, char *cmd)
 		}
 		execve(path, cmd_args, env_list_to_tab(lst));
 		perror("execve");
-        exit(126);
+		exit(126);
 	}
 	waitpid(pid, NULL, 0);
 	return (pid);

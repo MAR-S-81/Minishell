@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 13:00:00 by erocha--          #+#    #+#             */
-/*   Updated: 2026/02/17 18:08:55 by erocha--         ###   ########.fr       */
+/*   Updated: 2026/03/02 15:41:56 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-static void lexer(t_token **token, char *arg)
+static void	lexer(t_token **token, char *arg)
 {
 	int		i;
 	t_token	*token_tmp;
@@ -41,11 +41,12 @@ static void lexer(t_token **token, char *arg)
 int	parsing(char *arg, char **envp)
 {
 	t_token	*tokens;
-	
+	int		i;
+
 	(void)envp;
 	tokens = NULL;
 	lexer(&tokens, arg);
-	int i = 0;
+	i = 0;
 	while (tokens != NULL)
 	{
 		i++;
@@ -54,7 +55,7 @@ int	parsing(char *arg, char **envp)
 	return (i);
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	(void)argc;
 	printf("%d", parsing(argv[1], NULL));

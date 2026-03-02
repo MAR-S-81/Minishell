@@ -6,7 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 10:36:22 by mchesnea          #+#    #+#             */
-/*   Updated: 2025/11/17 11:53:29 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/02 15:31:33 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,4 +96,3 @@ char	*get_next_line(int fd)
 	var = ft_update_line(var);
 	return (line);
 }
-

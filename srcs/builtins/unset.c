@@ -6,7 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 16:33:31 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/02/20 16:55:07 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/02 15:41:43 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	unset(t_env **lst, char *keys)
 		if (ft_strncmp(keys, curr->key, len) == 0 && curr->key[len] == '\0')
 		{
 			lstdelone(lst, curr);
-			return ; 
+			return ;
 		}
 		curr = curr->next;
 	}

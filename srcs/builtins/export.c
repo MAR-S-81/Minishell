@@ -6,7 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 14:49:45 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/02/27 16:24:12 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/02 15:41:39 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,28 +25,28 @@ static char	**sort_tab_tab(char **tab)
 {
 	int	i;
 	int	j;
-	int len;
+	int	len;
 
 	i = 0;
 	if (!tab)
 		return (NULL);
 	while (tab[i])
-    {
-        j = i + 1;
-        while (tab[j])
-        {
+	{
+		j = i + 1;
+		while (tab[j])
+		{
 			if (ft_strlen(tab[i]) > ft_strlen(tab[j]))
 				len = ft_strlen(tab[i]);
 			else
 				len = ft_strlen(tab[j]);
-            if (ft_strncmp(tab[i], tab[j], len) > 0)
-            {
-                ft_swap(&tab[i], &tab[j]);
-            }
-            j++;
-        }
-        i++;
-    }
+			if (ft_strncmp(tab[i], tab[j], len) > 0)
+			{
+				ft_swap(&tab[i], &tab[j]);
+			}
+			j++;
+		}
+		i++;
+	}
 	return (tab);
 }
 
