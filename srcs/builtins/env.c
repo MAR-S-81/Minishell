@@ -6,16 +6,16 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:36:57 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/02/18 15:56:43 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/02 15:41:36 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void env(t_env *lst, int fd_out)
+void	env(t_env *lst, int fd_out)
 {
 	char	**str;
-	int i;
+	int		i;
 
 	i = 0;
 	str = env_list_to_tab(lst);

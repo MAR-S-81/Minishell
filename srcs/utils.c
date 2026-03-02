@@ -6,7 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 14:38:19 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/02/25 19:20:36 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/02 15:29:45 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,51 @@ int	ft_all_digit(char *str)
 		i++;
 	}
 	return (1);
+}
+
+void	lstclear(t_env **lst)
+{
+	t_env	*check;
+	t_env	*temp;
+
+	if (!lst || !*lst)
+		return ;
+	check = *lst;
+	while (check != NULL)
+	{
+		free(check->key);
+		free(check->value);
+		temp = check->next;
+		free(check);
+		check = temp;
+	}
+	*lst = NULL;
+}
+
+void	lstdelone(t_env **head, t_env *to_del)
+{
+	t_env	*curr;
+	t_env	*prev;
+
+	if (!head || !*head || !to_del)
+		return ;
+	curr = *head;
+	prev = NULL;
+	while (curr && curr != to_del)
+	{
+		prev = curr;
+		curr = curr->next;
+	}
+	if (curr)
+	{
+		if (prev == NULL)
+			*head = curr->next;
+		else
+			prev->next = curr->next;
+		if (curr->key)
+			free(curr->key);
+		if (curr->value)
+			free(curr->value);
+		free(curr);
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 19:20:40 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/02/27 16:24:24 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/02 15:26:52 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,28 @@ int	is_buildins(char *arg)
 	return (0);
 }
 
+static void	exec_echo(char **args, int fd_out)
+{
+	if (args[1] && ft_strncmp(args[1], "-n", 3) == 0)
+		echo(args, 1, fd_out);
+	else
+		echo(args, 0, fd_out);
+}
+
+static void	exec_export(char **args, t_env *lst, int fd_out)
+{
+	if (!args[1])
+		export_no_args(lst, fd_out);
+	else
+		export(lst, args[1], args[2]);
+}
+
 int	execute_builtin(char **args, t_env *lst, int fd_out)
 {
 	if (!args || !args[0])
 		return (1);
 	if (ft_strncmp(args[0], "echo", 5) == 0)
-	{
-		if (args[1] && ft_strncmp(args[1], "-n", 3) == 0)
-			echo(args, 1, fd_out);
-		else
-			echo(args, 0, fd_out);
-	}
+		exec_echo(args, fd_out);
 	else if (ft_strncmp(args[0], "cd", 3) == 0)
 		cd(lst, args[1]);
 	else if (ft_strncmp(args[0], "env", 4) == 0)
@@ -48,18 +59,10 @@ int	execute_builtin(char **args, t_env *lst, int fd_out)
 	else if (ft_strncmp(args[0], "exit", 5) == 0)
 		my_exit(args);
 	else if (ft_strncmp(args[0], "export", 7) == 0)
-	{
-		if (!args[1])
-			export_no_args(lst, fd_out);
-		else
-			export(lst, args[1], args[2]);
-	}
+		exec_export(args, lst, fd_out);
 	else if (ft_strncmp(args[0], "pwd", 4) == 0)
 		pwd(lst, fd_out);
-	else if (ft_strncmp(args[0], "unset", 6) == 0)
-	{
-		if (args[1])
-			unset(lst, args[1]);
-	}
+	else if (ft_strncmp(args[0], "unset", 6) == 0 && args[1])
+		unset(lst, args[1]);
 	return (0);
 }

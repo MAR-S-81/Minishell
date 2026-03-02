@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 18:07:07 by erocha--          #+#    #+#             */
-/*   Updated: 2026/02/17 18:11:27 by erocha--         ###   ########.fr       */
+/*   Updated: 2026/03/02 15:41:57 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	token_typer(t_token **token)
 
 t_token	*create_node(t_token **token)
 {
-	t_token *new_node;
+	t_token	*new_node;
 
 	new_node = malloc(sizeof(t_token));
 	if (!new_node)
@@ -62,8 +62,8 @@ t_token	*create_node(t_token **token)
 
 void	arger(t_token **token, t_token **token_tmp, char *arg, int *i)
 {
-	int		j;
-		
+	int j;
+
 	j = 0;
 	while (ft_isprint(arg[j]) && arg[j])
 		j++;

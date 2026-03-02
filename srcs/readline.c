@@ -6,7 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 15:16:35 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/02/27 17:07:28 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/02 15:42:52 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,15 @@ void	init_signal(void)
 	sigaction(SIGQUIT, &sa, NULL);
 }
 
-void	execute_command(char **args, t_env *lst, int fd)
+int	execute_command(char **args, t_env *lst, int fd)
 {
 	if (!args || !args[0])
 		return ;
-		
 	if (is_buildins(args[0]))
-		execute_builtin(args, lst, fd);
+	{
+		if (execute_builtin(args, lst, fd) == 1)
+			return (1);
+	}
 	else
 		execute_simple_cmd(args, lst);
 }
