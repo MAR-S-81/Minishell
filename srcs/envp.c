@@ -3,44 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   envp.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 15:31:05 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/02 18:47:24 by erocha--         ###   ########.fr       */
+/*   Updated: 2026/03/03 17:47:37 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-t_env	*lstnew(char *key, char *value)
-{
-	t_env	*dest;
-
-	dest = malloc(sizeof(t_env));
-	if (!dest)
-		return (NULL);
-	dest->key = key;
-	dest->value = value;
-	dest->next = NULL;
-	return (dest);
-}
-
-void	lstadd_back(t_env **lst, t_env *new)
-{
-	t_env	*ret;
-
-	if (!lst || !new)
-		return ;
-	if (!*lst)
-	{
-		*lst = new;
-		return ;
-	}
-	ret = *lst;
-	while (ret->next != NULL)
-		ret = ret->next;
-	ret->next = new;
-}
 
 static void	get_node_data(char *env_str, char **key, char **value)
 {
