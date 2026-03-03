@@ -6,7 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 13:18:55 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/02 15:51:24 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/03 18:02:51 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,48 +29,70 @@ void	replace_old_pwd(t_env *lst, char *pwd, char *str)
 	}
 }
 
-static void	cd_home(char *home)
+static int	cd_home(char *home)
 {
 	if (!home)
+	{
 		ft_putstr_fd("minishell: cd: HOME not set\n", 2);
-	else if (chdir(home) != 0)
+		return (-1);
+	}
+	if (chdir(home) != 0)
+	{
 		perror("cd");
+		return (-1);
+	}
+	return (0);
 }
 
-static void	cd_oldpwd(char *oldpwd)
+static int	cd_oldpwd(char *oldpwd)
 {
 	if (!oldpwd)
+	{
 		ft_putstr_fd("minishell: cd: OLDPWD not set\n", 2);
-	else if (chdir(oldpwd) != 0)
+		return (-1);
+	}
+	if (chdir(oldpwd) != 0)
+	{
 		perror("cd");
-	else
-		printf("%s\n", oldpwd);
+		return (-1);
+	}
+	printf("%s\n", oldpwd);
+	return (0);
+}
+
+static void	update_env_pwds(t_env *lst, char *pwd)
+{
+	char	buffer[4096];
+	char	*tmp;
+
+	replace_old_pwd(lst, pwd, "OLDPWD");
+	tmp = getcwd(buffer, 4096);
+	if (tmp)
+		replace_old_pwd(lst, tmp, "PWD");
 }
 
 void	cd(t_env *lst, char *args)
 {
-	char	*home;
-	char	*oldpwd;
 	char	*pwd;
-	char	buffer[4096];
 	char	*tmp;
+	int		status;
 
-	home = get_args_envp("HOME", lst);
-	oldpwd = get_args_envp("OLDPWD", lst);
 	tmp = get_args_envp("PWD", lst);
 	if (!tmp)
 		pwd = getcwd(NULL, 0);
 	else
 		pwd = ft_strdup(tmp);
 	if (!args || (args[0] == '~' && args[1] == '\0'))
-		cd_home(home);
+		status = cd_home(get_args_envp("HOME", lst));
 	else if (args[0] == '-' && args[1] == '\0')
-		cd_oldpwd(oldpwd);
-	else if (chdir(args) != 0)
-		perror("cd");
-	replace_old_pwd(lst, pwd, "OLDPWD");
-	tmp = getcwd(buffer, 4096);
-	if (tmp)
-		replace_old_pwd(lst, tmp, "PWD");
+		status = cd_oldpwd(get_args_envp("OLDPWD", lst));
+	else
+	{
+		status = chdir(args);
+		if (status != 0)
+			perror("cd");
+	}
+	if (status == 0)
+		update_env_pwds(lst, pwd);
 	free(pwd);
 }

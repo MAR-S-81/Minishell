@@ -6,13 +6,13 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 14:49:45 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/02 17:57:37 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/03 17:47:00 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static	t_env	*get_env_node(char *key, t_env *lst)
+static t_env	*get_env_node(char *key, t_env *lst)
 {
 	int	len;
 
@@ -84,45 +84,45 @@ void	export_no_args(t_env **lst, int fd_out)
 	free(str);
 }
 
-static void add_new_export(t_env **lst, char *keys, char *value)
+static void	add_new_export(t_env **lst, char *keys, char *value)
 {
-    t_env   *new;
-    char    *key_copy;
-    char    *value_copy;
+	t_env	*new;
+	char	*key_copy;
+	char	*value_copy;
 
-    key_copy = ft_strdup(keys);
-    value_copy = NULL;
-    if (value)
-        value_copy = ft_strdup(value);
-    if (!key_copy)
-        return ;
-    new = lstnew(key_copy, value_copy);
-    if (!new)
-    {
-        free(key_copy);
-        if (value_copy)
-            free(value_copy);
-        return ;
-    }
-    lstadd_back(lst, new);
+	key_copy = ft_strdup(keys);
+	value_copy = NULL;
+	if (value)
+		value_copy = ft_strdup(value);
+	if (!key_copy)
+		return ;
+	new = lstnew(key_copy, value_copy);
+	if (!new)
+	{
+		free(key_copy);
+		if (value_copy)
+			free(value_copy);
+		return ;
+	}
+	lstadd_back(lst, new);
 }
 
-void    export(t_env **lst, char *keys, char *value)
+void	export(t_env **lst, char *keys, char *value)
 {
-    t_env   *actual;
+	t_env	*actual;
 
-    if (!keys)
-        return ;
-    actual = get_env_node(keys, *lst);
-    if (actual != NULL)
-    {
-        if (value)
-        {
-            if (actual->value)
-                free(actual->value);
-            actual->value = ft_strdup(value);
-        }
-        return ;
-    }
-    add_new_export(lst, keys, value);
+	if (!keys)
+		return ;
+	actual = get_env_node(keys, *lst);
+	if (actual != NULL)
+	{
+		if (value)
+		{
+			if (actual->value)
+				free(actual->value);
+			actual->value = ft_strdup(value);
+		}
+		return ;
+	}
+	add_new_export(lst, keys, value);
 }
