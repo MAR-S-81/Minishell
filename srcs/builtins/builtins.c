@@ -6,7 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 19:20:40 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/02 15:26:52 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/04 13:37:12 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static void	exec_export(char **args, t_env *lst, int fd_out)
 		export(lst, args[1], args[2]);
 }
 
-int	execute_builtin(char **args, t_env *lst, int fd_out)
+int	execute_builtin(char **args, t_env *lst, int fd_out, int status)
 {
 	if (!args || !args[0])
 		return (1);
@@ -57,7 +57,7 @@ int	execute_builtin(char **args, t_env *lst, int fd_out)
 	else if (ft_strncmp(args[0], "env", 4) == 0)
 		env(lst, fd_out);
 	else if (ft_strncmp(args[0], "exit", 5) == 0)
-		my_exit(args);
+		my_exit(args, status);
 	else if (ft_strncmp(args[0], "export", 7) == 0)
 		exec_export(args, lst, fd_out);
 	else if (ft_strncmp(args[0], "pwd", 4) == 0)

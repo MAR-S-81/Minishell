@@ -6,7 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 15:16:35 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/02 15:42:52 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/04 13:38:46 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	execute_command(char **args, t_env *lst, int fd)
 		return ;
 	if (is_buildins(args[0]))
 	{
-		if (execute_builtin(args, lst, fd) == 1)
+		if (execute_builtin(args, lst, fd, g_signal_status) == 1)
 			return (1);
 	}
 	else
