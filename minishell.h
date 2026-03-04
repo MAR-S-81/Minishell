@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 17:52:08 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/02 18:47:59 by erocha--         ###   ########.fr       */
+/*   Updated: 2026/03/04 18:00:12 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int					ft_all_digit(char *str);
 int					is_buildins(char *arg);
 void				cd(t_env *lst, char *args);
 void				echo(char *str, int n, int fd_out);
-void				my_exit(char **args);
+void				my_exit(char **args, int status);
 void				pwd(t_env *env, int fd_out);
 void				unset(t_env **lst, char *keys);
 void				export(t_env **lst, char *keys, char *value);
