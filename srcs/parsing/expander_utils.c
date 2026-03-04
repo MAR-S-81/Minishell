@@ -1,82 +1,76 @@
-///* ************************************************************************** */
-///*                                                                            */
-///*                                                        :::      ::::::::   */
-///*   expander_utils.c                                   :+:      :+:    :+:   */
-///*                                                    +:+ +:+         +:+     */
-///*   By: enzorolinux <enzorolinux@student.42.fr>    +#+  +:+       +#+        */
-///*                                                +#+#+#+#+#+   +#+           */
-///*   Created: 2026/02/25 10:55:12 by erocha--          #+#    #+#             */
-///*   Updated: 2026/03/03 14:41:55 by enzorolinux      ###   ########.fr       */
-///*                                                                            */
-///* ************************************************************************** */
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expander_utils.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/25 10:55:12 by erocha--          #+#    #+#             */
+/*   Updated: 2026/03/04 17:44:54 by erocha--         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-//#include "minishell.h"
+#include "minishell.h"
 
-//static char	*create_dollar(char *srcstr, int i)
-//{
-//	char	*dollar;
-//	int		j;
+static char	*dollarid_init(t_token *token, int idollar, int *i)
+{
+	char	*dollar_id;
 
-//	j = 0;
-//	while (ft_isprint(srcstr[i + j + 1]) && srcstr[i + j + 1] != '\'' &&
-//		srcstr[i + j + 1] != ':' && srcstr[i + j + 1])
-//		j++;
-//	dollar = malloc(sizeof(char) * (j + 1));
-//	j = 0;
-//	while (ft_isprint(srcstr[i + j + 1]) && srcstr[i + j + 1] != '\'' &&
-//		srcstr[i + j + 1] != ':' && srcstr[i + j + 1])
-//	{
-//		dollar[j] = srcstr[i + j + 1];
-//		j++;
-//	}
-//	return (dollar);
-//}
+	dollar_id = NULL;
+	while (ft_isprint(token->value[idollar + *i]) && token->value[idollar + *i] != ':'
+		&& token->value[idollar + *i] != '\'' && token->value[idollar + *i] != '\"')
+		(*i)++;
+	dollar_id = malloc(sizeof(char) * (*i));
+	dollar_id[*i] = '\0';
+	(*i) = 0;
+	while (ft_isprint(token->value[idollar + *i]) && token->value[idollar + *i] != ':'
+		&& token->value[idollar + *i] != '\'' && token->value[idollar + *i] != '\"')
+	{
+		dollar_id[*i] = token->value[idollar + *i];
+		(*i)++;
+	}
+	return (dollar_id);
+}
 
-//char	*found_dollar(char *srcstr)
-//{
-//	int		i;
-//	int		in_squote;
-//	char	*dollar;
+void	research_implement(t_token **token, t_env *envs, int *idollar)
+{
+	char	*dollar_id;
+	char	*dollar_value;
+	char	*str;
+	int		i;
 
-//	i = 0;
-//	in_squote = 0;
-//	dollar = NULL;
-//	while (srcstr[i])
-//	{
-//		if (srcstr[i] == '\'')
-//			in_squote = !in_squote;
-//		if (srcstr[i] == ':' && !in_squote)
-//			dollar = create_dollar(srcstr, i);
-//		i++;
-//	}
-//	return (dollar);
-//}
+	i = 0;
+	(*idollar)++;
+	dollar_id = dollarid_init(*token, *idollar, &i);
+	dollar_value = get_args_envp(dollar_id, envs);
+	str = malloc(sizeof(char) * (ft_strlen((*token)->value) + 1));
+	ft_strlcpy(str, (*token)->value, (*idollar));
+	if (dollar_value)
+	{
+		str = ft_strjoin(str, dollar_value);
+		(*idollar) += i;
+		str = ft_strjoin(str, (*token)->value + (*idollar));
+	}
+	else
+	{
+		str = ft_strjoin(str, (*token)->value + (*idollar) + i);
+		(*idollar) = (*idollar) - 2;
+	}
+	free((*token)->value);
+	(*token)->value = str;
+}
 
-//char	*add_dollar(t_token **token, char *new_value, char *old_dollar)
-//{
-//	char	*str;
-//	int		i;
-//	int		len_token;
-//	int		len_dollar;
-
-//	str = NULL;
-//	i = 0;
-//	len_token = ft_strlen((*token)->value);
-//	len_dollar = ft_strlen(old_dollar);
-//	while ((*token)->value[i])
-//	{
-//		if ((*token)->value[i] == ':' && (*token)->value[i + 1])
-//		{
-//			if (!ft_strncmp(ft_substr((*token)->value, i + 1, len_token), old_dollar, len_dollar))
-//			{
-//				str = malloc(sizeof(char) * (len_dollar + len_token));
-//				ft_strlcpy(str, (*token)->value, i);
-//				str = ft_strjoin(str, new_value);
-//				str = ft_strjoin(str, (*token)->value + i + ft_strlen(new_value));
-//			}
-//		}
-//		i++;
-//	}
-//	free((*token)->value);
-//	return (str);
-//}
+void	varenv_handling(t_token **token, int *idollar)
+{
+	char	*str;
+	char	*nbr;
+	
+	str = malloc(sizeof(char) * ft_strlen((*token)->value));
+	ft_strlcpy(str, (*token)->value, (*idollar));
+	nbr = ft_itoa(g_signal_status);
+	str = ft_strjoin(str, nbr);
+	str = ft_strjoin(str, (*token)->value + (*idollar) + 2);
+	(*idollar) = ft_strlen(str);
+	free((*token)->value);
+	(*token)->value = str;
+}
