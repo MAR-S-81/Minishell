@@ -6,19 +6,19 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 13:23:32 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/02 15:41:38 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/04 13:35:30 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	my_exit(char **args)
+void	my_exit(char **args, int status)
 {
 	long long	nb;
 
 	write(1, "exit\n", 5);
 	if (!args || !args[0])
-		exit(1); // mettre le $?
+		exit(status);
 	if ((ft_all_digit(args[0]) == 0) || ft_atoll_check(args[0], &nb))
 	{
 		ft_putstr_fd("minishell: exit: ", 2);
