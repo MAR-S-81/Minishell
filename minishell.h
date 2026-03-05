@@ -6,7 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 17:52:08 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/04 18:00:12 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/05 18:33:09 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,35 @@ typedef struct s_env
 	struct s_env	*next;
 }					t_env;
 
+typedef struct s_cmd
+{
+	char **args;		// {"ls", "-l", NULL}
+	char *infile;		// Nom du fichier ou Limiteur
+	char *outfile;		// Nom du fichier de sortie
+	int is_append;		// 1 si >>, 0 si >
+	int is_heredoc;		// 1 si <<, 0 si <
+	int fd_in;			// Sera rempli juste avant l'exec
+	int fd_out;			// Sera rempli juste avant l'exec
+	struct s_cmd *next; // Pour passer à la commande suivante du pipe
+}					t_cmd;
+
+typedef struct s_exec
+{
+	int pipe_fd[2];	// Le pipe actuel
+	int fd_temp;	// Le "témoin" (read du pipe précédent)
+	int nb_cmds;	// Nombre total de commandes dans le pipeline
+	pid_t *pids;	// Tableau de PIDs pour waitpid à la fin
+}					t_exec;
+
 void				quotes_handling(t_token **token, char *arg, int *i, int *j);
 void				token_typer(t_token **token);
 t_token				*create_node(t_token **token);
-void				arger(t_token **token, t_token **token_tmp, char *arg, int *i);
+void				arger(t_token **token, t_token **token_tmp, char *arg,
+						int *i);
 int					parsing(char *arg, t_env *envs);
 char				*found_dollar(char *srcstr);
-char				*add_dollar(t_token **token, char *new_value, char *old_dollar);
+char				*add_dollar(t_token **token, char *new_value,
+						char *old_dollar);
 void				clean_exit(t_token *tokens);
 char				*get_args_envp(char *str, t_env *lst);
 void				split_key_values(char **envp, t_env **lst);
