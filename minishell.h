@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
+/*   By: enzorolinux <enzorolinux@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 17:52:08 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/04 17:54:58 by erocha--         ###   ########.fr       */
+/*   Updated: 2026/03/05 20:03:09 by enzorolinux      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@
 # define ORANGE "\001\033[1;33m\002"
 
 extern int	g_signal_status;
-
-extern g_signal_status = 0;
 
 typedef enum e_token_type
 {
@@ -70,7 +68,7 @@ t_token				*create_node(t_token **token);
 void				arger(t_token **token, t_token **token_tmp, char *arg, int *i);
 int					parsing(char *arg, t_env *envs);
 void				research_implement(t_token **token, t_env *envs, int *idollar);
-void				varenv_handling(t_token **token, int *idollar);
+void				remove_quote(t_token **tokens);
 void				clean_exit(t_token *tokens);
 char				*get_args_envp(char *str, t_env *lst);
 void				split_key_values(char **envp, t_env **lst);
