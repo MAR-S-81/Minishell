@@ -6,7 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/02 17:51:53 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/03 17:47:43 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/06 14:23:16 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,16 @@ void	lstadd_back(t_env **lst, t_env *new)
 	while (ret->next != NULL)
 		ret = ret->next;
 	ret->next = new;
+}
+
+void	free_tab(char **tab)
+{
+	int	i;
+
+	i = 0;
+	if (!tab)
+		return ;
+	while (tab[i])
+		free(tab[i++]);
+	free(tab);
 }

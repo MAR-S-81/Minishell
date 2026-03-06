@@ -6,7 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 17:52:08 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/05 18:33:09 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/06 15:50:46 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,22 +66,23 @@ typedef struct s_env
 
 typedef struct s_cmd
 {
-	char **args;		// {"ls", "-l", NULL}
-	char *infile;		// Nom du fichier ou Limiteur
-	char *outfile;		// Nom du fichier de sortie
-	int is_append;		// 1 si >>, 0 si >
-	int is_heredoc;		// 1 si <<, 0 si <
-	int fd_in;			// Sera rempli juste avant l'exec
-	int fd_out;			// Sera rempli juste avant l'exec
-	struct s_cmd *next; // Pour passer à la commande suivante du pipe
+	char **args; // {"ls", "-l", NULL}
+	char			*infile;
+	char			*outfile;
+	int is_append;  // 1 si >>, 0 si >
+	int is_heredoc; // 1 si <<, 0 si <
+	int				fd_in;
+	int				fd_out;
+	int error_redir; // 0 par défaut, 1 si un open a foiré
+	struct s_cmd	*next;
 }					t_cmd;
 
 typedef struct s_exec
 {
-	int pipe_fd[2];	// Le pipe actuel
-	int fd_temp;	// Le "témoin" (read du pipe précédent)
-	int nb_cmds;	// Nombre total de commandes dans le pipeline
-	pid_t *pids;	// Tableau de PIDs pour waitpid à la fin
+	int				pipe_fd[2];
+	int				fd_temp;
+	int				nb_cmds;
+	pid_t			*pids;
 }					t_exec;
 
 void				quotes_handling(t_token **token, char *arg, int *i, int *j);
@@ -114,4 +115,6 @@ void				export(t_env **lst, char *keys, char *value);
 void				export_no_args(t_env **lst, int fd_out);
 int					execute_simple_cmd(t_env *lst, char *cmd);
 void				ft_swap(char **a, char **b);
+void				free_tab(char **tab);
+char				*find_path(char *cmd, t_env *lst);
 #endif

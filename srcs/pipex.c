@@ -6,118 +6,72 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 13:20:05 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/05 18:06:47 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/06 16:14:17 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	exec_child(t_data *d)
+static int	ft_here_doc(t_cmd *cmd)
 {
-	char	**cmd;
-	char	*path;
+	char	*line;
+	int		pipe_fd[2];
+	char	*limiter;
 
-	if (d->fd_temp == -1)
-		close_no_inf(d->pipe_fd, d->outfile);
-	if (d->infile != -1)
-		close(d->infile);
-	utils_fork(d->fd_temp, d->pipe_fd, d->outfile, (d->i == d->nb_cmds - 1)
-		+ 1);
-	cmd = ft_split(d->argv[2 + d->i + d->is_heredoc], ' ');
-	if (!cmd || !cmd[0])
+	if (pipe(pipe_fd) == -1)
 	{
-		if (cmd)
-			free_tab(cmd);
-		ft_putstr_fd("Command not found\n", 2);
-		exit(127);
+		perror("minishell: pipe");
+		return (-1);
 	}
-	path = find_path(cmd[0], d->envp);
-	if (path)
-		execve(path, cmd, d->envp);
-	free_tab(cmd);
-	if (path)
-		free(path);
-	ft_putstr_fd("Command not found\n", 2);
-	exit(127);
-}
-
-static int	wait_process(t_data *d)
-{
-	int	status;
-
-	close(d->fd_temp);
-	if (d->infile != -1)
-		close(d->infile);
-	close(d->outfile);
-	waitpid(d->pid, &status, 0);
-	while (d->nb_cmds-- - 1 > 0)
-		wait(NULL);
-	if (WIFEXITED(status))
-		return (WEXITSTATUS(status));
-	return (1);
-}
-
-int	childs_process(t_data *d)
-{
-	int	ret;
-
-	d->nb_cmds = d->argc - 3 - d->is_heredoc;
-	d->fd_temp = dup(d->infile);
-	d->i = -1;
-	while (++d->i < d->nb_cmds)
+	limiter = ft_strjoin(cmd->infile, "\n");
+	if (!limiter)
 	{
-		if (pipe(d->pipe_fd) == -1)
-			close_no_pipe(d);
-		d->pid = fork();
-		if (d->pid == -1)
-			perror("fork");
-		if (d->pid == 0)
-			exec_child(d);
-		else
+		close(pipe_fd[0]);
+		close(pipe_fd[1]);
+		return (-1);
+	}
+	while (1)
+	{
+		write(1, "> ", 2);
+		line = get_next_line(0);
+		if (!line || ft_strncmp(line, limiter, ft_strlen(limiter) + 1) == 0)
 		{
-			close(d->pipe_fd[1]);
-			if (d->fd_temp != -1)
-				close(d->fd_temp);
-			d->fd_temp = d->pipe_fd[0];
+			free(line);
+			break ;
 		}
+		write(pipe_fd[1], line, ft_strlen(line));
+		free(line);
 	}
-	ret = wait_process(d);
-	return (ret);
+	free(limiter);
+	close(pipe_fd[1]);
+	return (pipe_fd[0]);
 }
 
-static void	open_files(t_data *d)
+void	open_cmd(t_cmd *cmd)
 {
-	char	*join;
-
-	if (d->is_heredoc)
+	while (cmd)
 	{
-		free(join);
-		d->infile = ft_here_doc(argv, d);
-		d->outfile = open(argv[argc - 1], O_RDWR | O_CREAT | O_APPEND, 0644);
+		if (cmd->is_heredoc)
+			cmd->fd_in = ft_here_doc(cmd);
+		if (cmd->infile && cmd->fd_in == 0)
+			cmd->fd_in = open(cmd->infile, O_RDONLY);
+		if (cmd->fd_in == -1)
+			cmd->error_redir = 1;
+		if (cmd->outfile && !cmd->error_redir)
+		{
+			if (cmd->is_append)
+				cmd->fd_out = open(cmd->outfile, O_RDWR | O_CREAT | O_APPEND,
+						0644);
+			else
+				cmd->fd_out = open(cmd->outfile, O_RDWR | O_CREAT | O_TRUNC,
+						0644);
+			if (cmd->fd_out == -1)
+			{
+				cmd->error_redir = 1;
+				if (cmd->fd_in > 0)
+					close(cmd->fd_in);
+			}
+		}
+		cmd = cmd->next;
 	}
-	else
-	{
-		free(join);
-		d->infile = open(argv[1], O_RDONLY);
-		d->outfile = open(argv[argc - 1], O_RDWR | O_CREAT | O_TRUNC, 0644);
-	}
-}
-
-int	pipex()
-{
-	int		ret;
-	t_exec	d;
-
-	open_files(&d);
-	if (d.infile == -1 && !d.is_heredoc)
-		perror(argv[1]);
-	if (d.outfile == -1)
-	{
-		perror(argv[argc - 1]);
-		if (d.infile != -1)
-			close(d.infile);
-		return (1);
-	}
-	ret = childs_process(&d);
-	return (ret);
 }
