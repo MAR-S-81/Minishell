@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enzorolinux <enzorolinux@student.42.fr>    +#+  +:+       +#+        */
+/*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 13:00:00 by erocha--          #+#    #+#             */
-/*   Updated: 2026/03/05 20:06:35 by enzorolinux      ###   ########.fr       */
+/*   Updated: 2026/03/09 15:15:26 by erocha--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ static void	expander(t_token **tokens, t_env *envs)
 				research_implement(&tokens_tmp, envs, &i);
 			i++;
 		}
+		remove_quote(&tokens_tmp);
 		tokens_tmp = tokens_tmp->next;
 	}
-    remove_quote(tokens);
 }
 
 int	parsing(char *arg, t_env *envs)
@@ -69,15 +69,23 @@ int	parsing(char *arg, t_env *envs)
 	
 	tokens = NULL;
 	lexer(&tokens, arg);
-	//(void)envs;
-    expander(&tokens, envs);
+	expander(&tokens, envs);
 	int i = 0;
 	t_token	*tokens_tmp = tokens;
 	while (tokens_tmp != NULL)
 	{
 		i++;
-		printf("\n%s", tokens_tmp->value);
+		printf("%s\n", tokens_tmp->value);
 		tokens_tmp = tokens_tmp->next;
+	}
+	t_token	*next;
+
+	while (tokens)
+	{
+		free(tokens->value);
+		next = tokens->next;
+		free(tokens);
+		tokens = next;
 	}
 	return (i);
 }
@@ -90,5 +98,10 @@ int	main(int argc, char **argv)
 	envs->key = ft_strdup("TEST");
 	envs->value = ft_strdup("result");
 	(void)argc;
-	printf("\n%d", parsing(argv[1], envs));
+	(void)argv;
+	printf("%d\n", parsing(argv[1], envs));
+	printf("\nDEBUG argv[1]: |%s|\n", argv[1]);
+	free(envs->key);
+	free(envs->value);
+	free(envs);
 }
