@@ -6,7 +6,7 @@
 /*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 18:07:07 by erocha--          #+#    #+#             */
-/*   Updated: 2026/03/02 18:47:00 by erocha--         ###   ########.fr       */
+/*   Updated: 2026/03/09 14:50:02 by erocha--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,18 +40,15 @@ void	quotes_handling(t_token **token, char *arg, int *i, int *j)
 
 void	token_typer(t_token **token)
 {
-	int	size;
-
-	size = ft_strlen((*token)->value);
-	if (!ft_strncmp((*token)->value, "<<", size))
+	if (!ft_strncmp((*token)->value, "<<", 2))
 		(*token)->type = TOKEN_HERE_DOC;
-	else if (!ft_strncmp((*token)->value, ">>", size))
+	else if (!ft_strncmp((*token)->value, ">>", 2))
 		(*token)->type = TOKEN_APPEND;
-	else if (!ft_strncmp((*token)->value, ">", size))
+	else if (!ft_strncmp((*token)->value, ">", 1))
 		(*token)->type = TOKEN_REDIR_OUT;
-	else if (!ft_strncmp((*token)->value, "<", size))
+	else if (!ft_strncmp((*token)->value, "<", 1))
 		(*token)->type = TOKEN_REDIR_IN;
-	else if (!ft_strncmp((*token)->value, "|", size))
+	else if (!ft_strncmp((*token)->value, "|", 1))
 		(*token)->type = TOKEN_PIPE;
 	else
 		(*token)->type = TOKEN_WORD;
@@ -75,9 +72,10 @@ void	arger(t_token **token, t_token **token_tmp, char *arg, int *i)
 	int	j;
 
 	j = 0;
-	while (ft_isprint(arg[j]) && arg[j])
+	while (arg[*i + j] && ft_isprint(arg[*i + j]))
 		j++;
 	(*token_tmp)->value = malloc(sizeof(char) * (j + 1));
+	(*token_tmp)->value[j] = '\0';
 	if (!(*token_tmp)->value)
 		clean_exit(*token);
 	j = 0;
@@ -85,16 +83,14 @@ void	arger(t_token **token, t_token **token_tmp, char *arg, int *i)
 	{
 		if (arg[*i] == '"' || arg[*i] == '\'')
 			quotes_handling(token_tmp, arg, i, &j);
-		if (!arg[*i])
+		if (!ft_isprint(arg[*i]))
 		{
-			token_typer(token_tmp);
+			(*token_tmp)->type = TOKEN_WORD;
 			return ;
 		}
-		if (ft_isprint(arg[*i]))
-			(*token_tmp)->value[j] = arg[*i];
+		(*token_tmp)->value[j] = arg[*i];
 		j++;
 		(*i)++;
 	}
-	(*token_tmp)->value[j] = '\0';
     token_typer(token_tmp);
 }
