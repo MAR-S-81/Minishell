@@ -15,6 +15,9 @@ SRC = \
 	srcs/parsing/lexer_utils.c \
 	srcs/parsing/expander_utils.c \
 	srcs/envp.c \
+	gnl/get_next_line_utils.c \
+	gnl/get_next_line.c \
+	gnl/get_next_line.h
 
 OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
 

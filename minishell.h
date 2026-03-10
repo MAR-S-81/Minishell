@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
+/*   By: enzorolinux <enzorolinux@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 17:52:08 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/09 14:31:38 by erocha--         ###   ########.fr       */
+/*   Updated: 2026/03/10 13:16:21 by enzorolinux      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,6 @@ typedef struct s_token
 	struct s_token	*next;
 }					t_token;
 
-typedef struct s_args
-{
-	char			**args;
-	int				fd_in;
-	int				fd_out;
-	struct s_args	*next;
-}					t_args;
-
 typedef struct s_env
 {
 	char			*key;
@@ -62,9 +54,17 @@ typedef struct s_env
 	struct s_env	*next;
 }					t_env;
 
+typedef struct s_cmd
+{
+    char			**args;
+    int				fd_in;
+    int				fd_out;
+    struct s_cmd	*next;
+}	t_cmd;
+
 void				quotes_handling(t_token **token, char *arg, int *i, int *j);
 void				token_typer(t_token **token);
-t_token				*create_node(t_token **token);
+t_token				*create_token(t_token **token);
 void				arger(t_token **token, t_token **token_tmp, char *arg, int *i);
 int					parsing(char *arg, t_env *envs);
 void				research_implement(t_token **token, t_env *envs, int *idollar);
