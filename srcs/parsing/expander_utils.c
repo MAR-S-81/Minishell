@@ -6,79 +6,95 @@
 /*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 10:55:12 by erocha--          #+#    #+#             */
-/*   Updated: 2026/03/02 18:36:04 by erocha--         ###   ########.fr       */
+/*   Updated: 2026/03/09 14:50:42 by erocha--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*create_dollar(char *srcstr, int i)
+static char	*dollarid_init(t_token *token, int idollar)
 {
-	char	*dollar;
-	int		j;
-
-	j = 0;
-	while (ft_isprint(srcstr[i + j + 1]) && srcstr[i + j + 1] != '\'' &&
-		srcstr[i + j + 1] != ':' && srcstr[i + j + 1])
-		j++;
-	dollar = malloc(sizeof(char) * (j + 1));
-	j = 0;
-	while (ft_isprint(srcstr[i + j + 1]) && srcstr[i + j + 1] != '\'' &&
-		srcstr[i + j + 1] != ':' && srcstr[i + j + 1])
-	{
-		dollar[j] = srcstr[i + j + 1];
-		j++;
-	}
-	return (dollar);
-}
-
-char	*found_dollar(char *srcstr)
-{
+	char	*dollar_id;
 	int		i;
-	int		j;
-	int		in_squote;
-	char	*dollar;
 
+	if (token->value[idollar] == '?')
+		return (ft_strdup("?"));
+	dollar_id = NULL;
 	i = 0;
-	j = 0;
-	in_squote = 0;
-	dollar = NULL;
-	while (srcstr[i])
-	{
-		if (srcstr[i] == '\'')
-			in_squote = !in_squote;
-		if (srcstr[i] == ':' && !in_squote)
-			dollar = create_dollar(srcstr, i);
+	while (ft_isalnum(token->value[idollar + i])
+		|| token->value[idollar + i] == '_')
 		i++;
-	}
-	return (dollar);
+	dollar_id = malloc(sizeof(char) * (i + 1));
+	if (!dollar_id)
+		return (NULL);
+	ft_strlcpy(dollar_id, token->value + idollar, i + 1);
+	return (dollar_id);
 }
 
-char	*add_dollar(t_token **token, char *new_value, char *old_dollar)
+static void	no_value_handling(t_token **token, int *idollar, char **dollar_id)
+{
+	char	*tmp;
+	char	*old_value;
+
+	tmp = ft_substr((*token)->value, 0, (*idollar));
+	old_value = (*token)->value;
+	(*token)->value = ft_strjoin(tmp, old_value + (*idollar)
+		+ ft_strlen((*dollar_id)) + 1);
+	free(tmp);
+	free(old_value);
+	if (*dollar_id)
+		free(*dollar_id);
+	(*idollar) = (*idollar) - 1;
+}
+
+void	research_implement(t_token **token, t_env *envs, int *idollar)
+{
+	char	*tmp1;
+	char	*tmp2;
+	char	*dollar_id;
+	char	*dollar_value;
+
+	dollar_id = dollarid_init(*token, *idollar + 1);
+	if (dollar_id && dollar_id[0] == '?' && !dollar_id[1])
+		dollar_value = ft_itoa(5);
+	else if (dollar_id)
+		dollar_value = get_args_envp(dollar_id, envs);
+	if ((dollar_id && dollar_id[0] == '?' && !dollar_id[1]) || dollar_id)
+	{
+		tmp1 = ft_substr((*token)->value, 0, *idollar);
+		tmp2 = ft_strjoin(tmp1, dollar_value);
+		free(tmp1);
+		tmp1 = ft_strjoin(tmp2, (*token)->value + (*idollar) + ft_strlen(dollar_id) + 1);
+		free((*token)->value);
+		(*token)->value = tmp1;
+		free(tmp2);
+		(*idollar) = (*idollar) + ft_strlen(dollar_value) - 1;
+		free(dollar_value);
+		free(dollar_id);
+	}
+	else
+		no_value_handling(token, idollar, &dollar_id);
+}
+
+void	remove_quote(t_token **token)
 {
 	char	*str;
 	int		i;
-	int		len_token;
-	int		len_dollar;
+	int		j;
 
-	str = NULL;
 	i = 0;
-	len_token = ft_strlen((*token)->value);
-	len_dollar = ft_strlen(old_dollar);
+	j = 0;
+	str = malloc(sizeof(char) * (ft_strlen((*token)->value) + 1));
 	while ((*token)->value[i])
 	{
-		if ((*token)->value[i] == ':' && (*token)->value[i + 1])
+		if ((*token)->value[i] != '\'' && (*token)->value[i] != '\"')
 		{
-			if (!ft_strncmp(ft_substr((*token)->value, i + 1, len_token), old_dollar, len_dollar))
-			{
-				str = malloc(sizeof(char) * (len_dollar + len_token));
-				ft_strlcpy(str, (*token)->value, i);
-				str = ft_strjoin(str, new_value);
-				str = ft_strjoin(str, (*token)->value + i + ft_strlen(new_value));
-			}
+			str[j] = (*token)->value[i];
+			j++;
 		}
 		i++;
 	}
+	str[j] = '\0';
 	free((*token)->value);
-	return (str);
+	(*token)->value = str;
 }
