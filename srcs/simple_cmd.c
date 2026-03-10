@@ -6,7 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 13:07:08 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/05 14:36:02 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/10 16:08:01 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,32 +99,4 @@ char	**env_list_to_tab(t_env *env)
 	}
 	ret[len] = NULL;
 	return (ret);
-}
-
-int	execute_simple_cmd(t_env *lst, char *cmd)
-{
-	char	**cmd_args;
-	char	*path;
-	pid_t	pid;
-
-	pid = fork();
-	if (pid == -1)
-		perror("fork");
-	if (pid == 0)
-	{
-		cmd_args = ft_split(&cmd[0], ' ');
-		if (!cmd_args)
-			exit(1);
-		path = find_path(cmd_args[0], lst);
-		if (path == NULL)
-		{
-			write(2, "Command not found\n", 18);
-			exit(127);
-		}
-		execve(path, cmd_args, env_list_to_tab(lst));
-		perror("execve");
-		exit(126);
-	}
-	waitpid(pid, NULL, 0);
-	return (pid);
 }
