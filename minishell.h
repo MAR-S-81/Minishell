@@ -6,7 +6,11 @@
 /*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 17:52:08 by mchesnea          #+#    #+#             */
+<<<<<<< HEAD
+/*   Updated: 2026/03/10 16:18:17 by mchesnea         ###   ########.fr       */
+=======
 /*   Updated: 2026/03/09 15:21:37 by erocha--         ###   ########.fr       */
+>>>>>>> 56c53186b92aae9c8dda4ff1f1c8970943cf9a3d
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +32,11 @@
 # define GREEN "\001\033[1;32m\002"
 # define ORANGE "\001\033[1;33m\002"
 
+<<<<<<< HEAD
+extern int			g_signal;
+=======
 extern int	g_signal_status;
+>>>>>>> 56c53186b92aae9c8dda4ff1f1c8970943cf9a3d
 
 typedef enum e_token_type
 {
@@ -65,10 +73,6 @@ typedef struct s_env
 typedef struct s_cmd
 {
 	char **args; // {"ls", "-l", NULL}
-	char			*infile;
-	char			*outfile;
-	int is_append;  // 1 si >>, 0 si >
-	int is_heredoc; // 1 si <<, 0 si <
 	int				fd_in;
 	int				fd_out;
 	int error_redir; // 0 par défaut, 1 si un open a foiré
@@ -89,7 +93,12 @@ t_token				*create_node(t_token **token);
 void				arger(t_token **token, t_token **token_tmp, char *arg,
 						int *i);
 int					parsing(char *arg, t_env *envs);
+<<<<<<< HEAD
+void				research_implement(t_token **token, t_env *envs,
+						int *idollar);
+=======
 void				research_implement(t_token **token, t_env *envs, int *idollar);
+>>>>>>> 56c53186b92aae9c8dda4ff1f1c8970943cf9a3d
 void				remove_quote(t_token **tokens);
 void				clean_exit(t_token *tokens);
 char				*get_args_envp(char *str, t_env *lst);
@@ -110,8 +119,13 @@ void				pwd(t_env *env, int fd_out);
 void				unset(t_env **lst, char *keys);
 void				export(t_env **lst, char *keys, char *value);
 void				export_no_args(t_env **lst, int fd_out);
-int					execute_simple_cmd(t_env *lst, char *cmd);
 void				ft_swap(char **a, char **b);
 void				free_tab(char **tab);
 char				*find_path(char *cmd, t_env *lst);
+int					execute_builtin(char **args, t_env *lst, int fd_out,
+						int status);
+void				close_all(t_cmd *cmd, t_exec exec);
+void				wait_all_children(t_exec exec);
+int					init_t_exec(t_exec *exec, t_cmd *cmd);
+void				execute(t_cmd *cmd, t_exec exec, char **envp, t_env *lst);
 #endif
