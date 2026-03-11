@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 19:20:40 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/11 16:56:27 by erocha--         ###   ########.fr       */
+/*   Updated: 2026/03/11 17:04:24 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ int	is_buildins(char *arg)
 
 static void	exec_echo(char **args, int fd_out)
 {
-	if (args[1] && ft_strncmp(args[1], "-n", 3) == 0)
-		echo(args[1], 1, fd_out);
+	if (ft_strncmp(args[1], "-n", 3) == 0)
+		echo(args, 1, fd_out);
 	else
-		echo(args[1], 0, fd_out);
+		echo(args, 0, fd_out);
 }
 
 static void	exec_export(char **args, t_env **lst, int fd_out)
