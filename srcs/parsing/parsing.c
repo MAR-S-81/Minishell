@@ -6,7 +6,7 @@
 /*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 13:00:00 by erocha--          #+#    #+#             */
-/*   Updated: 2026/03/11 15:40:51 by erocha--         ###   ########.fr       */
+/*   Updated: 2026/03/11 16:58:56 by erocha--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ t_cmd	*create_cmd(t_token *tokens)
 	while (tokens && tokens->type == TOKEN_WORD)
 	{
 		new_cmd->args[i] = tokens->value;
+		//printf("%s", new_cmd->args[i]);
 		i++;
 		tokens = tokens->next;
 	}
@@ -137,7 +138,7 @@ void	redirection_handling(t_token *token, t_cmd **cmd)
 {
 	if (!token->next)
 	{
-		write(-1, "ERROR\n", 7);
+		write(2, "ERROR\n", 7);
 		exit (0);
 	}
 	if (token->type == TOKEN_REDIR_IN || token->type == TOKEN_HERE_DOC)
@@ -175,7 +176,7 @@ t_cmd	*build_commands(t_token *tokens)
 		{
 			if (!tokens->next)
 			{
-				write(-1, "ERROR\n", 7);
+				write(2, "ERROR\n", 7);
 				exit (0);
 			}
 			cmds_tmp->next = create_cmd(tokens->next);
@@ -215,21 +216,6 @@ t_cmd	*parsing(char *arg, t_env *envs)
 	//	tokens_tmp = next;
 	//}
 	//return (i);
-}
-
-int	main(int argc, char **argv, char **envp)
-{
-	t_env	*envs;
-
-	envs = NULL;
-	//envs = malloc(sizeof(t_env));
-	//envs->key = ft_strdup("TEST");
-	//envs->value = ft_strdup("result");
-	(void)argc;
-	(void)argv;
-	t_cmd *cmds = parsing(argv[1], envs);
-	execute_command(cmds, &envs, envp);
-	printf("\nDEBUG argv[1]: |%s|\n", argv[1]);
 }
 
 // historque here doc non fait !!!!!
