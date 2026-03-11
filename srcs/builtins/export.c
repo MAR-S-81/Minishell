@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 14:49:45 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/03 17:47:00 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/11 15:08:06 by erocha--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ static t_env	*get_env_node(char *key, t_env *lst)
 
 static char	**sort_tab_tab(char **tab)
 {
-	int	i;
-	int	j;
-	int	len;
+	int		i;
+	int		j;
+	size_t	len;
 
 	i = 0;
 	if (!tab)

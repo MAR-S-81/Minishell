@@ -3,30 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   simple_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 13:07:08 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/10 16:08:01 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/11 15:21:37 by erocha--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	*get_args_envp(char *str, t_env *lst)
-{
-	int	len;
-
-	if (!str || !lst)
-		return (0);
-	len = ft_strlen(str);
-	while (lst != NULL)
-	{
-		if (ft_strncmp(str, lst->key, len) == 0 && lst->key[len] == '\0')
-			return (lst->value);
-		lst = lst->next;
-	}
-	return (0);
-}
 
 static char	*add_slash_and_check(char *cmd, char **dest)
 {

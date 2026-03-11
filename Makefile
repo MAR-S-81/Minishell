@@ -10,21 +10,34 @@ LIBFT = ./libft/libft.a
 OBJ_DIR = objs
 
 SRC = \
-	srcs/clean_exit.c \
-	srcs/parsing/parsing.c \
-	srcs/parsing/lexer_utils.c \
-	srcs/parsing/expander_utils.c \
-	srcs/envp.c \
-	gnl/get_next_line_utils.c \
-	gnl/get_next_line.c \
-	gnl/get_next_line.h
+    gnl/get_next_line_utils.c \
+    gnl/get_next_line.c \
+    srcs/builtins/builtins.c \
+    srcs/builtins/cd.c \
+    srcs/builtins/echo.c \
+    srcs/builtins/env.c \
+    srcs/builtins/exit.c \
+    srcs/builtins/export.c \
+    srcs/builtins/pwd.c \
+    srcs/builtins/unset.c \
+    srcs/parsing/expander_utils.c \
+    srcs/parsing/lexer_utils.c \
+    srcs/parsing/parsing.c \
+    srcs/clean_exit.c \
+    srcs/envp.c \
+    srcs/pipex_utils.c \
+    srcs/pipex.c \
+    srcs/readline.c \
+    srcs/simple_cmd.c \
+    srcs/utils.c \
+    srcs/utils2.c 
 
 OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
 
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -lreadline -o $(NAME)
 
 $(OBJ_DIR)/%.o: %.c minishell.h
 	@mkdir -p $(dir $@)
