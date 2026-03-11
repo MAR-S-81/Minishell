@@ -6,7 +6,7 @@
 /*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 17:52:08 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/11 16:01:36 by erocha--         ###   ########.fr       */
+/*   Updated: 2026/03/11 17:13:24 by erocha--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ long long			ft_atoll_check(const char *str, long long *nb);
 int					ft_all_digit(char *str);
 int					is_buildins(char *arg);
 void				cd(t_env *lst, char *args);
-void				echo(char *str, int n, int fd_out);
+void				echo(char **strs, int n, int fd_out);
 void				my_exit(char **args, int status);
 void				pwd(t_env *env, int fd_out);
 void				unset(t_env **lst, char *keys);
