@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   readline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 15:16:35 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/10 16:06:21 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/11 15:23:05 by erocha--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	g_signal = 0;
 
 void	signal_handler(int sig)
 {
@@ -34,7 +36,7 @@ void	init_signal(void)
 	sigaction(SIGQUIT, &sa, NULL);
 }
 
-int	execute_command(t_cmd *cmd, t_env *lst, char **envp)
+void	execute_command(t_cmd *cmd, t_env **lst, char **envp)
 {
 	t_exec	exec;
 
@@ -43,9 +45,9 @@ int	execute_command(t_cmd *cmd, t_env *lst, char **envp)
 	if (!init_t_exec(&exec, cmd))
 		return ;
 	if (exec.nb_cmds == 1 && is_buildins(cmd->args[0]))
-		exec_single_builtin(cmd, lst, &exec);
+		exec_single_builtin(cmd, lst);
 	else
-		execute(cmd, exec, envp, lst);
+		execute(cmd, exec, envp, *lst);
 	if (exec.pids)
 		free(exec.pids);
 }

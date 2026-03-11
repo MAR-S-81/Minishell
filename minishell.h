@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 17:52:08 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/11 13:39:27 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/11 15:13:30 by erocha--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,16 +46,8 @@ typedef struct s_token
 {
 	char			*value;
 	t_token_type	type;
-	t_token			*next;
+	struct s_token	*next;
 }					t_token;
-
-typedef struct s_args
-{
-	char			**args;
-	int				fd_in;
-	int				fd_out;
-	t_args			*next;
-}					t_args;
 
 typedef struct s_env
 {
@@ -83,9 +75,9 @@ typedef struct s_exec
 
 void				quotes_handling(t_token **token, char *arg, int *i, int *j);
 void				token_typer(t_token **token);
-t_token				*create_node(t_token **token);
+t_token				*create_token(t_token **token);
 void				arger(t_token **token, t_token **token_tmp, char *arg, int *i);
-int					parsing(char *arg, t_env *envs);
+t_cmd				*parsing(char *arg, t_env *envs);
 void				research_implement(t_token **token, t_env *envs, int *idollar);
 void				remove_quote(t_token **tokens);
 void				clean_exit(t_token *tokens);
@@ -110,10 +102,12 @@ void				export_no_args(t_env **lst, int fd_out);
 void				ft_swap(char **a, char **b);
 void				free_tab(char **tab);
 char				*find_path(char *cmd, t_env *lst);
-int					execute_builtin(char **args, t_env *lst, int fd_out,
+int					execute_builtin(char **args, t_env **lst, int fd_out,
 						int status);
 void				close_all(t_cmd *cmd, t_exec exec);
 void				wait_all_children(t_exec exec);
 int					init_t_exec(t_exec *exec, t_cmd *cmd);
 void				execute(t_cmd *cmd, t_exec exec, char **envp, t_env *lst);
+void				execute_command(t_cmd *cmd, t_env **lst, char **envp);
+void				exec_single_builtin(t_cmd *cmd, t_env **lst);
 #endif

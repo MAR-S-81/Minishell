@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 13:20:05 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/10 16:03:07 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/11 15:12:00 by erocha--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exec_single_builtin(t_cmd *cmd, t_env *lst)
+void	exec_single_builtin(t_cmd *cmd, t_env **lst)
 {
 	int	save_stdout;
 	int	save_stdin;
@@ -73,13 +73,13 @@ void	execute(t_cmd *cmd, t_exec exec, char **envp, t_env *lst)
 			setup_redirections(cmd, exec);
 			if (is_buildins(cmd->args[0]))
 			{
-				execute_builtin(cmd->args, lst, 1, g_signal);
+				execute_builtin(cmd->args, &lst, 1, g_signal);
 				exit(0);
 			}
 			close_all(cmd, exec);
 			if (!cmd->args || !cmd->args[0])
 				exit(0);
-			path = find_path(cmd->args[0], envp);
+			path = find_path(cmd->args[0], lst);
 			if (!path)
 			{
 				ft_putstr_fd("minishell: command not found\n", 2);

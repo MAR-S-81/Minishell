@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enzorolinux <enzorolinux@student.42.fr>    +#+  +:+       +#+        */
+/*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 13:00:00 by erocha--          #+#    #+#             */
-/*   Updated: 2026/03/10 21:49:18 by enzorolinux      ###   ########.fr       */
+/*   Updated: 2026/03/11 15:40:51 by erocha--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,9 +154,9 @@ void	redirection_handling(t_token *token, t_cmd **cmd)
 		if ((*cmd)->fd_out != -1)
 			close((*cmd)->fd_in);
 		if (token->type == TOKEN_REDIR_OUT)
-			(*cmd)->fd_out = open(token->next->value, O_RDWR | O_CREAT | O_APPEND, 0644);
-		else
 			(*cmd)->fd_out = open(token->next->value, O_RDWR | O_CREAT | O_TRUNC, 0644);
+		else
+			(*cmd)->fd_out = open(token->next->value, O_RDWR | O_CREAT | O_APPEND, 0644);
 	}
 }
 
@@ -186,50 +186,50 @@ t_cmd	*build_commands(t_token *tokens)
 	return	(cmds);
 }
 
-int	parsing(char *arg, t_env *envs)
+t_cmd	*parsing(char *arg, t_env *envs)
 {
 	t_token	*tokens;
 	t_cmd	*cmds;
-	int		i;
+	//int		i;
 	
 	tokens = NULL;
 	lexer(&tokens, arg);
 	expander(&tokens, envs);
+	//t_token	*tokens_tmp = tokens;
 	cmds = build_commands(tokens);
-	t_token	*tokens_tmp = tokens;
-	i = 0;
-	(void) cmds;
-	while (tokens_tmp != NULL)
-	{
-		i++;
-		printf("%s\n", tokens_tmp->value);
-		tokens_tmp = tokens_tmp->next;
-	}
-	t_token	*next;
-	while (tokens)
-	{
-		free(tokens->value);
-		next = tokens->next;
-		free(tokens);
-		tokens = next;
-	}
-	return (i);
+	return (cmds);
+	//i = 0;
+	//(void) cmds;
+	//while (tokens != NULL)
+	//{
+	//	i++;
+	//	printf("%s\n", tokens->value);
+	//	tokens = tokens->next;
+	//}
+	//t_token	*next;
+	//while (tokens)
+	//{
+	//	free(tokens_tmp->value);
+	//	next = tokens_tmp->next;
+	//	free(tokens_tmp);
+	//	tokens_tmp = next;
+	//}
+	//return (i);
 }
 
-int	main(int argc, char **argv)
+int	main(int argc, char **argv, char **envp)
 {
 	t_env	*envs;
 
-	envs = malloc(sizeof(t_env));
-	envs->key = ft_strdup("TEST");
-	envs->value = ft_strdup("result");
+	envs = NULL;
+	//envs = malloc(sizeof(t_env));
+	//envs->key = ft_strdup("TEST");
+	//envs->value = ft_strdup("result");
 	(void)argc;
 	(void)argv;
-	printf("%d\n", parsing(argv[1], envs));
+	t_cmd *cmds = parsing(argv[1], envs);
+	execute_command(cmds, &envs, envp);
 	printf("\nDEBUG argv[1]: |%s|\n", argv[1]);
-	free(envs->key);
-	free(envs->value);
-	free(envs);
 }
 
 // historque here doc non fait !!!!!
