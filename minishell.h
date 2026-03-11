@@ -6,7 +6,7 @@
 /*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 17:52:08 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/11 15:13:30 by erocha--         ###   ########.fr       */
+/*   Updated: 2026/03/11 16:01:36 by erocha--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,4 +110,5 @@ int					init_t_exec(t_exec *exec, t_cmd *cmd);
 void				execute(t_cmd *cmd, t_exec exec, char **envp, t_env *lst);
 void				execute_command(t_cmd *cmd, t_env **lst, char **envp);
 void				exec_single_builtin(t_cmd *cmd, t_env **lst);
+int					read_line(t_env **envs, char **envp);
 #endif

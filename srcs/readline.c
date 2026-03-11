@@ -6,7 +6,7 @@
 /*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 15:16:35 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/11 15:23:05 by erocha--         ###   ########.fr       */
+/*   Updated: 2026/03/11 16:05:55 by erocha--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,10 @@ void	execute_command(t_cmd *cmd, t_env **lst, char **envp)
 		free(exec.pids);
 }
 
-int	read_line(void)
+int	read_line(t_env **envs, char **envp)
 {
 	char	*input;
+	t_cmd	*cmd;
 
 	init_signal();
 	input = readline(GREEN " MiniShell" ORANGE " → " RESET);
@@ -62,6 +63,8 @@ int	read_line(void)
 	{
 		if (input[0] != '\0')
 			add_history(input);
+		cmd = parsing(input, *envs);
+		execute_command(cmd, envs, envp);
 		free(input);
 		input = readline(GREEN " MiniShell" ORANGE " → " RESET);
 	}
