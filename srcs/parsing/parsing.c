@@ -6,7 +6,7 @@
 /*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 13:00:00 by erocha--          #+#    #+#             */
-/*   Updated: 2026/03/11 16:58:56 by erocha--         ###   ########.fr       */
+/*   Updated: 2026/03/11 18:21:59 by erocha--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,10 @@ t_cmd	*create_cmd(t_token *tokens)
 	t_cmd	*new_cmd;
 	int		i;
 
-	new_cmd = malloc(sizeof(t_token));
+	new_cmd = malloc(sizeof(t_cmd));
 	if (!new_cmd)
 		exit(0);
-	new_cmd->args = malloc(sizeof(char) * args_size(tokens));
+	new_cmd->args = malloc(sizeof(char *) * (args_size(tokens) + 1));
 	i = 0;
 	while (tokens && tokens->type == TOKEN_WORD)
 	{
@@ -93,9 +93,11 @@ t_cmd	*create_cmd(t_token *tokens)
 		i++;
 		tokens = tokens->next;
 	}
+	new_cmd->args[i] = NULL;
 	new_cmd->next = NULL;
 	new_cmd->fd_in = -1;
 	new_cmd->fd_out = -1;
+	new_cmd->error_redir = 0;
 	return (new_cmd);
 }
 
