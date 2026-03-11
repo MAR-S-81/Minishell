@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
+/*   By: enzorolinux <enzorolinux@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 18:07:07 by erocha--          #+#    #+#             */
-/*   Updated: 2026/03/09 14:50:02 by erocha--         ###   ########.fr       */
+/*   Updated: 2026/03/10 12:56:55 by enzorolinux      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,17 +54,17 @@ void	token_typer(t_token **token)
 		(*token)->type = TOKEN_WORD;
 }
 
-t_token	*create_node(t_token **token)
+t_token	*create_token(t_token **token)
 {
-	t_token	*new_node;
+	t_token	*new_token;
 
-	new_node = malloc(sizeof(t_token));
-	if (!new_node)
+	new_token = malloc(sizeof(t_token));
+	if (!new_token)
 		clean_exit(*token);
-	new_node->next = NULL;
-	new_node->type = -1;
-	new_node->value = NULL;
-	return (new_node);
+	new_token->next = NULL;
+	new_token->type = -1;
+	new_token->value = NULL;
+	return (new_token);
 }
 
 void	arger(t_token **token, t_token **token_tmp, char *arg, int *i)

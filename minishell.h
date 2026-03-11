@@ -6,11 +6,7 @@
 /*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 17:52:08 by mchesnea          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2026/03/10 16:18:17 by mchesnea         ###   ########.fr       */
-=======
-/*   Updated: 2026/03/09 15:21:37 by erocha--         ###   ########.fr       */
->>>>>>> 56c53186b92aae9c8dda4ff1f1c8970943cf9a3d
+/*   Updated: 2026/03/11 13:34:26 by erocha--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +17,8 @@
 # include <gnl/get_next_line.h>
 # include <libft/libft.h>
 # include <limits.h>
+# include <readline/history.h>
+# include <readline/readline.h>
 # include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -32,11 +30,7 @@
 # define GREEN "\001\033[1;32m\002"
 # define ORANGE "\001\033[1;33m\002"
 
-<<<<<<< HEAD
-extern int			g_signal;
-=======
 extern int	g_signal_status;
->>>>>>> 56c53186b92aae9c8dda4ff1f1c8970943cf9a3d
 
 typedef enum e_token_type
 {
@@ -52,7 +46,7 @@ typedef struct s_token
 {
 	char			*value;
 	t_token_type	type;
-	struct s_token	*next;
+	t_token			*next;
 }					t_token;
 
 typedef struct s_args
@@ -60,7 +54,7 @@ typedef struct s_args
 	char			**args;
 	int				fd_in;
 	int				fd_out;
-	struct s_args	*next;
+	t_args			*next;
 }					t_args;
 
 typedef struct s_env
@@ -90,15 +84,9 @@ typedef struct s_exec
 void				quotes_handling(t_token **token, char *arg, int *i, int *j);
 void				token_typer(t_token **token);
 t_token				*create_node(t_token **token);
-void				arger(t_token **token, t_token **token_tmp, char *arg,
-						int *i);
+void				arger(t_token **token, t_token **token_tmp, char *arg, int *i);
 int					parsing(char *arg, t_env *envs);
-<<<<<<< HEAD
-void				research_implement(t_token **token, t_env *envs,
-						int *idollar);
-=======
 void				research_implement(t_token **token, t_env *envs, int *idollar);
->>>>>>> 56c53186b92aae9c8dda4ff1f1c8970943cf9a3d
 void				remove_quote(t_token **tokens);
 void				clean_exit(t_token *tokens);
 char				*get_args_envp(char *str, t_env *lst);
