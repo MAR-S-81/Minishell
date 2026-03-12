@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 13:20:05 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/11 17:12:17 by erocha--         ###   ########.fr       */
+/*   Updated: 2026/03/12 18:34:34 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	execute(t_cmd *cmd, t_exec exec, char **envp, t_env *lst)
 			path = find_path(cmd->args[0], lst);
 			if (!path)
 			{
-				ft_putstr_fd("minishell: command not found\n", 2);
+				perror("minishell");
 				exit(127);
 			}
 			execve(path, cmd->args, envp);

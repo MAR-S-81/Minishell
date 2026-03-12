@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 14:49:45 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/11 15:08:06 by erocha--         ###   ########.fr       */
+/*   Updated: 2026/03/12 18:21:35 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ static char	**sort_tab_tab(char **tab)
 			{
 				ft_swap(&tab[i], &tab[j]);
 			}
+			j++;
 		}
 		i++;
 	}
@@ -61,10 +62,10 @@ void	export_no_args(t_env **lst, int fd_out)
 	int		i;
 	int		j;
 
-	i = -1;
+	i = 0;
 	str = env_list_to_tab(*lst);
 	str = sort_tab_tab(str);
-	while (str[i++])
+	while (str[i])
 	{
 		write(fd_out, "declare -x ", 11);
 		j = 0;
@@ -79,7 +80,7 @@ void	export_no_args(t_env **lst, int fd_out)
 			write(fd_out, "\"", 1);
 		}
 		write(fd_out, "\n", 1);
-		free(str[i]);
+		free(str[i++]);
 	}
 	free(str);
 }

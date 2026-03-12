@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 10:55:12 by erocha--          #+#    #+#             */
-/*   Updated: 2026/03/09 14:50:42 by erocha--         ###   ########.fr       */
+/*   Updated: 2026/03/12 18:31:19 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	research_implement(t_token **token, t_env *envs, int *idollar)
 
 	dollar_id = dollarid_init(*token, *idollar + 1);
 	if (dollar_id && dollar_id[0] == '?' && !dollar_id[1])
-		dollar_value = ft_itoa(5);
+		dollar_value = ft_itoa(g_signal);
 	else if (dollar_id)
 		dollar_value = get_args_envp(dollar_id, envs);
 	if ((dollar_id && dollar_id[0] == '?' && !dollar_id[1]) || dollar_id)
