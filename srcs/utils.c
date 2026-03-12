@@ -6,7 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 14:38:19 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/02 15:29:45 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/12 18:03:47 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,27 @@ static int	ft_is_spacing(char c)
 	return (0);
 }
 
+static int	is_overflow(const char *str, int sign, unsigned long long res)
+{
+	int	d;
+
+	d = *str - '0';
+	if (sign == 1 && (res > LONG_MAX / 10 || (res == LONG_MAX / 10 && d > 7)))
+		return (1);
+	if (sign == -1 && (res > LONG_MAX / 10 || (res == LONG_MAX / 10 && d > 8)))
+		return (1);
+	return (0);
+}
+
 long long	ft_atoll_check(const char *str, long long *nb)
 {
 	int					i;
 	int					sign;
-	unsigned long long	result;
+	unsigned long long	res;
 
 	i = 0;
 	sign = 1;
-	result = 0;
+	res = 0;
 	while (ft_is_spacing(str[i]))
 		i++;
 	if (str[i] == '-' || str[i] == '+')
@@ -37,14 +49,11 @@ long long	ft_atoll_check(const char *str, long long *nb)
 		return (1);
 	while (str[i] >= '0' && str[i] <= '9')
 	{
-		result = result * 10 + (str[i++] - '0');
-		if (result > (unsigned long long)LONG_MAX + 1 && sign == -1)
+		if (is_overflow(&str[i], sign, res))
 			return (1);
-		if (result > (unsigned long long)LONG_MAX && sign == 1)
-			return (1);
+		res = res * 10 + (str[i++] - '0');
 	}
-	*nb = result * sign;
-	return (0);
+	return (*nb = res * sign, 0);
 }
 
 int	ft_all_digit(char *str)
@@ -52,6 +61,10 @@ int	ft_all_digit(char *str)
 	int	i;
 
 	i = 0;
+	if (str[i] == '-' || str[i] == '+')
+		i++;
+	if (!str[i])
+		return (0);
 	while (str[i])
 	{
 		if (ft_isdigit(str[i]) == 0)
@@ -78,32 +91,4 @@ void	lstclear(t_env **lst)
 		check = temp;
 	}
 	*lst = NULL;
-}
-
-void	lstdelone(t_env **head, t_env *to_del)
-{
-	t_env	*curr;
-	t_env	*prev;
-
-	if (!head || !*head || !to_del)
-		return ;
-	curr = *head;
-	prev = NULL;
-	while (curr && curr != to_del)
-	{
-		prev = curr;
-		curr = curr->next;
-	}
-	if (curr)
-	{
-		if (prev == NULL)
-			*head = curr->next;
-		else
-			prev->next = curr->next;
-		if (curr->key)
-			free(curr->key);
-		if (curr->value)
-			free(curr->value);
-		free(curr);
-	}
 }

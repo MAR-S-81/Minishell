@@ -6,7 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/02 17:51:53 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/06 14:23:16 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/12 18:03:51 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,32 @@ void	free_tab(char **tab)
 	while (tab[i])
 		free(tab[i++]);
 	free(tab);
+}
+
+void	lstdelone(t_env **head, t_env *to_del)
+{
+	t_env	*curr;
+	t_env	*prev;
+
+	if (!head || !*head || !to_del)
+		return ;
+	curr = *head;
+	prev = NULL;
+	while (curr && curr != to_del)
+	{
+		prev = curr;
+		curr = curr->next;
+	}
+	if (curr)
+	{
+		if (prev == NULL)
+			*head = curr->next;
+		else
+			prev->next = curr->next;
+		if (curr->key)
+			free(curr->key);
+		if (curr->value)
+			free(curr->value);
+		free(curr);
+	}
 }
