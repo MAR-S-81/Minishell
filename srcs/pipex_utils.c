@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 17:00:13 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/11 17:58:24 by erocha--         ###   ########.fr       */
+/*   Updated: 2026/03/13 13:03:01 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ int	init_t_exec(t_exec *exec, t_cmd *cmd)
 	if (!exec->pids)
 		return (0);
 	exec->fd_temp = -1;
+	exec->pipe_fd[0] = -1;
+	exec->pipe_fd[1] = -1;
 	return (1);
 }
 

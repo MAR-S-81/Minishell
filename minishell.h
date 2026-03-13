@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 17:52:08 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/11 17:13:24 by erocha--         ###   ########.fr       */
+/*   Updated: 2026/03/13 17:06:54 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include <errno.h>
 # include <fcntl.h>
 # include <gnl/get_next_line.h>
 # include <libft/libft.h>
@@ -22,6 +23,7 @@
 # include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <sys/stat.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
@@ -30,7 +32,7 @@
 # define GREEN "\001\033[1;32m\002"
 # define ORANGE "\001\033[1;33m\002"
 
-extern int	g_signal;
+extern int			g_signal;
 
 typedef enum e_token_type
 {
@@ -76,9 +78,11 @@ typedef struct s_exec
 void				quotes_handling(t_token **token, char *arg, int *i, int *j);
 void				token_typer(t_token **token);
 t_token				*create_token(t_token **token);
-void				arger(t_token **token, t_token **token_tmp, char *arg, int *i);
+void				arger(t_token **token, t_token **token_tmp, char *arg,
+						int *i);
 t_cmd				*parsing(char *arg, t_env *envs);
-void				research_implement(t_token **token, t_env *envs, int *idollar);
+void				research_implement(t_token **token, t_env *envs,
+						int *idollar);
 void				remove_quote(t_token **tokens);
 void				clean_exit(t_token *tokens);
 char				*get_args_envp(char *str, t_env *lst);

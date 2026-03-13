@@ -6,7 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 13:20:05 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/12 18:34:34 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/13 17:18:33 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	execute(t_cmd *cmd, t_exec exec, char **envp, t_env *lst)
 {
 	int		i;
 	char	*path;
+	struct stat	file_info;
 
 	i = 0;
 	while (cmd)
@@ -73,7 +74,7 @@ void	execute(t_cmd *cmd, t_exec exec, char **envp, t_env *lst)
 			setup_redirections(cmd, exec);
 			if (is_buildins(cmd->args[0]))
 			{
-				execute_builtin(cmd->args, &lst, 1, g_signal);
+				execute_builtin(cmd->args, &lst, cmd->fd_out, g_signal);
 				exit(0);
 			}
 			close_all(cmd, exec);
@@ -82,11 +83,28 @@ void	execute(t_cmd *cmd, t_exec exec, char **envp, t_env *lst)
 			path = find_path(cmd->args[0], lst);
 			if (!path)
 			{
-				perror("minishell");
+				ft_putstr_fd(cmd->args[0], 2);
+				ft_putstr_fd(": command not found\n", 2);
 				exit(127);
 			}
+			if (stat(path, &file_info) == -1)
+			{
+				perror(cmd->args[0]);
+				exit(127);
+			}
+			if (S_ISDIR(file_info.st_mode))
+			{
+				errno = EISDIR;
+				perror(cmd->args[0]);
+				exit(126);
+			}
+			if (access(path, X_OK) == -1)
+			{
+				perror(cmd->args[0]);
+				exit(126);
+			}
 			execve(path, cmd->args, envp);
-			perror("execve");
+			perror(cmd->args[0]);
 			exit(127);
 		}
 		if (exec.fd_temp != -1)
