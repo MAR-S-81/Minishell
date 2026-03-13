@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   simple_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 13:07:08 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/11 15:21:37 by erocha--         ###   ########.fr       */
+/*   Updated: 2026/03/13 17:21:58 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,10 @@ char	*find_path(char *cmd, t_env *lst)
 	char	*rep;
 
 	if (ft_strchr(cmd, '/'))
-	{
-		if (access(cmd, F_OK | X_OK) == 0)
-			return (ft_strdup(cmd));
-		return (NULL);
-	}
+		return (ft_strdup(cmd));
 	args = get_args_envp("PATH", lst);
+	if (!args)
+		return (NULL);
 	dest = ft_split(args, ':');
 	if (!dest)
 		return (NULL);
