@@ -6,7 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 13:20:05 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/13 17:18:33 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/16 15:13:09 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void	execute(t_cmd *cmd, t_exec exec, char **envp, t_env *lst)
 			perror("fork");
 		if (exec.pids[i] == 0)
 		{
+			set_signals_default();
 			if (cmd->error_redir == 1)
 				exit(1);
 			setup_redirections(cmd, exec);
@@ -121,5 +122,7 @@ void	execute(t_cmd *cmd, t_exec exec, char **envp, t_env *lst)
 		cmd = cmd->next;
 		i++;
 	}
+	set_signals_ignore();
 	wait_all_children(exec);
+	set_signals_interactive();
 }

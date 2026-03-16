@@ -6,7 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 19:20:40 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/11 17:04:24 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/16 12:27:21 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	execute_builtin(char **args, t_env **lst, int fd_out, int status)
 	else if (ft_strncmp(args[0], "export", 7) == 0)
 		exec_export(args, lst, fd_out);
 	else if (ft_strncmp(args[0], "pwd", 4) == 0)
-		pwd((*lst), fd_out);
+		pwd(fd_out);
 	else if (ft_strncmp(args[0], "unset", 6) == 0 && args[1])
 		unset(lst, args[1]);
 	return (0);
