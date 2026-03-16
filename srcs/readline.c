@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   readline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 15:16:35 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/11 17:18:51 by erocha--         ###   ########.fr       */
+/*   Updated: 2026/03/16 15:10:29 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	signal_handler(int sig)
 	rl_redisplay();
 }
 
-void	init_signal(void)
+void	set_signals_interactive(void)
 {
 	struct sigaction	sa;
 
@@ -36,20 +36,26 @@ void	init_signal(void)
 	sigaction(SIGQUIT, &sa, NULL);
 }
 
-void	execute_command(t_cmd *cmd, t_env **lst, char **envp)
+void	set_signals_ignore(void)
 {
-	t_exec	exec;
+	struct sigaction	sa;
 
-	if (!cmd)
-		return ;
-	if (!init_t_exec(&exec, cmd))
-		return ;
-	if (exec.nb_cmds == 1 && is_buildins(cmd->args[0]))
-		exec_single_builtin(cmd, lst);
-	else
-		execute(cmd, exec, envp, *lst);
-	if (exec.pids)
-		free(exec.pids);
+	sa.sa_handler = SIG_IGN;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = SA_RESTART;
+	sigaction(SIGINT, &sa, NULL);
+	sigaction(SIGQUIT, &sa, NULL);
+}
+
+void	set_signals_default(void)
+{
+	struct sigaction	sa;
+
+	sa.sa_handler = SIG_DFL;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = SA_RESTART;
+	sigaction(SIGINT, &sa, NULL);
+	sigaction(SIGQUIT, &sa, NULL);
 }
 
 int	read_line(t_env **envs, char **envp)
@@ -57,7 +63,7 @@ int	read_line(t_env **envs, char **envp)
 	char	*input;
 	t_cmd	*cmd;
 
-	init_signal();
+	set_signals_interactive();
 	input = readline(GREEN " MiniShell" ORANGE " → " RESET);
 	while (input != NULL)
 	{

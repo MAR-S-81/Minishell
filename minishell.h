@@ -6,7 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 17:52:08 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/13 17:06:54 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/16 15:11:43 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int					is_buildins(char *arg);
 void				cd(t_env *lst, char *args);
 void				echo(char **strs, int n, int fd_out);
 void				my_exit(char **args, int status);
-void				pwd(t_env *env, int fd_out);
+void				pwd(int fd_out);
 void				unset(t_env **lst, char *keys);
 void				export(t_env **lst, char *keys, char *value);
 void				export_no_args(t_env **lst, int fd_out);
@@ -115,4 +115,8 @@ void				execute(t_cmd *cmd, t_exec exec, char **envp, t_env *lst);
 void				execute_command(t_cmd *cmd, t_env **lst, char **envp);
 void				exec_single_builtin(t_cmd *cmd, t_env **lst);
 int					read_line(t_env **envs, char **envp);
+void				execute_command(t_cmd *cmd, t_env **lst, char **envp);
+void				set_signals_default(void);
+void				set_signals_ignore(void);
+void				set_signals_interactive(void);
 #endif
