@@ -6,7 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 14:49:45 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/12 18:21:35 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/17 18:07:29 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static char	**sort_tab_tab(char **tab)
 	return (tab);
 }
 
-void	export_no_args(t_env **lst, int fd_out)
+int	export_no_args(t_env **lst, int fd_out)
 {
 	char	**str;
 	int		i;
@@ -64,6 +64,8 @@ void	export_no_args(t_env **lst, int fd_out)
 
 	i = 0;
 	str = env_list_to_tab(*lst);
+	if (!str)
+		return (1);
 	str = sort_tab_tab(str);
 	while (str[i])
 	{
@@ -83,9 +85,10 @@ void	export_no_args(t_env **lst, int fd_out)
 		free(str[i++]);
 	}
 	free(str);
+	return (0);
 }
 
-static void	add_new_export(t_env **lst, char *keys, char *value)
+static int	add_new_export(t_env **lst, char *keys, char *value)
 {
 	t_env	*new;
 	char	*key_copy;
@@ -96,24 +99,26 @@ static void	add_new_export(t_env **lst, char *keys, char *value)
 	if (value)
 		value_copy = ft_strdup(value);
 	if (!key_copy)
-		return ;
+		return (1);
 	new = lstnew(key_copy, value_copy);
 	if (!new)
 	{
 		free(key_copy);
 		if (value_copy)
 			free(value_copy);
-		return ;
+		return (1);
 	}
 	lstadd_back(lst, new);
+	return (0);
 }
 
-void	export(t_env **lst, char *keys, char *value)
+int	export(t_env **lst, char *keys, char *value)
 {
 	t_env	*actual;
+	int		ret;
 
 	if (!keys)
-		return ;
+		return (1);
 	actual = get_env_node(keys, *lst);
 	if (actual != NULL)
 	{
@@ -123,7 +128,8 @@ void	export(t_env **lst, char *keys, char *value)
 				free(actual->value);
 			actual->value = ft_strdup(value);
 		}
-		return ;
+		return (0);
 	}
-	add_new_export(lst, keys, value);
+	ret = add_new_export(lst, keys, value);
+	return (ret);
 }

@@ -6,7 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 13:20:05 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/16 15:13:09 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/17 17:51:46 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static void	setup_redirections(t_cmd *cmd, t_exec exec)
 		dup2(exec.pipe_fd[1], STDOUT_FILENO);
 }
 
-void	execute(t_cmd *cmd, t_exec exec, char **envp, t_env *lst)
+void	execute(t_cmd *cmd, t_exec exec, t_env *lst)
 {
 	int		i;
 	char	*path;
@@ -73,12 +73,12 @@ void	execute(t_cmd *cmd, t_exec exec, char **envp, t_env *lst)
 			if (cmd->error_redir == 1)
 				exit(1);
 			setup_redirections(cmd, exec);
+			close_all(cmd, exec);
 			if (is_buildins(cmd->args[0]))
 			{
-				execute_builtin(cmd->args, &lst, cmd->fd_out, g_signal);
-				exit(0);
+				execute_builtin(cmd->args, &lst, STDOUT_FILENO, g_signal);
+				exit(1);
 			}
-			close_all(cmd, exec);
 			if (!cmd->args || !cmd->args[0])
 				exit(0);
 			path = find_path(cmd->args[0], lst);
@@ -104,7 +104,7 @@ void	execute(t_cmd *cmd, t_exec exec, char **envp, t_env *lst)
 				perror(cmd->args[0]);
 				exit(126);
 			}
-			execve(path, cmd->args, envp);
+			execve(path, cmd->args, env_list_to_tab(lst));
 			perror(cmd->args[0]);
 			exit(127);
 		}

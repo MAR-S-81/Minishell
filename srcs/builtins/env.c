@@ -6,13 +6,13 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:36:57 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/04 13:41:31 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/17 18:13:52 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	env(t_env *lst, int fd_out)
+int	env(t_env *lst, int fd_out)
 {
 	char	**str;
 	int		i;
@@ -20,7 +20,7 @@ void	env(t_env *lst, int fd_out)
 	i = 0;
 	str = env_list_to_tab(lst);
 	if (!str)
-		return ;
+		return (1);
 	while (str[i])
 	{
 		write(fd_out, str[i], ft_strlen(str[i]));
@@ -29,4 +29,5 @@ void	env(t_env *lst, int fd_out)
 		i++;
 	}
 	free(str);
+	return (0);
 }

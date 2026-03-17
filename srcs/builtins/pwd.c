@@ -6,13 +6,13 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:42:14 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/16 12:27:00 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/17 17:55:53 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	pwd(int fd_out)
+int	pwd(int fd_out)
 {
 	char	*str;
 	char	buffer[4096];
@@ -21,8 +21,9 @@ void	pwd(int fd_out)
 	if (!str)
 	{
 		perror("pwd");
-		return ;
+		return (1);
 	}
 	write(fd_out, str, ft_strlen(str));
 	write(fd_out, "\n", 1);
+	return (0);
 }
