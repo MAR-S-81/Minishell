@@ -6,13 +6,13 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 13:23:32 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/12 18:30:22 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/17 18:01:18 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	my_exit(char **args, int status)
+int	my_exit(char **args, int status)
 {
 	long long	nb;
 
@@ -29,7 +29,8 @@ void	my_exit(char **args, int status)
 	if (args[2])
 	{
 		ft_putendl_fd("minishell: exit: too many arguments", 2);
-		return ;
+		return (1);
 	}
 	exit(nb % 256);
+	return (0);
 }

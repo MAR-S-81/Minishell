@@ -6,7 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 13:18:55 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/03 18:02:51 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/17 18:00:11 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static void	update_env_pwds(t_env *lst, char *pwd)
 		replace_old_pwd(lst, tmp, "PWD");
 }
 
-void	cd(t_env *lst, char *args)
+int	cd(t_env *lst, char *args)
 {
 	char	*pwd;
 	char	*tmp;
@@ -95,4 +95,7 @@ void	cd(t_env *lst, char *args)
 	if (status == 0)
 		update_env_pwds(lst, pwd);
 	free(pwd);
+	if (status != 0)
+		return (1);
+	return (0);
 }

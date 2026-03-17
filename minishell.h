@@ -6,7 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 17:52:08 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/16 15:11:43 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/17 18:07:38 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ typedef struct s_env
 
 typedef struct s_cmd
 {
-	char **args; // {"ls", "-l", NULL}
+	char			**args;
 	int				fd_in;
 	int				fd_out;
 	int error_redir; // 0 par défaut, 1 si un open a foiré
@@ -90,19 +90,19 @@ void				split_key_values(char **envp, t_env **lst);
 char				**env_list_to_tab(t_env *env);
 t_env				*lstnew(char *key, char *value);
 void				lstadd_back(t_env **lst, t_env *new);
-void				env(t_env *lst, int fd_out);
+int					env(t_env *lst, int fd_out);
 void				lstdelone(t_env **head, t_env *to_del);
 void				lstclear(t_env **lst);
 long long			ft_atoll_check(const char *str, long long *nb);
 int					ft_all_digit(char *str);
 int					is_buildins(char *arg);
-void				cd(t_env *lst, char *args);
-void				echo(char **strs, int n, int fd_out);
-void				my_exit(char **args, int status);
-void				pwd(int fd_out);
-void				unset(t_env **lst, char *keys);
-void				export(t_env **lst, char *keys, char *value);
-void				export_no_args(t_env **lst, int fd_out);
+int					cd(t_env *lst, char *args);
+int					echo(char **strs, int n, int fd_out);
+int					my_exit(char **args, int status);
+int					pwd(int fd_out);
+int					unset(t_env **lst, char *keys);
+int					export(t_env **lst, char *keys, char *value);
+int					export_no_args(t_env **lst, int fd_out);
 void				ft_swap(char **a, char **b);
 void				free_tab(char **tab);
 char				*find_path(char *cmd, t_env *lst);
@@ -111,11 +111,10 @@ int					execute_builtin(char **args, t_env **lst, int fd_out,
 void				close_all(t_cmd *cmd, t_exec exec);
 void				wait_all_children(t_exec exec);
 int					init_t_exec(t_exec *exec, t_cmd *cmd);
-void				execute(t_cmd *cmd, t_exec exec, char **envp, t_env *lst);
-void				execute_command(t_cmd *cmd, t_env **lst, char **envp);
+void				execute(t_cmd *cmd, t_exec exec, t_env *lst);
 void				exec_single_builtin(t_cmd *cmd, t_env **lst);
-int					read_line(t_env **envs, char **envp);
-void				execute_command(t_cmd *cmd, t_env **lst, char **envp);
+int					read_line(t_env **envs);
+void				execute_command(t_cmd *cmd, t_env **lst);
 void				set_signals_default(void);
 void				set_signals_ignore(void);
 void				set_signals_interactive(void);

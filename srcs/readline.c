@@ -6,7 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 15:16:35 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/16 15:10:29 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/17 16:49:51 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	set_signals_default(void)
 	sigaction(SIGQUIT, &sa, NULL);
 }
 
-int	read_line(t_env **envs, char **envp)
+int	read_line(t_env **envs)
 {
 	char	*input;
 	t_cmd	*cmd;
@@ -70,7 +70,7 @@ int	read_line(t_env **envs, char **envp)
 		if (input[0] != '\0')
 			add_history(input);
 		cmd = parsing(input, *envs);
-		execute_command(cmd, envs, envp);
+		execute_command(cmd, envs);
 		free(input);
 		input = readline(GREEN " MiniShell" ORANGE " → " RESET);
 	}

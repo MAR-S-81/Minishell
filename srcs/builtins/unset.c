@@ -6,19 +6,19 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 16:33:31 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/02 15:41:43 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/17 17:57:19 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	unset(t_env **lst, char *keys)
+int	unset(t_env **lst, char *keys)
 {
 	t_env	*curr;
 	int		len;
 
 	if (!lst || !*lst)
-		return ;
+		return (1);
 	curr = *lst;
 	len = ft_strlen(keys);
 	while (curr)
@@ -26,8 +26,9 @@ void	unset(t_env **lst, char *keys)
 		if (ft_strncmp(keys, curr->key, len) == 0 && curr->key[len] == '\0')
 		{
 			lstdelone(lst, curr);
-			return ;
+			return (1);
 		}
 		curr = curr->next;
 	}
+	return (0);
 }
