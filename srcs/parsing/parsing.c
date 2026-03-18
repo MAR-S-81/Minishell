@@ -6,7 +6,7 @@
 /*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 13:00:00 by erocha--          #+#    #+#             */
-/*   Updated: 2026/03/18 17:20:57 by erocha--         ###   ########.fr       */
+/*   Updated: 2026/03/18 17:25:04 by erocha--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ void	redirection_handling(t_token *token, t_cmd **cmd, t_env *envs)
 		if (token->type == TOKEN_REDIR_IN)
 			(*cmd)->fd_in = open(token->next->value, O_RDONLY);
 		else
-			(*cmd)->fd_in = ft_here_doc(token->next->value);
+			(*cmd)->fd_in = ft_here_doc(token->next->value, token->next->type, envs);
 		if ((*cmd)->fd_in == -1)
 		{
 			perror(token->next->value);
