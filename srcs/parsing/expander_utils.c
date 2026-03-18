@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 10:55:12 by erocha--          #+#    #+#             */
-/*   Updated: 2026/03/18 16:51:43 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/18 17:19:16 by erocha--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ void	research_implement(t_token **token, t_env *envs, int *idollar)
 		(*token)->value = tmp1;
 		free(tmp2);
 		(*idollar) = (*idollar) + ft_strlen(dollar_value) - 1;
-		free(dollar_value);
 		free(dollar_id);
 	}
 	else
@@ -88,6 +87,8 @@ void	remove_quote(t_token **token)
 	str = malloc(sizeof(char) * (ft_strlen((*token)->value) + 1));
 	while ((*token)->value[i])
 	{
+		if ((*token)->value[i] == '\'' || (*token)->value[i] == '\"')
+			(*token)->in_quote = 1;
 		if ((*token)->value[i] != '\'' && (*token)->value[i] != '\"')
 		{
 			str[j] = (*token)->value[i];

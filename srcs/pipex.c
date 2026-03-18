@@ -6,7 +6,11 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 13:20:05 by mchesnea          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2026/03/18 16:47:14 by mchesnea         ###   ########.fr       */
+=======
+/*   Updated: 2026/03/12 18:44:33 by erocha--         ###   ########.fr       */
+>>>>>>> enzo
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +80,7 @@ void	execute(t_cmd *cmd, t_exec exec, t_env *lst)
 			close_all(cmd, exec);
 			if (is_buildins(cmd->args[0]))
 			{
-				execute_builtin(cmd->args, &lst, STDOUT_FILENO, g_signal);
+				execute_builtin(cmd->args, &lst, cmd->fd_out, g_signal);
 				exit(1);
 			}
 			if (!cmd->args || !cmd->args[0])
