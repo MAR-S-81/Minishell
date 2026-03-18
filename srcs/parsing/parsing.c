@@ -6,7 +6,7 @@
 /*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 13:00:00 by erocha--          #+#    #+#             */
-/*   Updated: 2026/03/11 18:21:59 by erocha--         ###   ########.fr       */
+/*   Updated: 2026/03/18 15:51:48 by erocha--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static void	expander(t_token **tokens, t_env *envs)
 		{
 			if (tokens_tmp->value[i] == '\'')
 				in_squote = !in_squote;
-			else if (tokens_tmp->value[i] == ':' && ft_isprint(tokens_tmp->value[i + 1])
+			else if (tokens_tmp->value[i] == '$' && ft_isprint(tokens_tmp->value[i + 1])
 				&& in_squote == 0)
 				research_implement(&tokens_tmp, envs, &i);
 			i++;
@@ -88,8 +88,7 @@ t_cmd	*create_cmd(t_token *tokens)
 	i = 0;
 	while (tokens && tokens->type == TOKEN_WORD)
 	{
-		new_cmd->args[i] = tokens->value;
-		//printf("%s", new_cmd->args[i]);
+		new_cmd->args[i] = ft_strdup(tokens->value);
 		i++;
 		tokens = tokens->next;
 	}
@@ -101,42 +100,7 @@ t_cmd	*create_cmd(t_token *tokens)
 	return (new_cmd);
 }
 
-static int	ft_here_doc(char *infile)
-{
-	char	*line;
-	int		pipe_fd[2];
-	char	*limiter;
-
-	if (pipe(pipe_fd) == -1)
-	{
-		perror("minishell: pipe");
-		return (-1);
-	}
-	limiter = ft_strjoin(infile, "\n");
-	if (!limiter)
-	{
-		close(pipe_fd[0]);
-		close(pipe_fd[1]);
-		return (-1);
-	}
-	while (1)
-	{
-		write(1, "> ", 2);
-		line = get_next_line(0);
-		if (!line || ft_strncmp(line, limiter, ft_strlen(limiter) + 1) == 0)
-		{
-			free(line);
-			break;
-		}
-		write(pipe_fd[1], line, ft_strlen(line));
-		free(line);
-	}
-	free(limiter);
-	close(pipe_fd[1]);
-	return (pipe_fd[0]);
-}
-
-void	redirection_handling(t_token *token, t_cmd **cmd)
+void	redirection_handling(t_token *token, t_cmd **cmd, t_env *envs)
 {
 	if (!token->next)
 	{
@@ -150,7 +114,7 @@ void	redirection_handling(t_token *token, t_cmd **cmd)
 		if (token->type == TOKEN_REDIR_IN)
 			(*cmd)->fd_in = open(token->next->value, O_RDONLY);
 		else
-			(*cmd)->fd_in = ft_here_doc(token->next->value);
+			(*cmd)->fd_in = ft_here_doc(token->next->value, token->next->in_quote, envs);
 	}
 	if (token->type == TOKEN_REDIR_OUT || token->type == TOKEN_APPEND)
 	{
@@ -163,7 +127,7 @@ void	redirection_handling(t_token *token, t_cmd **cmd)
 	}
 }
 
-t_cmd	*build_commands(t_token *tokens)
+t_cmd	*build_commands(t_token *tokens, t_env *envs)
 {
 	t_cmd	*cmds;
 	t_cmd	*cmds_tmp;
@@ -173,7 +137,7 @@ t_cmd	*build_commands(t_token *tokens)
 	while (tokens)
 	{
 		if (tokens->type != TOKEN_PIPE && tokens->type != TOKEN_WORD)
-			redirection_handling(tokens, &cmds_tmp);
+			redirection_handling(tokens, &cmds_tmp, envs);
 		if (tokens->type == TOKEN_PIPE)
 		{
 			if (!tokens->next)
@@ -189,35 +153,29 @@ t_cmd	*build_commands(t_token *tokens)
 	return	(cmds);
 }
 
+static	void free_tokens(t_token **tokens)
+{
+	t_token	*next;
+	
+	while (*tokens)
+	{
+		free((*tokens)->value);
+		next = (*tokens)->next;
+		free(*tokens);
+		*tokens = next;
+	}
+	*tokens = NULL;
+}
+
 t_cmd	*parsing(char *arg, t_env *envs)
 {
 	t_token	*tokens;
 	t_cmd	*cmds;
-	//int		i;
 	
 	tokens = NULL;
 	lexer(&tokens, arg);
 	expander(&tokens, envs);
-	//t_token	*tokens_tmp = tokens;
-	cmds = build_commands(tokens);
+	cmds = build_commands(tokens, envs);
+	free_tokens(&tokens);
 	return (cmds);
-	//i = 0;
-	//(void) cmds;
-	//while (tokens != NULL)
-	//{
-	//	i++;
-	//	printf("%s\n", tokens->value);
-	//	tokens = tokens->next;
-	//}
-	//t_token	*next;
-	//while (tokens)
-	//{
-	//	free(tokens_tmp->value);
-	//	next = tokens_tmp->next;
-	//	free(tokens_tmp);
-	//	tokens_tmp = next;
-	//}
-	//return (i);
 }
-
-// historque here doc non fait !!!!!

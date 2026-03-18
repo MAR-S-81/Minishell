@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: enzorolinux <enzorolinux@student.42.fr>    +#+  +:+       +#+        */
+/*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 18:07:07 by erocha--          #+#    #+#             */
-/*   Updated: 2026/03/10 12:56:55 by enzorolinux      ###   ########.fr       */
+/*   Updated: 2026/03/12 17:33:02 by erocha--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ t_token	*create_token(t_token **token)
 		clean_exit(*token);
 	new_token->next = NULL;
 	new_token->type = -1;
+	new_token->in_quote = 0;
 	new_token->value = NULL;
 	return (new_token);
 }

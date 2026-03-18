@@ -23,6 +23,7 @@ SRC = \
     srcs/parsing/expander_utils.c \
     srcs/parsing/lexer_utils.c \
     srcs/parsing/parsing.c \
+	srcs/parsing/ft_here_doc.c \
     srcs/clean_exit.c \
     srcs/envp.c \
     srcs/pipex_utils.c \

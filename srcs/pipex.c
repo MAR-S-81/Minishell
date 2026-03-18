@@ -6,7 +6,7 @@
 /*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 13:20:05 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/11 17:12:17 by erocha--         ###   ########.fr       */
+/*   Updated: 2026/03/12 18:44:33 by erocha--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	execute(t_cmd *cmd, t_exec exec, char **envp, t_env *lst)
 			setup_redirections(cmd, exec);
 			if (is_buildins(cmd->args[0]))
 			{
-				execute_builtin(cmd->args, &lst, 1, g_signal);
+				execute_builtin(cmd->args, &lst, cmd->fd_out, g_signal);
 				exit(0);
 			}
 			close_all(cmd, exec);
