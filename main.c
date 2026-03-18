@@ -6,7 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 12:59:55 by erocha--          #+#    #+#             */
-/*   Updated: 2026/03/17 16:50:21 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/18 16:43:48 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,5 @@ int	main(int argc, char **argv, char **envp)
 	split_key_values(envp, &envs);
 	if (read_line(&envs) == 0)
 		return (0);
-	//printf("\nDEBUG argv[1]: |%s|\n", argv[1]);
 	return (1);
 }
