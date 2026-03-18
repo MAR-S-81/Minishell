@@ -6,7 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 13:00:00 by erocha--          #+#    #+#             */
-/*   Updated: 2026/03/17 17:44:26 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/18 16:49:23 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ static void	expander(t_token **tokens, t_env *envs)
 		{
 			if (tokens_tmp->value[i] == '\'')
 				in_squote = !in_squote;
-			else if (tokens_tmp->value[i] == ':' && ft_isprint(tokens_tmp->value[i + 1])
-				&& in_squote == 0)
+			else if (tokens_tmp->value[i] == ':'
+				&& ft_isprint(tokens_tmp->value[i + 1]) && in_squote == 0)
 				research_implement(&tokens_tmp, envs, &i);
 			i++;
 		}
@@ -89,7 +89,6 @@ t_cmd	*create_cmd(t_token *tokens)
 	while (tokens && tokens->type == TOKEN_WORD)
 	{
 		new_cmd->args[i] = tokens->value;
-		//printf("%s", new_cmd->args[i]);
 		i++;
 		tokens = tokens->next;
 	}
@@ -126,7 +125,7 @@ static int	ft_here_doc(char *infile)
 		if (!line || ft_strncmp(line, limiter, ft_strlen(limiter) + 1) == 0)
 		{
 			free(line);
-			break;
+			break ;
 		}
 		write(pipe_fd[1], line, ft_strlen(line));
 		free(line);
@@ -141,7 +140,7 @@ void	redirection_handling(t_token *token, t_cmd **cmd)
 	if (!token->next)
 	{
 		write(2, "ERROR\n", 7);
-		exit (0);
+		exit(2);
 	}
 	if (token->type == TOKEN_REDIR_IN || token->type == TOKEN_HERE_DOC)
 	{
@@ -151,15 +150,27 @@ void	redirection_handling(t_token *token, t_cmd **cmd)
 			(*cmd)->fd_in = open(token->next->value, O_RDONLY);
 		else
 			(*cmd)->fd_in = ft_here_doc(token->next->value);
+		if ((*cmd)->fd_in == -1)
+		{
+			perror(token->next->value);
+			(*cmd)->error_redir = 1;
+		}
 	}
 	if (token->type == TOKEN_REDIR_OUT || token->type == TOKEN_APPEND)
 	{
 		if ((*cmd)->fd_out != -1)
 			close((*cmd)->fd_in);
 		if (token->type == TOKEN_REDIR_OUT)
-			(*cmd)->fd_out = open(token->next->value, O_RDWR | O_CREAT | O_TRUNC, 0644);
+			(*cmd)->fd_out = open(token->next->value,
+					O_RDWR | O_CREAT | O_TRUNC, 0644);
 		else
-			(*cmd)->fd_out = open(token->next->value, O_RDWR | O_CREAT | O_APPEND, 0644);
+			(*cmd)->fd_out = open(token->next->value,
+					O_RDWR | O_CREAT | O_APPEND, 0644);
+		if ((*cmd)->fd_out == -1)
+		{
+			perror(token->next->value);
+			(*cmd)->error_redir = 1;
+		}
 	}
 }
 
@@ -179,45 +190,24 @@ t_cmd	*build_commands(t_token *tokens)
 			if (!tokens->next)
 			{
 				write(2, "ERROR\n", 7);
-				exit (0);
+				exit(2);
 			}
 			cmds_tmp->next = create_cmd(tokens->next);
 			cmds_tmp = cmds_tmp->next;
 		}
 		tokens = tokens->next;
 	}
-	return	(cmds);
+	return (cmds);
 }
 
 t_cmd	*parsing(char *arg, t_env *envs)
 {
 	t_token	*tokens;
 	t_cmd	*cmds;
-	//int		i;
-	
+
 	tokens = NULL;
 	lexer(&tokens, arg);
 	expander(&tokens, envs);
-	//t_token	*tokens_tmp = tokens;
 	cmds = build_commands(tokens);
 	return (cmds);
-	//i = 0;
-	//(void) cmds;
-	//while (tokens != NULL)
-	//{
-	//	i++;
-	//	printf("%s\n", tokens->value);
-	//	tokens = tokens->next;
-	//}
-	//t_token	*next;
-	//while (tokens)
-	//{
-	//	free(tokens_tmp->value);
-	//	next = tokens_tmp->next;
-	//	free(tokens_tmp);
-	//	tokens_tmp = next;
-	//}
-	//return (i);
 }
-
-// historque here doc non fait !!!!!

@@ -6,7 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 13:20:05 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/17 17:51:46 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/18 16:47:14 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ static void	setup_redirections(t_cmd *cmd, t_exec exec)
 
 void	execute(t_cmd *cmd, t_exec exec, t_env *lst)
 {
-	int		i;
-	char	*path;
+	int			i;
+	char		*path;
 	struct stat	file_info;
 
 	i = 0;

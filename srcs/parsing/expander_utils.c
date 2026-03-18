@@ -6,7 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 10:55:12 by erocha--          #+#    #+#             */
-/*   Updated: 2026/03/12 18:31:19 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/18 16:51:43 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ static char	*dollarid_init(t_token *token, int idollar)
 		return (ft_strdup("?"));
 	dollar_id = NULL;
 	i = 0;
-	while (ft_isalnum(token->value[idollar + i])
-		|| token->value[idollar + i] == '_')
+	while (ft_isalnum(token->value[idollar + i]) || token->value[idollar
+		+ i] == '_')
 		i++;
 	dollar_id = malloc(sizeof(char) * (i + 1));
 	if (!dollar_id)
@@ -39,7 +39,7 @@ static void	no_value_handling(t_token **token, int *idollar, char **dollar_id)
 	tmp = ft_substr((*token)->value, 0, (*idollar));
 	old_value = (*token)->value;
 	(*token)->value = ft_strjoin(tmp, old_value + (*idollar)
-		+ ft_strlen((*dollar_id)) + 1);
+			+ ft_strlen((*dollar_id)) + 1);
 	free(tmp);
 	free(old_value);
 	if (*dollar_id)
@@ -64,7 +64,8 @@ void	research_implement(t_token **token, t_env *envs, int *idollar)
 		tmp1 = ft_substr((*token)->value, 0, *idollar);
 		tmp2 = ft_strjoin(tmp1, dollar_value);
 		free(tmp1);
-		tmp1 = ft_strjoin(tmp2, (*token)->value + (*idollar) + ft_strlen(dollar_id) + 1);
+		tmp1 = ft_strjoin(tmp2, (*token)->value + (*idollar)
+				+ ft_strlen(dollar_id) + 1);
 		free((*token)->value);
 		(*token)->value = tmp1;
 		free(tmp2);

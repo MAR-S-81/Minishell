@@ -6,7 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 17:52:08 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/17 18:07:38 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/18 16:46:35 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ typedef struct s_cmd
 	char			**args;
 	int				fd_in;
 	int				fd_out;
-	int error_redir; // 0 par défaut, 1 si un open a foiré
+	int				error_redir;
 	struct s_cmd	*next;
 }					t_cmd;
 
