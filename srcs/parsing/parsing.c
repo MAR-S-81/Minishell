@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 13:00:00 by erocha--          #+#    #+#             */
-/*   Updated: 2026/03/18 17:25:04 by erocha--         ###   ########.fr       */
+/*   Updated: 2026/03/19 13:50:51 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ void	redirection_handling(t_token *token, t_cmd **cmd, t_env *envs)
 	if (token->type == TOKEN_REDIR_OUT || token->type == TOKEN_APPEND)
 	{
 		if ((*cmd)->fd_out != -1)
-			close((*cmd)->fd_in);
+			close((*cmd)->fd_out);
 		if (token->type == TOKEN_REDIR_OUT)
 			(*cmd)->fd_out = open(token->next->value,
 					O_RDWR | O_CREAT | O_TRUNC, 0644);
