@@ -6,7 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 19:20:40 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/19 16:07:21 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/19 18:36:36 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ static int	exec_export(char **args, t_env **lst, int fd_out)
 		return (ret);
 	}
 	equal_pos = ft_strchr(args[1], '=');
+	if (args[1][0] == '=')
+		return (1);
 	if (equal_pos)
 	{
 		key = ft_substr(args[1], 0, equal_pos - args[1]);
