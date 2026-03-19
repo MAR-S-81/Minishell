@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 17:52:08 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/18 17:23:30 by erocha--         ###   ########.fr       */
+/*   Updated: 2026/03/19 16:07:40 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,8 @@ typedef struct s_exec
 void				quotes_handling(t_token **token, char *arg, int *i, int *j);
 void				token_typer(t_token **token);
 t_token				*create_token(t_token **token);
-void				arger(t_token **token, t_token **token_tmp, char *arg, int *i);
+void				arger(t_token **token, t_token **token_tmp, char *arg,
+						int *i);
 int					ft_here_doc(char *limiter, int in_quote, t_env *envs);
 t_cmd				*parsing(char *arg, t_env *envs);
 void				research_implement(t_token **token, t_env *envs,
@@ -119,4 +120,5 @@ void				execute_command(t_cmd *cmd, t_env **lst);
 void				set_signals_default(void);
 void				set_signals_ignore(void);
 void				set_signals_interactive(void);
+void				close_saved_fds(void);
 #endif
