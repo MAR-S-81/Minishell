@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 13:20:05 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/18 17:24:24 by erocha--         ###   ########.fr       */
+/*   Updated: 2026/03/19 14:41:11 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void	execute(t_cmd *cmd, t_exec exec, t_env *lst)
 	int			i;
 	char		*path;
 	struct stat	file_info;
+	int			ret;
 
 	i = 0;
 	while (cmd)
@@ -76,8 +77,8 @@ void	execute(t_cmd *cmd, t_exec exec, t_env *lst)
 			close_all(cmd, exec);
 			if (is_buildins(cmd->args[0]))
 			{
-				execute_builtin(cmd->args, &lst, cmd->fd_out, g_signal);
-				exit(1);
+				ret = execute_builtin(cmd->args, &lst, STDOUT_FILENO, g_signal);
+				exit(ret);
 			}
 			if (!cmd->args || !cmd->args[0])
 				exit(0);
