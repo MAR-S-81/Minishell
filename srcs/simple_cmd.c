@@ -6,7 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 13:07:08 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/19 14:43:10 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/19 15:31:40 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ char	*find_path(char *cmd, t_env *lst)
 	if (!dest)
 		return (NULL);
 	rep = add_slash_and_check(cmd, dest);
+	free_tab(dest);
 	return (rep);
 }
 

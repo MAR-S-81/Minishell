@@ -6,11 +6,23 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 19:20:40 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/17 18:09:32 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/19 16:07:21 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void close_saved_fds(void)
+{
+    int i;
+
+    i = 3;
+    while (i < 1024)
+    {
+        close(i);
+        i++;
+    }
+}
 
 int	is_buildins(char *arg)
 {

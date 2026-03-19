@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_here_doc.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 17:37:18 by erocha--          #+#    #+#             */
-/*   Updated: 2026/03/18 17:04:50 by erocha--         ###   ########.fr       */
+/*   Updated: 2026/03/19 16:24:33 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static char	*search_word(char *line)
 	return (word);
 }
 
-static	char *hd_implement(char *new_word, char *line, int i, int len_word)
+static char	*hd_implement(char *new_word, char *line, int i, int len_word)
 {
 	char	*prefix;
 	char	*suffix;
@@ -122,10 +122,10 @@ int	ft_here_doc(char *limiter, int in_quote, t_env *envs)
 	while (1)
 	{
 		line = get_line(in_quote, envs);
-		if (!line || !ft_strncmp(line, limiter, ft_strlen(limiter)))
+		if (!line || (!ft_strncmp(line, limiter, ft_strlen(line) - 1)))
 		{
 			free(line);
-			break;
+			break ;
 		}
 		write(pipe_fd[1], line, ft_strlen(line));
 		free(line);

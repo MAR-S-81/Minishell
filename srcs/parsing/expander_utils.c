@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 10:55:12 by erocha--          #+#    #+#             */
-/*   Updated: 2026/03/18 17:19:16 by erocha--         ###   ########.fr       */
+/*   Updated: 2026/03/19 15:47:41 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void	research_implement(t_token **token, t_env *envs, int *idollar)
 		free(tmp2);
 		(*idollar) = (*idollar) + ft_strlen(dollar_value) - 1;
 		free(dollar_id);
+		free(dollar_value);
 	}
 	else
 		no_value_handling(token, idollar, &dollar_id);
