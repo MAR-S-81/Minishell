@@ -6,7 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 13:23:46 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/17 18:13:43 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/20 14:28:04 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@ int	echo(char **str, int n, int fd_out)
 	int	i;
 
 	i = 1;
-	while (str[i] && (ft_strncmp(str[i], "-n", 2) == 0
-			&& ft_strlen(str[i]) == 2))
+	while (str[i] && (ft_strncmp(str[i], "-n", 2) == 0 && check_n(str[i]) == 0))
 		i++;
 	if (str)
 	{
