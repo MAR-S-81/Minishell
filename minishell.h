@@ -6,7 +6,7 @@
 /*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 17:52:08 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/18 17:23:30 by erocha--         ###   ########.fr       */
+/*   Updated: 2026/03/19 17:52:19 by erocha--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ typedef struct s_token
 {
 	char			*value;
 	t_token_type	type;
-	int				in_quote;
 	struct s_token	*next;
 }					t_token;
 
@@ -80,7 +79,7 @@ void				quotes_handling(t_token **token, char *arg, int *i, int *j);
 void				token_typer(t_token **token);
 t_token				*create_token(t_token **token);
 void				arger(t_token **token, t_token **token_tmp, char *arg, int *i);
-int					ft_here_doc(char *limiter, int in_quote, t_env *envs);
+int					ft_here_doc(char *limiter, t_env *envs);
 t_cmd				*parsing(char *arg, t_env *envs);
 void				research_implement(t_token **token, t_env *envs,
 						int *idollar);

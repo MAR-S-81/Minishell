@@ -6,7 +6,7 @@
 /*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 18:07:07 by erocha--          #+#    #+#             */
-/*   Updated: 2026/03/18 17:19:23 by erocha--         ###   ########.fr       */
+/*   Updated: 2026/03/20 15:59:04 by erocha--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	quotes_handling(t_token **token, char *arg, int *i, int *j)
 	{
 		if (!arg[*i])
 		{
-			write(1, "Error\n", 7);
+			write(2, "Error\n", 7);
 			(*token)->value[*j] = '\0';
 			return ;
 		}
@@ -35,7 +35,8 @@ void	quotes_handling(t_token **token, char *arg, int *i, int *j)
 	(*token)->value[*j] = arg[*i];
 	(*j)++;
 	(*token)->value[*j] = '\0';
-	(*i)++;
+	if (arg[*i] != quote_type)
+		(*i)++;
 }
 
 void	token_typer(t_token **token)
@@ -63,7 +64,6 @@ t_token	*create_token(t_token **token)
 		clean_exit(*token);
 	new_token->next = NULL;
 	new_token->type = -1;
-	new_token->in_quote = 0;
 	new_token->value = NULL;
 	return (new_token);
 }
