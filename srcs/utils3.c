@@ -1,35 +1,55 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/17 13:23:46 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/20 14:28:04 by mchesnea         ###   ########.fr       */
+/*   Created: 2026/03/20 14:18:31 by mchesnea          #+#    #+#             */
+/*   Updated: 2026/03/20 15:08:10 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	echo(char **str, int n, int fd_out)
+int	check_n(char *str)
+{
+	int i;
+
+	i = 1;
+	while (str[i])
+	{
+		if (str[i] != 'n')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+int is_valid_identifier(char *str)
+{
+    int i;
+
+    if (!str || (!ft_isalpha(str[0]) && str[0] != '_'))
+        return (0);
+    i = 1;
+    while (str[i])
+    {
+        if (!ft_isalnum(str[i]) && str[i] != '_')
+            return (0);
+        i++;
+    }
+    return (1);
+}
+
+void	close_saved_fds(void)
 {
 	int	i;
 
-	i = 1;
-	while (str[i] && (ft_strncmp(str[i], "-n", 2) == 0 && check_n(str[i]) == 0))
-		i++;
-	if (str)
+	i = 3;
+	while (i < 1024)
 	{
-		while (str[i])
-		{
-			write(fd_out, str[i], ft_strlen(str[i]));
-			if (str[i + 1])
-				write(fd_out, " ", 1);
-			i++;
-		}
+		close(i);
+		i++;
 	}
-	if (n == 0)
-		write(fd_out, "\n", 1);
-	return (0);
 }

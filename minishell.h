@@ -6,7 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 17:52:08 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/19 16:07:40 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/20 15:54:55 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void				split_key_values(char **envp, t_env **lst);
 char				**env_list_to_tab(t_env *env);
 t_env				*lstnew(char *key, char *value);
 void				lstadd_back(t_env **lst, t_env *new);
-int					env(t_env *lst, int fd_out);
+int					env(t_env *lst, int fd_out, char **args);
 void				lstdelone(t_env **head, t_env *to_del);
 void				lstclear(t_env **lst);
 long long			ft_atoll_check(const char *str, long long *nb);
@@ -101,8 +101,8 @@ int					is_buildins(char *arg);
 int					cd(t_env *lst, char *args);
 int					echo(char **strs, int n, int fd_out);
 int					my_exit(char **args, int status);
-int					pwd(int fd_out);
-int					unset(t_env **lst, char *keys);
+int					pwd(int fd_out, t_env *lst);
+int					unset(t_env **lst, char **keys);
 int					export(t_env **lst, char *keys, char *value);
 int					export_no_args(t_env **lst, int fd_out);
 void				ft_swap(char **a, char **b);
@@ -121,4 +121,6 @@ void				set_signals_default(void);
 void				set_signals_ignore(void);
 void				set_signals_interactive(void);
 void				close_saved_fds(void);
+int					check_n(char *str);
+int					is_valid_identifier(char *str);
 #endif
