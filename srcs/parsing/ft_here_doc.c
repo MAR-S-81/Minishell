@@ -6,7 +6,7 @@
 /*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 17:37:18 by erocha--          #+#    #+#             */
-/*   Updated: 2026/03/18 17:04:50 by erocha--         ###   ########.fr       */
+/*   Updated: 2026/03/19 17:52:37 by erocha--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static char	*reline(char *line, int i, t_env *envs)
 	return (new_line);
 }
 
-static char	*get_line(int in_quote, t_env *envs)
+static char	*get_line(t_env *envs)
 {
 	char	*line;
 	char	*tmp;
@@ -84,8 +84,8 @@ static char	*get_line(int in_quote, t_env *envs)
 
 	write(1, "> ", 2);
 	line = get_next_line(0);
-	if (in_quote)
-		return (line);
+	//if (in_quote)
+	//	return (line);
 	i = 0;
 	while (line[i])
 	{
@@ -103,7 +103,7 @@ static char	*get_line(int in_quote, t_env *envs)
 	return (line);
 }
 
-int	ft_here_doc(char *limiter, int in_quote, t_env *envs)
+int	ft_here_doc(char *limiter, t_env *envs)
 {
 	char	*line;
 	int		pipe_fd[2];
@@ -121,8 +121,8 @@ int	ft_here_doc(char *limiter, int in_quote, t_env *envs)
 	}
 	while (1)
 	{
-		line = get_line(in_quote, envs);
-		if (!line || !ft_strncmp(line, limiter, ft_strlen(limiter)))
+		line = get_line(envs);
+		if (!line || !ft_strncmp(line, limiter, ft_strlen(line) - 1))
 		{
 			free(line);
 			break;
