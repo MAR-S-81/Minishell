@@ -6,7 +6,11 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 17:52:08 by mchesnea          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2026/03/20 15:54:55 by mchesnea         ###   ########.fr       */
+=======
+/*   Updated: 2026/03/19 17:52:19 by erocha--         ###   ########.fr       */
+>>>>>>> enzo
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +52,6 @@ typedef struct s_token
 {
 	char			*value;
 	t_token_type	type;
-	int				in_quote;
 	struct s_token	*next;
 }					t_token;
 

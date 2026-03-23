@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 10:55:12 by erocha--          #+#    #+#             */
-/*   Updated: 2026/03/19 15:47:41 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/23 17:58:57 by erocha--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,21 +80,26 @@ void	research_implement(t_token **token, t_env *envs, int *idollar)
 void	remove_quote(t_token **token)
 {
 	char	*str;
+	char	quote_type;
 	int		i;
 	int		j;
 
 	i = 0;
 	j = 0;
+	quote_type = '\0';
 	str = malloc(sizeof(char) * (ft_strlen((*token)->value) + 1));
 	while ((*token)->value[i])
 	{
-		if ((*token)->value[i] == '\'' || (*token)->value[i] == '\"')
-			(*token)->in_quote = 1;
-		if ((*token)->value[i] != '\'' && (*token)->value[i] != '\"')
+		if (((*token)->value[i] == '\'' || (*token)->value[i] == '\"')
+			&& ((*token)->value[i] == quote_type || !quote_type))
 		{
-			str[j] = (*token)->value[i];
-			j++;
+			if ((*token)->value[i] == quote_type)
+				quote_type = '\0';
+			else
+				quote_type = (*token)->value[i];
 		}
+		else
+			str[j++] = (*token)->value[i];
 		i++;
 	}
 	str[j] = '\0';

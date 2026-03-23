@@ -3,74 +3,66 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 18:07:07 by erocha--          #+#    #+#             */
-/*   Updated: 2026/03/23 17:20:05 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/23 17:58:09 by erocha--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../minishell.h"
 
 void	quotes_handling(t_token **token, char *arg, int *i, int *j)
 {
 	char	quote_type;
 
 	quote_type = arg[*i];
-	(*token)->value[*j] = arg[*i];
 	(*i)++;
-	(*j)++;
 	while (arg[*i] != quote_type)
 	{
 		if (!arg[*i])
 		{
 			write(1, "Error\n", 7);
-			(*token)->value[*j] = '\0';
 			return ;
 		}
 		(*token)->value[*j] = arg[*i];
 		(*i)++;
 		(*j)++;
 	}
-	(*token)->value[*j] = arg[*i];
-	(*j)++;
-	(*token)->value[*j] = '\0';
-	(*i)++;
 }
 
 void	token_typer(t_token **token)
 {
-	if (!ft_strncmp((*token)->value, "<<", 2))
-		(*token)->type = TOKEN_HERE_DOC;
-	else if (!ft_strncmp((*token)->value, ">>", 2))
-		(*token)->type = TOKEN_APPEND;
-	else if (!ft_strncmp((*token)->value, ">", 1))
+	if (!strncmp((*token)->value, ">", 1))
 		(*token)->type = TOKEN_REDIR_OUT;
-	else if (!ft_strncmp((*token)->value, "<", 1))
+	else if (!strncmp((*token)->value, "<", 1))
 		(*token)->type = TOKEN_REDIR_IN;
-	else if (!ft_strncmp((*token)->value, "|", 1))
+	else if (!strncmp((*token)->value, "|", 2))
 		(*token)->type = TOKEN_PIPE;
+	else if (!strncmp((*token)->value, "<<", 2))
+		(*token)->type = TOKEN_HERE_DOC;
+	else if (!strncmp((*token)->value, ">>", 2))
+		(*token)->type = TOKEN_APPEND;
 	else
 		(*token)->type = TOKEN_WORD;
 }
 
-t_token	*create_token(t_token **token)
+t_token	*create_node(t_token **token)
 {
-	t_token	*new_token;
+	t_token	*new_node;
 
-	new_token = malloc(sizeof(t_token));
-	if (!new_token)
+	new_node = malloc(sizeof(t_token));
+	if (!new_node)
 		clean_exit(*token);
-	new_token->next = NULL;
-	new_token->type = -1;
-	new_token->in_quote = 0;
-	new_token->value = NULL;
-	return (new_token);
+	new_node->next = NULL;
+	new_node->type = -1;
+	new_node->value = NULL;
+	return (new_node);
 }
 
 void	arger(t_token **token, t_token **token_tmp, char *arg, int *i)
 {
-	int	j;
+	int j;
 
 	j = 0;
 	(*token_tmp)->value = malloc(sizeof(char) * (ft_strlen(&arg[*i]) + 1));
