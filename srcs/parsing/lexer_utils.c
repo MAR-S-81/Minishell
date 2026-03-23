@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 18:07:07 by erocha--          #+#    #+#             */
-/*   Updated: 2026/03/18 17:19:23 by erocha--         ###   ########.fr       */
+/*   Updated: 2026/03/23 17:20:05 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,19 +73,20 @@ void	arger(t_token **token, t_token **token_tmp, char *arg, int *i)
 	int	j;
 
 	j = 0;
-	while (arg[*i + j] && ft_isprint(arg[*i + j]))
-		j++;
-	(*token_tmp)->value = malloc(sizeof(char) * (j + 1));
-	(*token_tmp)->value[j] = '\0';
+	(*token_tmp)->value = malloc(sizeof(char) * (ft_strlen(&arg[*i]) + 1));
 	if (!(*token_tmp)->value)
 		clean_exit(*token);
 	j = 0;
 	while (ft_isprint(arg[*i]) && arg[*i])
 	{
 		if (arg[*i] == '"' || arg[*i] == '\'')
+		{
 			quotes_handling(token_tmp, arg, i, &j);
+			continue ;
+		}
 		if (!ft_isprint(arg[*i]))
 		{
+			(*token_tmp)->value[j] = '\0';
 			(*token_tmp)->type = TOKEN_WORD;
 			return ;
 		}
@@ -93,5 +94,6 @@ void	arger(t_token **token, t_token **token_tmp, char *arg, int *i)
 		j++;
 		(*i)++;
 	}
+	(*token_tmp)->value[j] = '\0';
 	token_typer(token_tmp);
 }
