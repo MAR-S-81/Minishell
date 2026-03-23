@@ -6,7 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 13:20:05 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/19 15:54:39 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/23 15:36:27 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,13 +75,13 @@ void	execute(t_cmd *cmd, t_exec exec, t_env *lst)
 				exit(1);
 			setup_redirections(cmd, exec);
 			close_all(cmd, exec);
+			if (!cmd->args || !cmd->args[0])
+				exit(0);
 			if (is_buildins(cmd->args[0]))
 			{
 				ret = execute_builtin(cmd->args, &lst, STDOUT_FILENO, g_signal);
 				exit(ret);
 			}
-			if (!cmd->args || !cmd->args[0])
-				exit(0);
 			path = find_path(cmd->args[0], lst);
 			if (!path)
 			{

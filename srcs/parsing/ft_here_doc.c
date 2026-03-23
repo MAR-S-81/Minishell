@@ -6,7 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 17:37:18 by erocha--          #+#    #+#             */
-/*   Updated: 2026/03/19 16:24:33 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/23 15:06:30 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ static char	*get_line(int in_quote, t_env *envs)
 
 	write(1, "> ", 2);
 	line = get_next_line(0);
+	if (!line)
+		return (NULL);
 	if (in_quote)
 		return (line);
 	i = 0;
@@ -122,7 +124,10 @@ int	ft_here_doc(char *limiter, int in_quote, t_env *envs)
 	while (1)
 	{
 		line = get_line(in_quote, envs);
-		if (!line || (!ft_strncmp(line, limiter, ft_strlen(line) - 1)))
+		if (!line)
+			break ;
+		if (ft_strlen(line) - 1 == ft_strlen(limiter) && !ft_strncmp(line,
+				limiter, ft_strlen(limiter)))
 		{
 			free(line);
 			break ;
