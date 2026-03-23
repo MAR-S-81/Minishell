@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 13:00:00 by erocha--          #+#    #+#             */
-/*   Updated: 2026/03/19 13:50:51 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/20 13:43:39 by erocha--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,10 @@ static void	expander(t_token **tokens, t_env *envs)
 	int		i;
 
 	tokens_tmp = *tokens;
-	in_squote = 0;
 	while (tokens_tmp != NULL)
 	{
 		i = 0;
+		in_squote = 0;
 		while (tokens_tmp->value[i])
 		{
 			if (tokens_tmp->value[i] == '\'')
@@ -104,7 +104,7 @@ void	redirection_handling(t_token *token, t_cmd **cmd, t_env *envs)
 {
 	if (!token->next)
 	{
-		write(2, "ERROR\n", 7);
+		write(2, "Error\n", 7);
 		exit(2);
 	}
 	if (token->type == TOKEN_REDIR_IN || token->type == TOKEN_HERE_DOC)
@@ -114,7 +114,7 @@ void	redirection_handling(t_token *token, t_cmd **cmd, t_env *envs)
 		if (token->type == TOKEN_REDIR_IN)
 			(*cmd)->fd_in = open(token->next->value, O_RDONLY);
 		else
-			(*cmd)->fd_in = ft_here_doc(token->next->value, token->next->type, envs);
+			(*cmd)->fd_in = ft_here_doc(token->next->value, envs);
 		if ((*cmd)->fd_in == -1)
 		{
 			perror(token->next->value);
