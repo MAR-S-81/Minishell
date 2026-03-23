@@ -6,7 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 10:55:12 by erocha--          #+#    #+#             */
-/*   Updated: 2026/03/19 15:47:41 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/23 18:12:04 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,21 @@ void	research_implement(t_token **token, t_env *envs, int *idollar)
 	char	*tmp2;
 	char	*dollar_id;
 	char	*dollar_value;
+	char	*env_ptr;
 
 	dollar_id = dollarid_init(*token, *idollar + 1);
 	if (dollar_id && dollar_id[0] == '?' && !dollar_id[1])
 		dollar_value = ft_itoa(g_signal);
 	else if (dollar_id)
-		dollar_value = get_args_envp(dollar_id, envs);
-	if ((dollar_id && dollar_id[0] == '?' && !dollar_id[1]) || dollar_id)
+	{
+		env_ptr = get_args_envp(dollar_id, envs);
+		if (env_ptr)
+			dollar_value = ft_strdup(env_ptr);
+		else
+			dollar_value = NULL;
+	}
+	if ((dollar_id && dollar_id[0] == '?' && !dollar_id[1]) || (dollar_id
+			&& dollar_value))
 	{
 		tmp1 = ft_substr((*token)->value, 0, *idollar);
 		tmp2 = ft_strjoin(tmp1, dollar_value);
