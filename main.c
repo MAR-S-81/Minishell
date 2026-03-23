@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 12:59:55 by erocha--          #+#    #+#             */
-/*   Updated: 2026/03/18 17:23:14 by erocha--         ###   ########.fr       */
+/*   Updated: 2026/03/23 18:09:25 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ int	main(int argc, char **argv, char **envp)
 	if (read_line(&envs) == 0)
 	{
 		lstclear(&envs);
-		return (0);
+		return (g_signal);
 	}
 	lstclear(&envs);
-	return (1);
+	return (0);
 }
