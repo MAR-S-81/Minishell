@@ -6,7 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 13:00:00 by erocha--          #+#    #+#             */
-/*   Updated: 2026/03/24 13:58:35 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/24 17:30:18 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,9 @@ static void	expander(t_token **tokens, t_env *envs)
 		{
 			if (tokens_tmp->value[i] == '\'')
 				in_squote = !in_squote;
-			else if (tokens_tmp->value[i] == '$' && ft_isprint(tokens_tmp->value[i + 1])
+			else if (tokens_tmp->value[i] == '$'
+				&& (ft_isalnum(tokens_tmp->value[i + 1]) || tokens_tmp->value[i
+					+ 1] == '?' || tokens_tmp->value[i + 1] == '_')
 				&& in_squote == 0)
 				research_implement(&tokens_tmp, envs, &i);
 			i++;
@@ -165,10 +167,10 @@ t_cmd	*build_commands(t_token *tokens, t_env *envs)
 	return (cmds);
 }
 
-static	void free_tokens(t_token **tokens)
+static void	free_tokens(t_token **tokens)
 {
 	t_token	*next;
-	
+
 	while (*tokens)
 	{
 		free((*tokens)->value);
@@ -183,7 +185,7 @@ t_cmd	*parsing(char *arg, t_env *envs)
 {
 	t_token	*tokens;
 	t_cmd	*cmds;
-	
+
 	tokens = NULL;
 	lexer(&tokens, arg);
 	expander(&tokens, envs);
