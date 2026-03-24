@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 13:00:00 by erocha--          #+#    #+#             */
-/*   Updated: 2026/03/24 17:30:18 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/24 18:57:51 by erocha--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,6 +181,24 @@ static void	free_tokens(t_token **tokens)
 	*tokens = NULL;
 }
 
+static void	format_check(t_token *tokens)
+{
+	if (tokens && tokens->type != TOKEN_WORD)
+	{
+		write(2, "syntax error near unexpected token ", 36);
+		write(2, tokens->value, ft_strlen(tokens->value));
+		write(2, "\n", 1);
+		exit(2);	
+	}
+	while (tokens && tokens->next)
+		tokens = tokens->next;
+	if (tokens->type != TOKEN_WORD)
+	{
+		write(2, "syntax error near unexpected token `newline'\n", 46);
+		exit(2);
+	}
+}
+
 t_cmd	*parsing(char *arg, t_env *envs)
 {
 	t_token	*tokens;
@@ -189,6 +207,7 @@ t_cmd	*parsing(char *arg, t_env *envs)
 	tokens = NULL;
 	lexer(&tokens, arg);
 	expander(&tokens, envs);
+	format_check(tokens);
 	cmds = build_commands(tokens, envs);
 	free_tokens(&tokens);
 	return (cmds);
