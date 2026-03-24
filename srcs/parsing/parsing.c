@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 13:00:00 by erocha--          #+#    #+#             */
-/*   Updated: 2026/03/20 13:43:39 by erocha--         ###   ########.fr       */
+/*   Updated: 2026/03/24 13:58:35 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	lexer(t_token **token, char *arg)
 		i++;
 	if (!arg[i])
 		return ;
-	(*token) = create_token(token);
+	(*token) = create_node(token);
 	token_tmp = (*token);
 	while (arg[i])
 	{
@@ -32,7 +32,7 @@ static void	lexer(t_token **token, char *arg)
 			i++;
 		if (arg[i])
 		{
-			token_tmp->next = create_token(token);
+			token_tmp->next = create_node(token);
 			token_tmp = token_tmp->next;
 		}
 	}

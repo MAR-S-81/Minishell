@@ -6,11 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 17:52:08 by mchesnea          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2026/03/20 15:54:55 by mchesnea         ###   ########.fr       */
-=======
-/*   Updated: 2026/03/19 17:52:19 by erocha--         ###   ########.fr       */
->>>>>>> enzo
+/*   Updated: 2026/03/24 13:58:40 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +77,10 @@ typedef struct s_exec
 
 void				quotes_handling(t_token **token, char *arg, int *i, int *j);
 void				token_typer(t_token **token);
-t_token				*create_token(t_token **token);
+t_token				*create_node(t_token **token);
 void				arger(t_token **token, t_token **token_tmp, char *arg,
 						int *i);
-int					ft_here_doc(char *limiter, int in_quote, t_env *envs);
+int					ft_here_doc(char *limiter, t_env *envs);
 t_cmd				*parsing(char *arg, t_env *envs);
 void				research_implement(t_token **token, t_env *envs,
 						int *idollar);

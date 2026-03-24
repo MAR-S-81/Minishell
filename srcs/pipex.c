@@ -6,7 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 13:20:05 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/23 15:36:27 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/24 15:54:10 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,10 @@ void	exec_single_builtin(t_cmd *cmd, t_env **lst)
 
 	if (cmd->error_redir)
 	{
+		if (cmd->fd_in > 2)
+            close(cmd->fd_in);
+        if (cmd->fd_out > 2)
+            close(cmd->fd_out);
 		g_signal = 1;
 		return ;
 	}
@@ -72,7 +76,10 @@ void	execute(t_cmd *cmd, t_exec exec, t_env *lst)
 		{
 			set_signals_default();
 			if (cmd->error_redir == 1)
+			{
+				close_all(cmd, exec);
 				exit(1);
+			}
 			setup_redirections(cmd, exec);
 			close_all(cmd, exec);
 			if (!cmd->args || !cmd->args[0])

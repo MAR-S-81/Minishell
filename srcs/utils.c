@@ -6,13 +6,13 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 14:38:19 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/12 18:03:47 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/24 13:54:15 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	ft_is_spacing(char c)
+int	ft_is_spacing(char c)
 {
 	if (c == ' ' || (c >= 9 && c <= 13))
 		return (1);

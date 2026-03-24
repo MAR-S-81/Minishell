@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 13:23:32 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/23 17:58:47 by erocha--         ###   ########.fr       */
+/*   Updated: 2026/03/24 13:47:22 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 int	my_exit(char **args, int status)
 {
 	long long	nb;
-
-	write(1, "exit\n", 5);
+	
+	if (isatty(STDIN_FILENO))
+		write(1, "exit\n", 5);
 	if (!args || !args[1])
 	{
 		close_saved_fds();
