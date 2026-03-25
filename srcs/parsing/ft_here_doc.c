@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_here_doc.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 17:37:18 by erocha--          #+#    #+#             */
-/*   Updated: 2026/03/23 18:00:04 by erocha--         ###   ########.fr       */
+/*   Updated: 2026/03/25 13:26:21 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,8 @@ static char	*get_line(int in_quote, t_env *envs)
 	char	*tmp;
 	int		i;
 
-	write(1, "> ", 2);
+	if (isatty(STDIN_FILENO))
+		write(1, "> ", 2);
 	line = get_next_line(0);
 	if (!line)
 		return (NULL);

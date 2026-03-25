@@ -6,7 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 17:52:08 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/24 13:58:40 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/25 15:04:46 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void				lstclear(t_env **lst);
 long long			ft_atoll_check(const char *str, long long *nb);
 int					ft_all_digit(char *str);
 int					is_buildins(char *arg);
-int					cd(t_env *lst, char *args);
+int					cd(t_env *lst, char **args);
 int					echo(char **strs, int n, int fd_out);
 int					my_exit(char **args, int status);
 int					pwd(int fd_out, t_env *lst);

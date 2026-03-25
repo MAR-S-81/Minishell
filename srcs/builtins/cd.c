@@ -6,7 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 13:18:55 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/17 18:00:11 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/25 15:05:50 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,24 +71,29 @@ static void	update_env_pwds(t_env *lst, char *pwd)
 		replace_old_pwd(lst, tmp, "PWD");
 }
 
-int	cd(t_env *lst, char *args)
+int	cd(t_env *lst, char **args)
 {
 	char	*pwd;
 	char	*tmp;
 	int		status;
 
+	if (args[1] && args[2])
+	{
+		write(2, "minishell: cd: too many arguments\n", 34);
+		return (1);
+	}
 	tmp = get_args_envp("PWD", lst);
 	if (!tmp)
 		pwd = getcwd(NULL, 0);
 	else
 		pwd = ft_strdup(tmp);
-	if (!args || (args[0] == '~' && args[1] == '\0'))
+	if (!args || (args[1][0] == '~' && args[1][1] == '\0'))
 		status = cd_home(get_args_envp("HOME", lst));
-	else if (args[0] == '-' && args[1] == '\0')
+	else if (args[1][0] == '-' && args[1][1] == '\0')
 		status = cd_oldpwd(get_args_envp("OLDPWD", lst));
 	else
 	{
-		status = chdir(args);
+		status = chdir(args[1]);
 		if (status != 0)
 			perror("cd");
 	}
