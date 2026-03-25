@@ -6,7 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 13:00:00 by erocha--          #+#    #+#             */
-/*   Updated: 2026/03/25 15:11:28 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/25 16:06:14 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,10 @@ t_cmd	*build_commands(t_token *tokens, t_env *envs)
 	while (tokens)
 	{
 		if (tokens->type != TOKEN_PIPE && tokens->type != TOKEN_WORD)
-			redirection_handling(tokens, &cmds_tmp, envs);
+		{
+			if (cmds_tmp->error_redir == 0)
+				redirection_handling(tokens, &cmds_tmp, envs);
+		}
 		if (tokens->type == TOKEN_PIPE)
 		{
 			if (!tokens->next)
