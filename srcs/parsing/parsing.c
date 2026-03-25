@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 13:00:00 by erocha--          #+#    #+#             */
-/*   Updated: 2026/03/25 16:06:14 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/25 17:42:04 by erocha--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,6 +228,45 @@ static int	format_check(t_token *tokens)
 	return (0);
 }
 
+static int	is_void(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] != '\0')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+static void nulizer(t_token **token)
+{
+	t_token	*token_tmp;
+
+	while ((*token) && is_void((*token)->value))
+	{
+		free(*token);
+		(*token) = (*token)->next;
+	}
+	token_tmp = *token;
+	while (token_tmp && token_tmp->next)
+	{
+		if (is_void(token_tmp->next->value))
+		{
+			free(token_tmp->next);
+			if (token_tmp->next->next)
+				token_tmp->next = token_tmp->next->next;
+			else
+				token_tmp->next = NULL;
+			continue ;
+		}
+		token_tmp = token_tmp->next;
+	}
+}
+
 t_cmd	*parsing(char *arg, t_env *envs)
 {
 	t_token	*tokens;
@@ -236,6 +275,7 @@ t_cmd	*parsing(char *arg, t_env *envs)
 	tokens = NULL;
 	lexer(&tokens, arg);
 	expander(&tokens, envs);
+	nulizer(&tokens);
 	if (format_check(tokens) == 1)
 	{
 		free_tokens(&tokens);
