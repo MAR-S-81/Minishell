@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 17:52:08 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/25 18:31:10 by erocha--         ###   ########.fr       */
+/*   Updated: 2026/03/25 19:09:59 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,4 +123,7 @@ void				set_signals_interactive(void);
 void				close_saved_fds(void);
 int					check_n(char *str);
 int					is_valid_identifier(char *str);
+void				free_cmds(t_cmd **cmds);
+char				**sort_tab_tab(char **tab);
+void				setup_redirections(t_cmd *cmd, t_exec exec);
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 10:55:12 by erocha--          #+#    #+#             */
-/*   Updated: 2026/03/25 18:31:36 by erocha--         ###   ########.fr       */
+/*   Updated: 2026/03/25 19:08:53 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static char	*dollarid_init(t_token *token, int idollar)
 	dollar_id = NULL;
 	i = 0;
 	while (ft_isalnum(token->value[idollar + i]) || token->value[idollar
-		+ i] == '_')
+			+ i] == '_')
 		i++;
 	dollar_id = malloc(sizeof(char) * (i + 1));
 	if (!dollar_id)

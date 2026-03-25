@@ -6,29 +6,11 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 19:20:40 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/25 15:04:25 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/25 18:49:55 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	is_buildins(char *arg)
-{
-	int		i;
-	char	**str;
-
-	i = 0;
-	str = (char *[]){"cd", "echo", "env", "exit", "export", "pwd", "unset",
-		NULL};
-	while (str[i])
-	{
-		if (ft_strlen(arg) == ft_strlen(str[i]) && ft_strncmp(arg, str[i],
-				ft_strlen(arg)) == 0)
-			return (1);
-		i++;
-	}
-	return (0);
-}
 
 static int	exec_echo(char **args, int fd_out)
 {
@@ -46,6 +28,15 @@ static int	exec_echo(char **args, int fd_out)
 	}
 }
 
+static int	print_export_error(char *arg, char *key)
+{
+	ft_putstr_fd("minishell: export: `", 2);
+	ft_putstr_fd(arg, 2);
+	ft_putendl_fd("': not a valid identifier", 2);
+	free(key);
+	return (1);
+}
+
 static int	process_single_export(char *arg, t_env **lst)
 {
 	char	*equal_pos;
@@ -59,13 +50,7 @@ static int	process_single_export(char *arg, t_env **lst)
 	else
 		key = ft_strdup(arg);
 	if (!is_valid_identifier(key))
-	{
-		ft_putstr_fd("minishell: export: `", 2);
-		ft_putstr_fd(arg, 2);
-		ft_putendl_fd("': not a valid identifier", 2);
-		free(key);
-		return (1);
-	}
+		return (print_export_error(arg, key));
 	if (equal_pos)
 	{
 		value = ft_strdup(equal_pos + 1);
