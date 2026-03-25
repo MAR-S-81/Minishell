@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   readline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 15:16:35 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/24 18:58:15 by erocha--         ###   ########.fr       */
+/*   Updated: 2026/03/25 18:31:00 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	g_signal = 0;
+int			g_signal = 0;
 
 void	signal_handler(int sig)
 {
@@ -56,24 +56,6 @@ void	set_signals_default(void)
 	sa.sa_flags = SA_RESTART;
 	sigaction(SIGINT, &sa, NULL);
 	sigaction(SIGQUIT, &sa, NULL);
-}
-
-static void free_cmds(t_cmd **cmds)
-{
-	t_cmd	*next;
-	int		i;
-
-	while (*cmds)
-	{
-		next = (*cmds)->next;
-		i = 0;
-		while ((*cmds)->args && (*cmds)->args[i])
-			free((*cmds)->args[i++]);
-		free((*cmds)->args);
-		free(*cmds);
-		*cmds = next;
-	}
-	*cmds = NULL;
 }
 
 int	read_line(t_env **envs)

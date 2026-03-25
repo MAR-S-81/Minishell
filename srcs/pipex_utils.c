@@ -6,24 +6,22 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 17:00:13 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/13 13:03:01 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/25 19:06:25 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	close_all(t_cmd *cmd, t_exec exec)
+void	setup_redirections(t_cmd *cmd, t_exec exec)
 {
-	if (exec.pipe_fd[0] > 2)
-		close(exec.pipe_fd[0]);
-	if (exec.pipe_fd[1] > 2)
-		close(exec.pipe_fd[1]);
-	if (cmd->fd_in > 2)
-		close(cmd->fd_in);
-	if (cmd->fd_out > 2)
-		close(cmd->fd_out);
-	if (exec.fd_temp > 2)
-		close(exec.fd_temp);
+	if (cmd->fd_in > 0)
+		dup2(cmd->fd_in, STDIN_FILENO);
+	else if (exec.fd_temp != -1)
+		dup2(exec.fd_temp, STDIN_FILENO);
+	if (cmd->fd_out > 1)
+		dup2(cmd->fd_out, STDOUT_FILENO);
+	else if (cmd->next)
+		dup2(exec.pipe_fd[1], STDOUT_FILENO);
 }
 
 int	init_t_exec(t_exec *exec, t_cmd *cmd)
@@ -70,4 +68,42 @@ void	wait_all_children(t_exec exec)
 		}
 		i++;
 	}
+}
+
+static void	close_when_error(t_cmd *cmd)
+{
+	if (cmd->fd_in > 2)
+		close(cmd->fd_in);
+	if (cmd->fd_out > 2)
+		close(cmd->fd_out);
+	g_signal = 1;
+}
+
+void	exec_single_builtin(t_cmd *cmd, t_env **lst)
+{
+	int	save_stdout;
+	int	save_stdin;
+
+	if (cmd->error_redir)
+	{
+		close_when_error(cmd);
+		return ;
+	}
+	save_stdin = dup(STDIN_FILENO);
+	save_stdout = dup(STDOUT_FILENO);
+	if (cmd->fd_in > 0)
+	{
+		dup2(cmd->fd_in, STDIN_FILENO);
+		close(cmd->fd_in);
+	}
+	if (cmd->fd_out > 1)
+	{
+		dup2(cmd->fd_out, STDOUT_FILENO);
+		close(cmd->fd_out);
+	}
+	g_signal = execute_builtin(cmd->args, lst, STDOUT_FILENO, g_signal);
+	dup2(save_stdin, STDIN_FILENO);
+	dup2(save_stdout, STDOUT_FILENO);
+	close(save_stdin);
+	close(save_stdout);
 }

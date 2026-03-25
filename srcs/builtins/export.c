@@ -6,7 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/18 14:49:45 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/18 16:48:11 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/25 18:46:19 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,61 +28,40 @@ static t_env	*get_env_node(char *key, t_env *lst)
 	return (NULL);
 }
 
-static char	**sort_tab_tab(char **tab)
+static void	print_export_line(char *env_str, int fd_out)
 {
-	int		i;
-	int		j;
-	size_t	len;
+	int	j;
 
-	i = 0;
-	if (!tab)
-		return (NULL);
-	while (tab[i])
+	j = 0;
+	write(fd_out, "declare -x ", 11);
+	while (env_str[j] && env_str[j] != '=')
+		write(fd_out, &env_str[j++], 1);
+	if (env_str[j] == '=')
 	{
-		j = i + 1;
-		while (tab[j])
-		{
-			len = ft_strlen(tab[i]);
-			if (ft_strlen(tab[j]) > len)
-				len = ft_strlen(tab[j]);
-			if (ft_strncmp(tab[i], tab[j], len + 1) > 0)
-			{
-				ft_swap(&tab[i], &tab[j]);
-			}
-			j++;
-		}
-		i++;
+		write(fd_out, "=\"", 2);
+		j++;
+		while (env_str[j])
+			write(fd_out, &env_str[j++], 1);
+		write(fd_out, "\"", 1);
 	}
-	return (tab);
+	write(fd_out, "\n", 1);
 }
 
 int	export_no_args(t_env **lst, int fd_out)
 {
 	char	**str;
 	int		i;
-	int		j;
 
-	i = 0;
 	str = env_list_to_tab(*lst);
 	if (!str)
 		return (1);
 	str = sort_tab_tab(str);
+	i = 0;
 	while (str[i])
 	{
-		write(fd_out, "declare -x ", 11);
-		j = 0;
-		while (str[i][j] && str[i][j] != '=')
-			write(fd_out, &str[i][j++], 1);
-		if (str[i][j] == '=')
-		{
-			write(fd_out, "=\"", 2);
-			j++;
-			while (str[i][j])
-				write(fd_out, &str[i][j++], 1);
-			write(fd_out, "\"", 1);
-		}
-		write(fd_out, "\n", 1);
-		free(str[i++]);
+		print_export_line(str[i], fd_out);
+		free(str[i]);
+		i++;
 	}
 	free(str);
 	return (0);

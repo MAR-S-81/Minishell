@@ -32,8 +32,10 @@ SRC = \
     srcs/simple_cmd.c \
     srcs/utils.c \
     srcs/utils2.c \
-	srcs/utils3.c  \
-	main.c
+	srcs/utils3.c \
+	srcs/utils4.c \
+	srcs/builtins/utils_builtins.c \
+	main.c 
 
 OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
 

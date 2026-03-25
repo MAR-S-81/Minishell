@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 13:00:00 by erocha--          #+#    #+#             */
-/*   Updated: 2026/03/25 18:52:01 by erocha--         ###   ########.fr       */
+/*   Updated: 2026/03/25 19:08:46 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static void	expander(t_token **tokens, t_env *envs)
 				in_squote = !in_squote;
 			else if (tokens_tmp->value[i] == '$'
 				&& (ft_isalnum(tokens_tmp->value[i + 1]) || tokens_tmp->value[i
-					+ 1] == '?' || tokens_tmp->value[i + 1] == '_')
+						+ 1] == '?' || tokens_tmp->value[i + 1] == '_')
 				&& in_squote == 0)
 				research_implement(&tokens_tmp, envs, &i);
 			i++;
@@ -242,7 +242,7 @@ static int	is_void(char *str)
 	return (1);
 }
 
-static void nulizer(t_token **token)
+static void	nulizer(t_token **token)
 {
 	t_token	*token_current;
 	t_token *next;

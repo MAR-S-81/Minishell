@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 18:07:07 by erocha--          #+#    #+#             */
-/*   Updated: 2026/03/25 18:31:51 by erocha--         ###   ########.fr       */
+/*   Updated: 2026/03/25 19:08:42 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	quotes_handling(t_token **token, char *arg, int *i, int *j)
 	(*j)++;
 }
 
-//void	token_typer(t_token **token)
+// void	token_typer(t_token **token)
 //{
 //	if (!strncmp((*token)->value, ">", 2))
 //		(*token)->type = TOKEN_REDIR_OUT;
@@ -112,7 +112,7 @@ static void	separator(t_token **token, int *i, int j, t_token_type type)
 void	arger(t_token **token, t_token **token_tmp, char *arg, int *i)
 {
 	int				j;
-	t_token_type type;
+	t_token_type	type;
 
 	j = 0;
 	(*token_tmp)->value = malloc(sizeof(char) * (ft_strlen(&arg[*i]) + 1));

@@ -6,7 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 15:31:05 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/03 17:47:37 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/25 19:01:48 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,7 @@ char	*get_args_envp(char *str, t_env *lst)
 	len = ft_strlen(str);
 	while (lst != NULL)
 	{
-		if (ft_strncmp(str, lst->key, len) == 0
-			&& lst->key[len] == '\0')
+		if (ft_strncmp(str, lst->key, len) == 0 && lst->key[len] == '\0')
 			return (lst->value);
 		lst = lst->next;
 	}
