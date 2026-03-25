@@ -6,7 +6,7 @@
 /*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 13:00:00 by erocha--          #+#    #+#             */
-/*   Updated: 2026/03/24 18:57:51 by erocha--         ###   ########.fr       */
+/*   Updated: 2026/03/24 21:07:51 by erocha--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,7 +192,7 @@ static void	format_check(t_token *tokens)
 	}
 	while (tokens && tokens->next)
 		tokens = tokens->next;
-	if (tokens->type != TOKEN_WORD)
+	if (tokens && tokens->type != TOKEN_WORD)
 	{
 		write(2, "syntax error near unexpected token `newline'\n", 46);
 		exit(2);
