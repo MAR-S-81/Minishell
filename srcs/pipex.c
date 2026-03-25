@@ -6,7 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 13:20:05 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/25 19:05:57 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/25 19:27:31 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,12 @@ static void	child_process(t_cmd *cmd, t_exec exec, t_env *lst)
 	if (cmd->error_redir == 1)
 	{
 		close_all(cmd, exec);
+		close_saved_fds();
 		exit(1);
 	}
 	setup_redirections(cmd, exec);
 	close_all(cmd, exec);
+	close_saved_fds();
 	if (!cmd->args || !cmd->args[0])
 		exit(0);
 	if (is_buildins(cmd->args[0]))
