@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 10:55:12 by erocha--          #+#    #+#             */
-/*   Updated: 2026/03/24 12:56:35 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/25 18:31:36 by erocha--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ void	remove_quote(t_token **token)
 				quote_type = '\0';
 			else
 				quote_type = (*token)->value[i];
+			(*token)->in_quote = 1;
 		}
 		else
 			str[j++] = (*token)->value[i];
