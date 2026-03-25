@@ -6,7 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 17:37:18 by erocha--          #+#    #+#             */
-/*   Updated: 2026/03/25 13:26:21 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/25 16:12:14 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,12 @@ static char	*hd_implement(char *new_word, char *line, int i, int len_word)
 	char	*suffix;
 	char	*word;
 
-	if (new_word == NULL)
-		new_word = ft_strdup(" ");
 	prefix = ft_substr(line, 0, i);
 	suffix = ft_strjoin(prefix, new_word);
 	word = ft_strjoin(suffix, line + i + len_word + 1);
 	free(prefix);
 	free(suffix);
-	if (ft_strncmp(new_word, " ", ft_strlen(new_word)))
-		free(new_word);
+	free(new_word);
 	return (word);
 }
 
@@ -62,6 +59,7 @@ static char	*reline(char *line, int i, t_env *envs)
 	char	*the_word;
 	int		len_word;
 	char	*new_word;
+	char	*env_val;
 
 	the_word = search_word(line + i + 1);
 	len_word = ft_strlen(the_word);
@@ -70,9 +68,13 @@ static char	*reline(char *line, int i, t_env *envs)
 		free(the_word);
 		return (ft_itoa(g_signal));
 	}
-	new_word = get_args_envp(the_word, envs);
-	new_line = NULL;
+	env_val = get_args_envp(the_word, envs);
+	if (env_val)
+		new_word = ft_strdup(env_val);
+	else
+		new_word = ft_strdup("");
 	new_line = hd_implement(new_word, line, i, len_word);
+	free(the_word);
 	return (new_line);
 }
 
