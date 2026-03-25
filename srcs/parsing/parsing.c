@@ -6,7 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 13:00:00 by erocha--          #+#    #+#             */
-/*   Updated: 2026/03/24 17:30:18 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/25 13:03:47 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,12 @@ int	args_size(t_token *tokens)
 	int	i;
 
 	i = 0;
-	while (tokens && tokens->type == TOKEN_WORD)
+	while (tokens && tokens->type != TOKEN_PIPE)
 	{
-		i++;
+		if (tokens->type == TOKEN_WORD)
+			i++;
+		else if (tokens->type != TOKEN_WORD && tokens->next)
+			tokens = tokens->next;
 		tokens = tokens->next;
 	}
 	return (i);
@@ -82,17 +85,21 @@ t_cmd	*create_cmd(t_token *tokens)
 {
 	t_cmd	*new_cmd;
 	int		i;
+	t_token	*tmp;
 
 	new_cmd = malloc(sizeof(t_cmd));
 	if (!new_cmd)
 		exit(0);
 	new_cmd->args = malloc(sizeof(char *) * (args_size(tokens) + 1));
 	i = 0;
-	while (tokens && tokens->type == TOKEN_WORD)
+	tmp = tokens;
+	while (tmp && tmp->type != TOKEN_PIPE)
 	{
-		new_cmd->args[i] = ft_strdup(tokens->value);
-		i++;
-		tokens = tokens->next;
+		if (tmp->type == TOKEN_WORD)
+			new_cmd->args[i++] = ft_strdup(tmp->value);
+		else if (tmp->type != TOKEN_WORD && tmp->next)
+			tmp = tmp->next;
+		tmp = tmp->next;
 	}
 	new_cmd->args[i] = NULL;
 	new_cmd->next = NULL;
@@ -181,6 +188,43 @@ static void	free_tokens(t_token **tokens)
 	*tokens = NULL;
 }
 
+static int	format_check(t_token *tokens)
+{
+	if (!tokens)
+		return (1);
+	if (tokens && (tokens->type == TOKEN_PIPE))
+	{
+		write(2, "minishell: syntax error near unexpected token `|'\n", 50);
+		g_signal = 2;
+		return (1);
+	}
+	while (tokens && tokens->next)
+	{
+		if (tokens->type == tokens->next->type && tokens->type == TOKEN_PIPE)
+		{
+			write(2, "minishell: syntax error near unexpected token `|'\n", 50);
+			g_signal = 2;
+			return (1);
+		}
+		if ((tokens->type != TOKEN_PIPE && tokens->type != TOKEN_WORD)
+			&& tokens->next->type != TOKEN_WORD)
+		{
+			write(2, "minishell: syntax error near unexpected token\n", 46);
+			g_signal = 2;
+			return (1);
+		}
+		tokens = tokens->next;
+	}
+	if (tokens->type != TOKEN_WORD)
+	{
+		write(2, "minishell: syntax error near unexpected token `newline'\n",
+			56);
+		g_signal = 2;
+		return (1);
+	}
+	return (0);
+}
+
 t_cmd	*parsing(char *arg, t_env *envs)
 {
 	t_token	*tokens;
@@ -189,6 +233,11 @@ t_cmd	*parsing(char *arg, t_env *envs)
 	tokens = NULL;
 	lexer(&tokens, arg);
 	expander(&tokens, envs);
+	if (format_check(tokens) == 1)
+	{
+		free_tokens(&tokens);
+		return (NULL);
+	}
 	cmds = build_commands(tokens, envs);
 	free_tokens(&tokens);
 	return (cmds);

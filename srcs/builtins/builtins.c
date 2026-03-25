@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 19:20:40 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/23 17:58:51 by erocha--         ###   ########.fr       */
+/*   Updated: 2026/03/25 15:04:25 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ int	execute_builtin(char **args, t_env **lst, int fd_out, int status)
 		return (exec_echo(args, fd_out));
 	}
 	else if (ft_strncmp(args[0], "cd", 3) == 0)
-		return (cd((*lst), args[1]));
+		return (cd((*lst), args));
 	else if (ft_strncmp(args[0], "env", 4) == 0)
 		return (env((*lst), fd_out, args));
 	else if (ft_strncmp(args[0], "exit", 5) == 0)
