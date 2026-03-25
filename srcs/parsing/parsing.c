@@ -6,7 +6,7 @@
 /*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 13:00:00 by erocha--          #+#    #+#             */
-/*   Updated: 2026/03/25 17:42:04 by erocha--         ###   ########.fr       */
+/*   Updated: 2026/03/25 18:52:01 by erocha--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ void	redirection_handling(t_token *token, t_cmd **cmd, t_env *envs)
 		if (token->type == TOKEN_REDIR_IN)
 			(*cmd)->fd_in = open(token->next->value, O_RDONLY);
 		else
-			(*cmd)->fd_in = ft_here_doc(token->next->value, envs);
+			(*cmd)->fd_in = ft_here_doc(token->next->value, token->next->in_quote, envs);
 		if ((*cmd)->fd_in == -1)
 		{
 			perror(token->next->value);
@@ -244,26 +244,29 @@ static int	is_void(char *str)
 
 static void nulizer(t_token **token)
 {
-	t_token	*token_tmp;
+	t_token	*token_current;
+	t_token *next;
 
-	while ((*token) && is_void((*token)->value))
+	while ((*token) && is_void((*token)->value) && (*token)->type != TOKEN_HERE_DOC)
 	{
+		next = (*token)->next;
 		free(*token);
-		(*token) = (*token)->next;
+		(*token) = next;
 	}
-	token_tmp = *token;
-	while (token_tmp && token_tmp->next)
+	token_current = *token;
+	while (token_current && token_current->next)
 	{
-		if (is_void(token_tmp->next->value))
+		if (is_void(token_current->next->value) && (*token)->next->type != TOKEN_HERE_DOC)
 		{
-			free(token_tmp->next);
-			if (token_tmp->next->next)
-				token_tmp->next = token_tmp->next->next;
+			next = token_current->next->next;
+			free(token_current->next);
+			if (next)
+				token_current->next = next;
 			else
-				token_tmp->next = NULL;
+				token_current->next = NULL;
 			continue ;
 		}
-		token_tmp = token_tmp->next;
+		token_current = token_current->next;
 	}
 }
 

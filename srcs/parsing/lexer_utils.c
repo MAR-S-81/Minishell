@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 18:07:07 by erocha--          #+#    #+#             */
-/*   Updated: 2026/03/25 15:10:55 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/25 18:31:51 by erocha--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ t_token	*create_node(t_token **token)
 		clean_exit(*token);
 	new_node->next = NULL;
 	new_node->type = -1;
+	new_node->in_quote = 0;
 	new_node->value = NULL;
 	return (new_node);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_here_doc.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 17:37:18 by erocha--          #+#    #+#             */
-/*   Updated: 2026/03/25 16:12:14 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/25 18:16:46 by erocha--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ static char	*get_line(int in_quote, t_env *envs)
 	return (line);
 }
 
-int	ft_here_doc(char *limiter, t_env *envs)
+int	ft_here_doc(char *limiter, int in_quote, t_env *envs)
 {
 	char	*line;
 	int		pipe_fd[2];
@@ -126,7 +126,7 @@ int	ft_here_doc(char *limiter, t_env *envs)
 	}
 	while (1)
 	{
-		line = get_line(0, envs);
+		line = get_line(in_quote, envs);
 		if (!line)
 			break ;
 		if (ft_strlen(line) - 1 == ft_strlen(limiter) && !ft_strncmp(line,
