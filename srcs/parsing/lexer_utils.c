@@ -6,7 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 18:07:07 by erocha--          #+#    #+#             */
-/*   Updated: 2026/03/25 12:06:06 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/25 15:10:55 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,21 +36,21 @@ void	quotes_handling(t_token **token, char *arg, int *i, int *j)
 	(*j)++;
 }
 
-void	token_typer(t_token **token)
-{
-	if (!strncmp((*token)->value, ">", 2))
-		(*token)->type = TOKEN_REDIR_OUT;
-	else if (!strncmp((*token)->value, "<", 2))
-		(*token)->type = TOKEN_REDIR_IN;
-	else if (!strncmp((*token)->value, "|", 2))
-		(*token)->type = TOKEN_PIPE;
-	else if (!strncmp((*token)->value, "<<", 3))
-		(*token)->type = TOKEN_HERE_DOC;
-	else if (!strncmp((*token)->value, ">>", 3))
-		(*token)->type = TOKEN_APPEND;
-	else
-		(*token)->type = TOKEN_WORD;
-}
+//void	token_typer(t_token **token)
+//{
+//	if (!strncmp((*token)->value, ">", 2))
+//		(*token)->type = TOKEN_REDIR_OUT;
+//	else if (!strncmp((*token)->value, "<", 2))
+//		(*token)->type = TOKEN_REDIR_IN;
+//	else if (!strncmp((*token)->value, "|", 2))
+//		(*token)->type = TOKEN_PIPE;
+//	else if (!strncmp((*token)->value, "<<", 3))
+//		(*token)->type = TOKEN_HERE_DOC;
+//	else if (!strncmp((*token)->value, ">>", 3))
+//		(*token)->type = TOKEN_APPEND;
+//	else
+//		(*token)->type = TOKEN_WORD;
+//}
 
 t_token	*create_node(t_token **token)
 {
@@ -65,9 +65,53 @@ t_token	*create_node(t_token **token)
 	return (new_node);
 }
 
+static t_token_type	is_operator(char *arg)
+{
+	if (!ft_strncmp(arg, ">>", 2))
+		return (TOKEN_APPEND);
+	if (!ft_strncmp(arg, ">", 1))
+		return (TOKEN_REDIR_OUT);
+	if (!ft_strncmp(arg, "<<", 2))
+		return (TOKEN_HERE_DOC);
+	if (!ft_strncmp(arg, "<", 1))
+		return (TOKEN_REDIR_IN);
+	if (!ft_strncmp(arg, "|", 1))
+		return (TOKEN_PIPE);
+	return (0);
+}
+
+static void	separator(t_token **token, int *i, int j, t_token_type type)
+{
+	if (j)
+	{
+		(*token)->value[j] = '\0';
+		(*token)->next = create_node(token);
+		(*token)->type = TOKEN_WORD;
+		(*token) = (*token)->next;
+	}
+	else
+		free((*token)->value);
+	if (type == TOKEN_APPEND)
+		(*token)->value = ft_strdup(">>");
+	if (type == TOKEN_HERE_DOC)
+		(*token)->value = ft_strdup("<<");
+	if (type == TOKEN_REDIR_IN)
+		(*token)->value = ft_strdup("<");
+	if (type == TOKEN_REDIR_OUT)
+		(*token)->value = ft_strdup(">");
+	if (type == TOKEN_PIPE)
+		(*token)->value = ft_strdup("|");
+	if (type == TOKEN_APPEND || type == TOKEN_HERE_DOC)
+		*i = *i + 2;
+	else
+		(*i)++;
+	(*token)->type = type;
+}
+
 void	arger(t_token **token, t_token **token_tmp, char *arg, int *i)
 {
-	int j;
+	int				j;
+	t_token_type type;
 
 	j = 0;
 	(*token_tmp)->value = malloc(sizeof(char) * (ft_strlen(&arg[*i]) + 1));
@@ -76,6 +120,12 @@ void	arger(t_token **token, t_token **token_tmp, char *arg, int *i)
 	j = 0;
 	while (ft_isprint(arg[*i]) && arg[*i])
 	{
+		if (is_operator(arg + *i))
+		{
+			type = is_operator(arg + *i);
+			separator(token_tmp, i, j, type);
+			return ;
+		}
 		if (arg[*i] == '"' || arg[*i] == '\'')
 		{
 			quotes_handling(token_tmp, arg, i, &j);
@@ -92,5 +142,5 @@ void	arger(t_token **token, t_token **token_tmp, char *arg, int *i)
 		(*i)++;
 	}
 	(*token_tmp)->value[j] = '\0';
-	token_typer(token_tmp);
+	(*token_tmp)->type = TOKEN_WORD;
 }
