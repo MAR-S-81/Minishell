@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 13:00:00 by erocha--          #+#    #+#             */
-/*   Updated: 2026/03/25 19:08:46 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/25 20:02:45 by erocha--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -246,19 +246,26 @@ static void	nulizer(t_token **token)
 {
 	t_token	*token_current;
 	t_token *next;
+	int		i;
 
+	i = 0;
 	while ((*token) && is_void((*token)->value) && (*token)->type != TOKEN_HERE_DOC)
 	{
 		next = (*token)->next;
+		free((*token)->value);
 		free(*token);
 		(*token) = next;
+		i++;
 	}
+	if (!(*token) && i)
+		g_signal = 127;
 	token_current = *token;
 	while (token_current && token_current->next)
 	{
 		if (is_void(token_current->next->value) && (*token)->next->type != TOKEN_HERE_DOC)
 		{
 			next = token_current->next->next;
+			free(token_current->next->value);
 			free(token_current->next);
 			if (next)
 				token_current->next = next;
