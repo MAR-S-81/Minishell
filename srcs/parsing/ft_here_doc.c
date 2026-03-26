@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_here_doc.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 17:37:18 by erocha--          #+#    #+#             */
-/*   Updated: 2026/03/25 19:08:51 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/26 15:51:09 by erocha--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static char	*reline(char *line, int i, t_env *envs)
 	return (new_line);
 }
 
-static char	*get_line(int in_quote, t_env *envs)
+static char	*get_line(t_env *envs)
 {
 	char	*line;
 	char	*tmp;
@@ -89,8 +89,6 @@ static char	*get_line(int in_quote, t_env *envs)
 	line = get_next_line(0);
 	if (!line)
 		return (NULL);
-	if (in_quote)
-		return (line);
 	i = 0;
 	while (line[i])
 	{
@@ -113,20 +111,14 @@ int	ft_here_doc(char *limiter, int in_quote, t_env *envs)
 	char	*line;
 	int		pipe_fd[2];
 
-	if (pipe(pipe_fd) == -1)
-	{
-		perror("minishell: pipe");
+	if (here_doc_checker(limiter, pipe_fd) == -1)
 		return (-1);
-	}
-	if (!limiter)
-	{
-		close(pipe_fd[0]);
-		close(pipe_fd[1]);
-		return (-1);
-	}
 	while (1)
 	{
-		line = get_line(in_quote, envs);
+		if (in_quote)
+			line = get_next_line(0);
+		else
+			line = get_line(envs);
 		if (!line)
 			break ;
 		if (ft_strlen(line) - 1 == ft_strlen(limiter) && !ft_strncmp(line,

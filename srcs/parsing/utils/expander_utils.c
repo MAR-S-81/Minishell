@@ -6,7 +6,7 @@
 /*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 10:55:12 by erocha--          #+#    #+#             */
-/*   Updated: 2026/03/25 19:49:16 by erocha--         ###   ########.fr       */
+/*   Updated: 2026/03/26 16:04:44 by erocha--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,25 +47,30 @@ static void	no_value_handling(t_token **token, int *idollar, char **dollar_id)
 	(*idollar) = (*idollar) - 1;
 }
 
+static char	*dollar_value_init(char *dollar_id, t_env *envs)
+{
+	char	*env_ptr;
+
+	if (dollar_id && dollar_id[0] == '?' && !dollar_id[1])
+		return (ft_itoa(g_signal));
+	if (dollar_id)
+	{
+		env_ptr = get_args_envp(dollar_id, envs);
+		if (env_ptr)
+			return (ft_strdup(env_ptr));
+	}
+	return (ft_strdup(""));
+}
+
 void	research_implement(t_token **token, t_env *envs, int *idollar)
 {
 	char	*tmp1;
 	char	*tmp2;
 	char	*dollar_id;
 	char	*dollar_value;
-	char	*env_ptr;
 
 	dollar_id = dollarid_init(*token, *idollar + 1);
-	if (dollar_id && dollar_id[0] == '?' && !dollar_id[1])
-		dollar_value = ft_itoa(g_signal);
-	else if (dollar_id)
-	{
-		env_ptr = get_args_envp(dollar_id, envs);
-		if (env_ptr)
-			dollar_value = ft_strdup(env_ptr);
-		else
-			dollar_value = NULL;
-	}
+	dollar_value = dollar_value_init(dollar_id, envs);
 	if ((dollar_id && dollar_id[0] == '?' && !dollar_id[1]) || (dollar_id
 			&& dollar_value))
 	{
@@ -96,7 +101,7 @@ void	remove_quote(t_token **token)
 	j = 0;
 	quote_type = '\0';
 	if (!token || !*token || !(*token)->value)
-        return ;
+		return ;
 	str = malloc(sizeof(char) * (ft_strlen((*token)->value) + 1));
 	if (!str)
 		return ;
@@ -104,13 +109,7 @@ void	remove_quote(t_token **token)
 	{
 		if (((*token)->value[i] == '\'' || (*token)->value[i] == '\"')
 			&& ((*token)->value[i] == quote_type || !quote_type))
-		{
-			if ((*token)->value[i] == quote_type)
-				quote_type = '\0';
-			else
-				quote_type = (*token)->value[i];
-			(*token)->in_quote = 1;
-		}
+			remove_quote_extend(token, quote_type, i);
 		else
 			str[j++] = (*token)->value[i];
 		i++;

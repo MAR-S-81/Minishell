@@ -20,9 +20,16 @@ SRC = \
     srcs/builtins/export.c \
     srcs/builtins/pwd.c \
     srcs/builtins/unset.c \
-    srcs/parsing/expander_utils.c \
-    srcs/parsing/lexer_utils.c \
     srcs/parsing/parsing.c \
+	srcs/parsing/utils/arger.c \
+	srcs/parsing/utils/build_commands_utils.c \
+	srcs/parsing/utils/expander_utils.c \
+	srcs/parsing/utils/format_check_util.c \
+	srcs/parsing/utils/lexer_utils.c \
+	srcs/parsing/utils/nulizer_utils.c \
+	srcs/parsing/utils/parsing_functions.c \
+	srcs/parsing/utils/remove_quote_extend.c \
+	srcs/parsing/here_doc_checker.c \
 	srcs/parsing/ft_here_doc.c \
     srcs/clean_exit.c \
     srcs/envp.c \
