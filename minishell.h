@@ -6,7 +6,7 @@
 /*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 17:52:08 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/25 19:51:03 by erocha--         ###   ########.fr       */
+/*   Updated: 2026/03/26 16:11:04 by erocha--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ typedef struct s_exec
 }					t_exec;
 
 void				quotes_handling(t_token **token, char *arg, int *i, int *j);
-void				token_typer(t_token **token);
 t_token				*create_node(t_token **token);
 void				arger(t_token **token, t_token **token_tmp, char *arg,
 						int *i);
@@ -126,4 +125,20 @@ int					is_valid_identifier(char *str);
 void				free_cmds(t_cmd **cmds);
 char				**sort_tab_tab(char **tab);
 void				setup_redirections(t_cmd *cmd, t_exec exec);
+int					here_doc_checker(char *limiter, int *pipe_fd);
+void				remove_quote_extend(t_token **token,
+						char quote_type, int i);
+int					format_check(t_token *tokens);
+void				nulizer(t_token **tokens);
+void				lexer(t_token **token, char *arg);
+void				expander(t_token **tokens, t_env *envs);
+t_cmd				*build_commands(t_token *tokens, t_env *envs);
+int					is_void(char *str);
+int					init_checker(t_token **tokens);
+int					arger_extend(t_token **tokens,
+						char *arg, int *i);
+int					format_check_middle(t_token *token);
+void				redirection_handling(t_token *token,
+						t_cmd **cmd, t_env *envs);
+t_cmd				*create_cmd(t_token *tokens);
 #endif
