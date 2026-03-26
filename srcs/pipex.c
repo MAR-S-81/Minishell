@@ -6,7 +6,7 @@
 /*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 13:20:05 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/25 19:27:31 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/26 17:05:37 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,11 @@ static void	execute_binary(t_cmd *cmd, t_env *lst)
 {
 	char	*path;
 
+	if (cmd->args[0][0] == '\0')
+	{
+		ft_putstr_fd("minishell: : command not found\n", 2);
+		exit(127);
+	}
 	path = find_path(cmd->args[0], lst);
 	if (!path)
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 13:00:00 by erocha--          #+#    #+#             */
-/*   Updated: 2026/03/26 15:40:13 by erocha--         ###   ########.fr       */
+/*   Updated: 2026/03/26 16:59:35 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ t_cmd	*parsing(char *arg, t_env *envs)
 	tokens = NULL;
 	lexer(&tokens, arg);
 	expander(&tokens, envs);
-	nulizer(&tokens);
 	if (format_check(tokens) == 1)
 	{
 		free_tokens(&tokens);
