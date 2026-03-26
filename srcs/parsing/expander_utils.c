@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 10:55:12 by erocha--          #+#    #+#             */
-/*   Updated: 2026/03/25 19:08:53 by mchesnea         ###   ########.fr       */
+/*   Updated: 2026/03/25 19:49:16 by erocha--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,11 @@ void	remove_quote(t_token **token)
 	i = 0;
 	j = 0;
 	quote_type = '\0';
+	if (!token || !*token || !(*token)->value)
+        return ;
 	str = malloc(sizeof(char) * (ft_strlen((*token)->value) + 1));
+	if (!str)
+		return ;
 	while ((*token)->value[i])
 	{
 		if (((*token)->value[i] == '\'' || (*token)->value[i] == '\"')
