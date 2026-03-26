@@ -6,7 +6,7 @@
 /*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 10:55:12 by erocha--          #+#    #+#             */
-/*   Updated: 2026/03/26 16:04:44 by erocha--         ###   ########.fr       */
+/*   Updated: 2026/03/26 16:35:56 by erocha--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ void	remove_quote(t_token **token)
 	{
 		if (((*token)->value[i] == '\'' || (*token)->value[i] == '\"')
 			&& ((*token)->value[i] == quote_type || !quote_type))
-			remove_quote_extend(token, quote_type, i);
+			quote_type = remove_quote_extend(token, quote_type, i);
 		else
 			str[j++] = (*token)->value[i];
 		i++;

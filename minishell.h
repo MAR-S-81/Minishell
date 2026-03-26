@@ -6,7 +6,7 @@
 /*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 17:52:08 by mchesnea          #+#    #+#             */
-/*   Updated: 2026/03/26 16:11:04 by erocha--         ###   ########.fr       */
+/*   Updated: 2026/03/26 16:36:19 by erocha--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ void				free_cmds(t_cmd **cmds);
 char				**sort_tab_tab(char **tab);
 void				setup_redirections(t_cmd *cmd, t_exec exec);
 int					here_doc_checker(char *limiter, int *pipe_fd);
-void				remove_quote_extend(t_token **token,
+char				remove_quote_extend(t_token **token,
 						char quote_type, int i);
 int					format_check(t_token *tokens);
 void				nulizer(t_token **tokens);
