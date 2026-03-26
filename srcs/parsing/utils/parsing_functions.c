@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_functions.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erocha-- <erocha--@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mchesnea <mchesnea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:38:52 by erocha--          #+#    #+#             */
-/*   Updated: 2026/03/26 16:02:36 by erocha--         ###   ########.fr       */
+/*   Updated: 2026/03/26 17:09:34 by mchesnea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,8 @@ void	nulizer(t_token **tokens)
 {
 	t_token	*token_current;
 	t_token	*next;
-	int		i;
 
-	i = init_checker(tokens);
-	if (!(*tokens) && i)
-		g_signal = 127;
+	init_checker(tokens);
 	token_current = *tokens;
 	while (token_current && token_current->next)
 	{
@@ -114,9 +111,10 @@ void	expander(t_token **tokens, t_env *envs)
 				research_implement(&tokens_tmp, envs, &i);
 			i++;
 		}
-		remove_quote(&tokens_tmp);
 		tokens_tmp = tokens_tmp->next;
 	}
+	nulizer(tokens);
+	start_quote(tokens, tokens_tmp);
 }
 
 t_cmd	*build_commands(t_token *tokens, t_env *envs)
