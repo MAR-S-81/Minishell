@@ -28,7 +28,6 @@ int	pwd(int fd_out, t_env *lst)
 	{
 		write(fd_out, env_pwd, ft_strlen(env_pwd));
 		write(fd_out, "\n", 1);
-		free(env_pwd);
 		return (0);
 	}
 	perror("pwd");
