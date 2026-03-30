@@ -50,18 +50,3 @@ make
 | **`Ctrl + C`** | Displays a new prompt on a new line |
 | **`Ctrl + D`** | Exits the shell (EOF) |
 | **`Ctrl + \`** | Does nothing on the prompt (quits the current running process if any) |
-
-## Resources
-
-### AI Usage
-During the development of this project, Artificial Intelligence was used strictly as a learning assistant and debugging tool, in accordance with the school's guidelines. Specifically, AI helped with:
-* Understanding complex concepts such as Abstract Syntax Trees (AST) and lexing/parsing logic.
-* Explaining the nuances of specific C functions (e.g., `execve`, `dup2`, `tcsetattr`, `sigaction`).
-* Troubleshooting segmentation faults, memory leaks, and tricky file descriptor edge cases.
-
-*Note: All core logic, implementation, and code architecture were independently written.*
-
-### Sources
-Here are some of the key resources that helped me build this shell:
-* [Bash Reference Manual](https://www.gnu.org/software/bash/manual/bash.html) - The ultimate guide to understanding how bash behaves.
-* [GNU C Library](https://www.gnu.org/software/libc/manual/html_node/index.html) - For documentation on signals, terminal I/O, and processes.
